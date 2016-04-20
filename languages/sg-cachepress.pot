@@ -1,0 +1,173 @@
+# Loco Gettext template
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SG CachePress\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: Fri Jan 08 2016 11:09:50 GMT+0200 (EET)\n"
+"POT-Revision-Date: Fri Jan 08 2016 11:09:58 GMT+0200 (EET)\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#. Name of the plugin
+msgid "SG CachePress"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"Through the settings of this plugin you can manage how your Wordpress "
+"interracts with NGINX and Memcached."
+msgstr ""
+
+#. Author of the plugin
+msgid "SiteGround"
+msgstr ""
+
+#: ../class-sg-cachepress-admin.php:181
+msgid "Purge SG Cache"
+msgstr ""
+
+#: ../class-sg-cachepress-admin.php:278 ../views/sg-cache.php:28
+msgid "Purge the Cache"
+msgstr ""
+
+#: ../class-sg-cachepress-admin.php:279
+msgid "Purging, please wait..."
+msgstr ""
+
+#: ../class-sg-cachepress-admin.php:280
+msgid "Updating, please wait..."
+msgstr ""
+
+#: ../class-sg-cachepress-admin.php:281 ../views/sg-cache.php:41
+msgid "Update the Exclude List"
+msgstr ""
+
+#: ../class-sg-cachepress-admin.php:282
+msgid "Successfully Purged"
+msgstr ""
+
+#: ../class-sg-cachepress-admin.php:284
+msgid "Testing..."
+msgstr ""
+
+#: ../class-sg-cachepress-admin.php:285
+msgid "CACHED"
+msgstr ""
+
+#: ../class-sg-cachepress-admin.php:286
+msgid "DYNAMIC"
+msgstr ""
+
+#: ../class-sg-cachepress-admin.php:287
+msgid "CAN'T GET HEADERS"
+msgstr ""
+
+#: ../class-sg-cachepress-admin.php:288 ../class-sg-cachepress-admin.php:289 ..
+#: /views/sg-cache.php:66
+msgid "Test URL"
+msgstr ""
+
+#. Page title
+#: ../class-sg-cachepress-admin.php:302 ../class-sg-cachepress-admin.php:303
+msgid "SuperCacher"
+msgstr ""
+
+#: ../views/sg-cache.php:3
+msgid "SuperCacher for WordPress by SiteGround"
+msgstr ""
+
+#: ../views/sg-cache.php:4
+msgid ""
+"The SuperCacher is a system that allows you to use the SiteGround dynamic "
+"cache and Memcached to optimize the performance of your WordPress. In order "
+"to take advantage of the system you should have the SuperCacher enabled at "
+"your web host plus the required cache options turned on below. For more "
+"information on the different caching options refer to the <a href=\"http:"
+"//www.siteground.com/tutorials/supercacher/\" target=\"_blank\">SuperCacher "
+"Tutorial</a>!"
+msgstr ""
+
+#: ../views/sg-cache.php:8
+msgid "Dynamic Cache Settings"
+msgstr ""
+
+#: ../views/sg-cache.php:12
+msgid "Dynamic Cache"
+msgstr ""
+
+#: ../views/sg-cache.php:14
+msgid "Enable the Dynamic caching system"
+msgstr ""
+
+#: ../views/sg-cache.php:19
+msgid "AutoFlush Cache"
+msgstr ""
+
+#: ../views/sg-cache.php:21
+msgid "Automatically flush the Dynamic cache when you edit your content."
+msgstr ""
+
+#: ../views/sg-cache.php:26
+msgid "Purge Cache"
+msgstr ""
+
+#: ../views/sg-cache.php:30
+msgid "Purge all the data cached by the Dynamic cache."
+msgstr ""
+
+#: ../views/sg-cache.php:35
+msgid "Exclude URLs From Dynamic Caching"
+msgstr ""
+
+#: ../views/sg-cache.php:36
+msgid ""
+"Provide a list of your website URLs you would like to exclude from the cache."
+" For example if you would like to exclude: <strong>http://domain."
+"com/path/to/url</strong><br>\n"
+"			You can simply input the \"path\" string part of the URL. Then each URL "
+"that consists of it will be excluded. Divide each URL by a new line."
+msgstr ""
+
+#: ../views/sg-cache.php:46
+msgid "Memcached Settings"
+msgstr ""
+
+#: ../views/sg-cache.php:51
+msgid "Enable Memcached"
+msgstr ""
+
+#: ../views/sg-cache.php:55
+msgid ""
+"Store in the server's memory frequently executed queries to the database for "
+"a faster access on a later use."
+msgstr ""
+
+#: ../views/sg-cache.php:61
+msgid "Dynamic Cache Status"
+msgstr ""
+
+#: ../views/sg-cache.php:69
+msgid "Status:"
+msgstr ""
+
+#: ../views/sg-cache.php:72
+msgid ""
+"Check if this URL is dynamic or cached. Leave empty for your index or "
+"<strong>/example/</strong> for another page."
+msgstr ""

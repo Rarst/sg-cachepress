@@ -1,0 +1,81 @@
+/* HELPERS */
+* { box-sizing: border-box; -moz-box-sizing: border-box; }
+img { display: block; }
+p { display: block; }
+h3 { margin: 0 0 10px; }
+.m0 { margin: 0 !important; }
+.clr { clear: both; display: block; height: 0; line-height: 0; font-size: 0; }
+.sgclr:before, .sgclr:after { content: ""; display: table; }
+.sgclr:after { clear: both;}
+.sgclr { zoom: 1; }
+.error, .notcached { color: red; text-align: center;}
+.sgwrap p.error { border: none !important;}
+.cached { color: green; font-weight:700 }
+input[type="name"] {box-shadow: none !important; height: 10px}
+#sg-cachepress-purge {background: #3e4b68; color: #FFF; border: none; box-shadow: none;}
+.wp-core-ui .button-primary { background: #3D4A69; color: #fff; border: none; border-color: #3D4A69; box-shadow: none; height: 40px; line-height: 40px; text-align: center; }
+.wp-core-ui .button-primary:hover,
+.wp-core-ui .button-primary:active,
+.wp-core-ui .button-primary:focus,
+.wp-core-ui .button-primary[disabled],
+.wp-core-ui .button-primary:disabled { background: #49587c !important; border-color: !important; box-shadow: none !important; color: #fff !important; }
+
+/* LAYOUT */
+.sgwrap { max-width: 800px; margin: 20px 20px 20px 15px; }
+.sgwrap h2 { margin: 0 0 15px; padding: 0; line-height: 29px; }
+.box { margin: 20px 0 0; background: #fff; border: 1px solid #dbdbdb; padding: 20px; }
+.greybox { margin: 10px 0 0; background: #f9f9f9; border: 1px solid #dbdbdb; padding: 20px; }
+.greybox p { font-style: italic; color: #999;}
+
+/* BOX 2 */
+.box:nth-of-type(2) .greybox > div:nth-of-type(1) { float: left; width: 70%; margin: 0 2% 0 0; }
+.box:nth-of-type(2) .greybox > div:nth-of-type(2) { float: left; width: 28%; }
+.box:nth-of-type(2) .greybox > div input { width: 100%; height: 40px; padding: 0 10px; margin: 0; }
+.box:nth-of-type(2) .three { margin: 10px 0 0; }
+.box:nth-of-type(2) .three > .greybox { float: left; width: 32%; min-height: 90px; margin: 0 0 0 2%; text-align: center; }
+.box:nth-of-type(2) .three > .greybox:first-of-type { margin: 0; }
+.box:nth-of-type(2) .three > .greybox .button-primary { display: block; height: 24px; line-height: 24px; background: #e37755; margin: 10px auto; padding: 0 20px; }
+.box:nth-of-type(2) .three > .greybox .button-primary:hover { background: #f28462 !important;; }
+.box:nth-of-type(2) > .greybox:last-of-type p { margin: 0 0 10px; }
+.box:nth-of-type(2) > .greybox:last-of-type form { text-align: center; }
+.box:nth-of-type(2) > .greybox:last-of-type textarea { display: block; width: 100%; height: 100px; }
+.box:nth-of-type(2) > .greybox:last-of-type .button-primary { margin: 10px 0 0; padding: 0 20px; }
+
+/* BOX 3 */
+.box:nth-of-type(3) form > div { float: left; width: 48%; }
+.box:nth-of-type(3) form > div:first-of-type { margin: 0 4% 0 0; }
+.box:nth-of-type(3) form > div > input { width: 100%; }
+.box:nth-of-type(3) form input { margin: 0; }
+.box:nth-of-type(3) > .greybox > p { float: left; margin: 1em 0 1em 10px; }
+.box:nth-of-type(3) > .greybox > a { float: left; }
+.box:nth-of-type(3) > .greybox:last-of-type p { text-align: left; }
+.box:nth-of-type(3) > .greybox:last-of-type form { margin: 20px 0 0; text-align: center; }
+.box:nth-of-type(3) > .greybox:last-of-type .button-primary { margin: 10px 0 0; padding: 0 20px; }
+.toggleon, .toggleoff { overflow: hidden; display: block; margin: 10px auto; width: 72px; height: 24px; background: url(onoff.jpg) 0 0 no-repeat; }
+.toggleoff { background: url(onoff.jpg) -72px 0 no-repeat; }
+
+#sg-cachepress-blacklist-textarea { resize: vertical; }
+
+@media screen and (max-width: 782px), screen and (max-device-width: 782px) {
+	.wp-core-ui .button { padding: 0; font-size: 13px; }
+	.box:nth-of-type(2) .three > .greybox { width: 100%; margin: 10px 0 0; }
+}
+
+@media screen and (max-width: 360px), screen and (max-device-width: 360px) {
+	.sgwrap { margin: 10px 10px 10px 0; }
+	.sgwrap h2 { font-size: 20px; }
+	.box { margin: 10px 0 0; padding: 10px; }
+	.box:nth-of-type(2) .greybox:first-of-type > div { float: none; width: 100%; }
+	.box:nth-of-type(2) .greybox > div:nth-of-type(1) { margin: 0 0 20px; }
+}
+
+#adminmenu .wp-menu-image img {
+	padding-left: 9px !important;
+}
+
+input#testurl {
+	width: 50%;
+	height: 38px;
+	margin-right: 20px;
+	border: 1px solid #dbdbdb;
+}
