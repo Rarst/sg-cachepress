@@ -362,7 +362,7 @@ class WP_Object_Cache {
 		}
 	}
 
-	function WP_Object_Cache() {
+	function __construct() {
 
 		$memcached_servers = array(
 				'default' => array(
