@@ -98,7 +98,12 @@ class WP_Object_Cache {
 
 	var $cache = array();
 	var $mc = array();
-	var $stats = array();
+	var $stats = array(
+		'add'       => 0,
+		'delete'    => 0,
+		'get'       => 0,
+		'get_multi' => 0,
+	);
 	var $group_ops = array();
 
 	var $cache_enabled = true;
@@ -362,7 +367,7 @@ class WP_Object_Cache {
 		}
 	}
 
-	function WP_Object_Cache() {
+	function __construct() {
 
 		$memcached_servers = array(
 				'default' => array(
