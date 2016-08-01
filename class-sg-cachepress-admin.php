@@ -89,7 +89,7 @@ class SG_CachePress_Admin {
 	    {
     	    $html = '<div id="ajax-notification" class="updated sg-cachepress-notification">';
     	    $html .= '<p>';
-    	    $html .= __( '<strong>SG CachePress:</strong> Your site '.get_site_url().' is <strong>not cached</strong>! Make sure the Dynamic Cache is enabled in the SuperCacher tool in cPanel. <a href="javascript:;" id="dismiss-sg-cahepress-notification">Click here to hide this notice</a>.', 'ajax-notification' );
+    	    $html .= __( '<strong>SG CachePress:</strong> Your site '.get_home_url().' is <strong>not cached</strong>! Make sure the Dynamic Cache is enabled in the SuperCacher tool in cPanel. <a href="javascript:;" id="dismiss-sg-cahepress-notification">Click here to hide this notice</a>.', 'ajax-notification' );
     	    $html .= '</p>';
     	    $html .= '<span id="ajax-notification-nonce" class="hidden">' . wp_create_nonce( 'ajax-notification-nonce' ) . '</span>';
     	    $html .= '</div>';
@@ -115,7 +115,7 @@ class SG_CachePress_Admin {
 	 */
 	function cache_test_callback()
 	{
-	    $urlToCheck = get_site_url()."/".$_POST['url'];
+	    $urlToCheck = get_home_url()."/".$_POST['url'];
 	    $result = SG_CachePress_Supercacher::return_cache_result($urlToCheck);
 	    
 	    if($result == 1 && empty($_POST['url']))

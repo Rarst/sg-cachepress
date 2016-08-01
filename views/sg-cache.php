@@ -62,7 +62,7 @@
 		<div class="greybox">
 			
 			<form class="purgebtn" method="post" action="<?php menu_page_url( 'sg-cachepress-test' ); ?>" id="cachetest">
-				<?php echo get_site_url()?>/&nbsp;<input id="testurl" type="" name="" value="" />
+				<?php echo get_home_url()?>/&nbsp;<input id="testurl" type="" name="" value="" />
 				<?php submit_button( __( 'Test URL', 'sg-cachepress' ), 'primary', 'sg-cachepress-test', false );?>
 			</form>
 			

@@ -111,11 +111,12 @@ class SG_CachePress_Supercacher {
 		if( ! $cache_server_socket ) {
 			return;
 		}
-
+		
+      	$realhost= parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST );   	
 		$request = "$purge_method {$purge_request} HTTP/1.0\r\n";
-      	$request .= "Host: {$_SERVER['SERVER_NAME']}\r\n";
+      	$request .= "Host: {$realhost}\r\n";
       	$request .= "Connection: Close\r\n\r\n";
-
+      	
       	fwrite( $cache_server_socket, $request );
       	$response = fgets( $cache_server_socket );
 
@@ -166,8 +167,7 @@ class SG_CachePress_Supercacher {
 			}
 
 			self::purge_cache(true);
-			wp_redirect( wp_get_referer() );
-			die();
+			wp_redirect( $_SERVER["HTTP_REFERER"] );
 		}
 	}
 	/**
@@ -457,7 +457,7 @@ class SG_CachePress_Supercacher {
 	 */
 	public static function return_check_is_nginx()
 	{
-	    $url = get_site_url();
+	    $url = get_home_url();
 	    $headers = self::request_data( $url );
 	    
 	    if( isset($headers['server']) && !empty($headers['server']) )
