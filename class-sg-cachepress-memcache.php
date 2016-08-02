@@ -65,7 +65,7 @@ class SG_CachePress_Memcache {
 	public function run() {
 		if ( $this->options_handler->is_enabled( 'enable_memcached' ) && !$this->check_if_dropin_exists()){
 			if (!$this->check_and_create_memcached_dropin()){
-				$this->options_handler->disable_option('enable_memcached');
+				//$this->options_handler->disable_option('enable_memcached');
 			}
 		}
 
