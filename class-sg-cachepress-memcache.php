@@ -63,15 +63,25 @@ class SG_CachePress_Memcache {
 	 * @return null Return early and avoid any further interaction if accessing the script via CLI.
 	 */
 	public function run() {
+	    // If memcache is enabled and object cache is missing
 		if ( $this->options_handler->is_enabled( 'enable_memcached' ) && !$this->check_if_dropin_exists()){
-			if (!$this->check_and_create_memcached_dropin()){
-				//$this->options_handler->disable_option('enable_memcached');
+			// If cannot create memcache - FAIL
+		    if (!$this->check_and_create_memcached_dropin()) {
+				// Start fail timer of 5 minutes cooldown until memcache will be disabled as option in wp-admin
+				if (!$this->options_handler->is_enabled('last_fail')) {
+				    $this->options_handler->update_option('last_fail', time());
+				} elseif ($this->options_handler->get_option('last_fail') < time() - 60*5) {
+                    $this->options_handler->disable_option('enable_memcached');
+                    $this->options_handler->disable_option('last_fail');
+				}
 			}
 		}
-
+        
+		// If there is object cache file but memcache is not enabled
 		if ( !$this->options_handler->is_enabled( 'enable_memcached' ) && $this->check_if_dropin_exists())
 		{
-			if (!$this->remove_memcached_dropin()){
+			if (!$this->remove_memcached_dropin()) {
+			    // Enable Memcache
 				$this->options_handler->enable_option('enable_memcached');
 			}
 		}
