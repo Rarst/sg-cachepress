@@ -139,7 +139,8 @@ class SG_CachePress_Options {
 		    'show_notice'                => get_option( 'SGCP_ShowNotice', 0 ),
 		    'is_nginx'                   => get_option( 'SGCP_IsNginx', 0),
 		    'checked_nginx'              => get_option( 'SGCP_CheckedNginx', 0),
-		    'first_run'                  => get_option( 'SGCP_FristRun', 0)
+		    'first_run'                  => get_option( 'SGCP_FristRun', 0),
+		    'last_fail'                  => get_option( 'SGCP_LastFail', 0)
 		);
 	}
 
@@ -155,7 +156,8 @@ class SG_CachePress_Options {
 		delete_option( 'SGCP_ShowNotice' );
 		delete_option( 'SGCP_IsNginx' );
 		delete_option( 'SGCP_CheckedNginx' );
-		delete_option( 'SGCP_FirstRun' );
+		delete_option( 'SGCP_FristRun' );
+		delete_option( 'SGCP_LastFail' );
 	}
 
 	/**
