@@ -145,4 +145,20 @@ class SG_CachePress_Environment {
 	public function action_data_is( $value ) {
 		return $this->post_data_is( $value, 'action' );
 	}
+	
+	
+	/**
+	 * This function is used to store log data into debug.log file into the plugin directory.
+	 * 
+	 * @since 2.3.9
+	 * 
+	 * @param string $message Message for logging
+	 * 
+	 * @return bool Trus if writing is successful
+	 */
+	public function log( $message ) {
+	    $logMessage = date('Y-m-d H:i:s') . " | {$message}\n";
+	    $file = plugin_dir_path(__FILE__) . 'debug.log';
+	    return @file_put_contents($file, $logMessage, FILE_APPEND);
+	}
 }

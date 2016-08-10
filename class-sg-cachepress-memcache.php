@@ -65,24 +65,35 @@ class SG_CachePress_Memcache {
 	public function run() {
 	    // If memcache is enabled and object cache is missing
 		if ( $this->options_handler->is_enabled( 'enable_memcached' ) && !$this->check_if_dropin_exists()){
+		    $this->environment->log('Memcache is enabled, but object-cache.php file does not exist! Trying to create new one.');
 			// If cannot create memcache - FAIL
 		    if (!$this->check_and_create_memcached_dropin()) {
+		        $this->environment->log('Creating of new object-cache.php failed.');
 				// Start fail timer of 5 minutes cooldown until memcache will be disabled as option in wp-admin
-				if (!$this->options_handler->is_enabled('last_fail')) {
+				if ($this->options_handler->get_option('last_fail') == 0) {
+				    $this->environment->log('Set timer to disable memcache after 5 minutes');
 				    $this->options_handler->update_option('last_fail', time());
 				} elseif ($this->options_handler->get_option('last_fail') < time() - 60*5) {
+				    $this->environment->log('Disable memcache');
                     $this->options_handler->disable_option('enable_memcached');
                     $this->options_handler->disable_option('last_fail');
 				}
+			} else {
+			    $this->environment->log('Creating of new object-cache.php is successful.');
+			    $this->options_handler->disable_option('last_fail');
 			}
 		}
         
 		// If there is object cache file but memcache is not enabled
 		if ( !$this->options_handler->is_enabled( 'enable_memcached' ) && $this->check_if_dropin_exists())
 		{
+		    $this->environment->log('object-cache.php file exist, but memcache is disabled! Trying to delete object-cache.php file.');
 			if (!$this->remove_memcached_dropin()) {
 			    // Enable Memcache
 				$this->options_handler->enable_option('enable_memcached');
+				$this->environment->log('object-cache.php can not be removed, so memcache is enabled.');
+			} else {
+			    $this->environment->log('object-cache.php is removed.');
 			}
 		}
 	}
