@@ -55,6 +55,9 @@ This field allows you to exclude URLs from the cache. This means that if you nee
 
 == Changelog ==
 
+= Version 2.3.9 =
+* Improved WordPress 4.6 compatibilitty
+
 = Version 2.3.8 =
 * Improved compatibility with SiteGround Staging System
 

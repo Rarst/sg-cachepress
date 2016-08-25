@@ -478,10 +478,9 @@ class SG_CachePress_Supercacher {
 	{
 	    $headers = self::request_data( $url );
 	    //Status 0: Cache is not working, 1: Cache is working, 2: Unable to connect
-	    if( !$headers || !is_array($headers) )
+	    if (!$headers || (!is_array($headers) && !($headers instanceof ArrayAccess))) {
 	        $status = 2;
-	    else
-	    {
+	    } else {
 	        if( isset($headers['x-proxy-cache']) && mb_strtoupper( $headers['x-proxy-cache'] ) == 'HIT' )
 	            $status = 1;
 	        else if( isset($headers['x-cache']) && mb_strtoupper( $headers['x-cache'] ) == 'SGCACHE-HIT' )
