@@ -65,7 +65,7 @@ class SG_CachePress_Memcache {
 	public function run() {
 	    // If memcache is enabled and object cache is missing
 		if ( $this->options_handler->is_enabled( 'enable_memcached' ) && !$this->check_if_dropin_exists()){
-		    $this->environment->log('Memcache is enabled, but object-cache.php file does not exist! Trying to create new one.');
+		    $this->environment->log(' Memcached option in wp-admin is enabled, but object-cache.php file does not exist or Memcached connection can\'t be established. Trying to establish new connection and create object-cache.php file.');
 			// If cannot create memcache - FAIL
 		    if (!$this->check_and_create_memcached_dropin()) {
 		        $this->environment->log('Creating of new object-cache.php failed.');
