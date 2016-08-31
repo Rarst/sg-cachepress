@@ -205,7 +205,7 @@ class SG_CachePress_Environment {
             
             if (@filesize($file) > $this->log_max_filesize_mb*1000000){
                 // The file has exceeded the maximum allowed filesize
-                $new_name = $file . '_backup';
+                $new_name = $file . '.1';
                 @rename($file, $new_name);
             }
             
