@@ -55,6 +55,10 @@ This field allows you to exclude URLs from the cache. This means that if you nee
 
 == Changelog ==
 
+= Version 2.3.10 =
+* Improved Memcached performance
+* Memcached bug fixes
+
 = Version 2.3.9 =
 * Improved WordPress 4.6 compatibilitty
 
