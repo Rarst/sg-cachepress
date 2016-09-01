@@ -31,6 +31,20 @@ class SG_CachePress_Environment {
 	 * @type array
 	 */
 	protected $data = array();
+	
+	/**
+	 * This is the path to the log file withing the plugin directory
+	 * 
+	 * @var string
+	 */
+	private $log_file = 'debug.log';
+	
+	/**
+	 * Max allowed filesize for the log file in MB
+	 * 
+	 * @var integer
+	 */
+	private $log_max_filesize_mb = 200;
 
 	/**
 	 * Assign dependencies.
@@ -144,5 +158,63 @@ class SG_CachePress_Environment {
 	 */
 	public function action_data_is( $value ) {
 		return $this->post_data_is( $value, 'action' );
+	}
+	
+	
+	/**
+	 * This function is used to store log data into debug.log file into the plugin directory.
+	 * 
+	 * @since 2.3.9
+	 * 
+	 * @param string $message Message for logging
+	 * 
+	 * @return bool Trus if writing is successful
+	 */
+	public function log( $message ) {
+	    
+	    if ($this->log_file_check()) {
+    	    $logMessage = date('Y-m-d H:i:s') . " | {$message}\n";
+    	    $file = $this->log_file_path();
+    	    return @file_put_contents($file, $logMessage, FILE_APPEND);
+	    }
+	    
+	}
+	
+	/**
+	 * Returns the full path of the log file
+	 * 
+	 * @since 2.3.9
+	 * 
+	 * @return string
+	 */
+	private function log_file_path() {
+	    return plugin_dir_path(__FILE__) . $this->log_file;
+	}
+	
+	/**
+	 * This function keeps the log file with maximum size 200MB,
+	 * and if it is over that size it will backup the file, 
+	 * also deleting the last backup.
+	 * 
+	 * @since 2.3.9
+	 */
+	private function log_file_check() {
+	    
+        $file = $this->log_file_path();
+        if (@file_exists($file) && @is_readable($file) && @is_writable($file)) {
+            
+            if (@filesize($file) > $this->log_max_filesize_mb*1000000){
+                // The file has exceeded the maximum allowed filesize
+                $new_name = $file . '.1';
+                @rename($file, $new_name);
+            }
+            
+        }
+        
+        if (@file_exists($file) && !@is_writable($file)) {
+            return false;
+        }
+        
+        return true;
 	}
 }
