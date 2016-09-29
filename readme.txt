@@ -18,7 +18,7 @@ The main functionality of SG CachePress is to purge your dynamic cache whenever 
 In order to work correctly, this plugin requires that your server meets the following criteria:
 
 * Your SiteGround SuperCacher enabled
-* If you're not hosted with SiteGround this plugin may not work because it relies on a specific server configuration
+* If you're not hosted with SiteGround this plugin WILL NOT WORK  because it relies on a specific server configuration
 
 == Installation ==
 
