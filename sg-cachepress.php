@@ -88,3 +88,13 @@ function sg_cachepress_start() {
 		$sg_cachepress_memcache->run();
 	}
 }
+
+/**
+ * Public function to purge cache
+ */
+function sg_cachepress_purge_cache()
+{
+    global $sg_cachepress_supercacher;
+    
+    return $sg_cachepress_supercacher->purge_cache();
+}
