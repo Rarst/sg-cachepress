@@ -2,7 +2,7 @@
 /*
 Plugin Name: Memcached Redux
 Description: The real Memcached (not Memcache) backend for the WP Object Cache.
-Version: 0.1.3
+Version: 0.1.4
 Plugin URI: http://wordpress.org/extend/plugins/memcached/
 Author: Scott Taylor - uses code from Ryan Boren, Denis de Bernardy, Matt Martz, Mike Schroder
 
@@ -48,10 +48,10 @@ function wp_cache_flush() {
 	return $wp_object_cache->flush();
 }
 
-function wp_cache_get( $key, $group = '' ) {
+function wp_cache_get( $key, $group = '', $force = false, &$found = null ) {
 	global $wp_object_cache;
 
-	return $wp_object_cache->get( $key, $group );
+	return $wp_object_cache->get( $key, $group, $force, $found );
 }
 
 /**
@@ -225,11 +225,13 @@ class WP_Object_Cache {
 		return $ret;
 	}
 
-	function get( $id, $group = 'default' ) {
+	function get( $id, $group = 'default', $force = false, &$found = null ) {
 		$key = $this->key( $id, $group );
 		$mc =& $this->get_mc( $group );
-
-		if ( isset( $this->cache[$key] ) ) {
+		$found = false;
+		
+		if ( isset( $this->cache[$key] ) && ( !$force || in_array( $group, $this->no_mc_groups ) ) ) {
+		    $found = true;
 			if ( is_object( $this->cache[$key] ) )
 				$value = clone $this->cache[$key];
 			else
@@ -238,8 +240,12 @@ class WP_Object_Cache {
 			$this->cache[$key] = $value = false;
 		} else {
 			$value = $mc->get( $key );
-			if ( empty( $value ) || ( is_integer( $value ) && -1 == $value ) )
-				$value = false;
+			if ( empty( $value ) || ( is_integer( $value ) && -1 == $value ) ){
+			    $value = false;
+				$found = $mc->getResultCode() !== Memcached::RES_NOTFOUND;
+			} else {
+				$found = true;
+			}
 			$this->cache[$key] = $value;
 		}
 
