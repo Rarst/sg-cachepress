@@ -1,5 +1,5 @@
 === SG CachePress ===
-Contributors: Hristo Sg, danielkanchev, ivanyordanov
+Contributors: Hristo Sg, danielkanchev, ivanyordanov, siteground
 Tags: nginx, caching, speed, memcache, memcached, performance, siteground, nginx, supercacher
 Requires at least: 3.0.1
 Tested up to: 4.6
