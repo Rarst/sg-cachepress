@@ -43,11 +43,13 @@ register_deactivation_hook( __FILE__, array( 'SG_CachePress', 'deactivate' ) );
 add_action( 'plugins_loaded','sg_cachepress_start' );
 add_action( 'admin_init', array('SG_CachePress','admin_init_cachepress') );
 
-add_action( 'init', 'sg_cachepress_disable_other_caching_plugins' );
+add_action( 'init', 'disable_other_caching_plugins' );
+
+
 /**
  * Disables Other Caching Plugins if SG SuperCacher is enabled
  */
-function sg_cachepress_disable_other_caching_plugins()
+function disable_other_caching_plugins()
 {
     $sg_cachepress_options        = new SG_CachePress_Options;
     if( $sg_cachepress_options->is_enabled('enable_cache') )
