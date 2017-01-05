@@ -11,8 +11,8 @@
 		<div class="greybox">
 			<p><?php _e( 'Checks the PHP version your WordPress site is running and whether you\'re on the fastest possible PHP version. In case you need to rollback the PHP version <a href="#">click here</a>   ', 'sg-cachepress' ) ?></p>
 			
-			<form method="post" action="<?php //menu_page_url( 'sg-cachepress-optimalphpversion' ); ?>">                            
-                            <?php submit_button( __( 'Optimal PHP Version', 'sg-cachepress' ), 'primary', 'sg-cachepress-blacklist', false );?>
+			<form method="post" action="<?php menu_page_url( 'sg-cachepress-phpversion-check' ); ?>">                            
+                            <?php submit_button( __( 'Check PHP Version', 'sg-cachepress' ), 'primary', 'sg-cachepress-phpversion-check', false );?>
 			</form>
 		</div>
 	</div>   

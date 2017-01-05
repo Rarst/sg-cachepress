@@ -60,6 +60,8 @@ This field allows you to exclude URLs from the cache. This means that if you nee
 * Enable Memcached - Store in the server's memory (using Memcached) frequently executed queries to the database for a faster access on a later use.
 
 == Changelog ==
+= Version 2.3.12 =
+* Added PHP Version checker/updater
 
 = Version 2.3.11 =
 * Added public purge function

@@ -6,6 +6,7 @@ jQuery( function ($) {
 	jQuery('#sg-cachepress-memcached-toggle').on('click.sg-cachepress', function(event){event.preventDefault();sg_cachepress_toggle_option('memcached');});
 	jQuery('#sg-cachepress-autoflush-cache-toggle').on('click.sg-cachepress', function(event){event.preventDefault();sg_cachepress_toggle_option('autoflush-cache');});
 	jQuery('#sg-cachepress-blacklist').on('click.sg-cachepress', sg_cachepress_save_blacklist);
+        jQuery('#sg-cachepress-phpversion-check').on('click.sg-cachepress', sg_cachepress_phpversion_check);
 });
 var sg_cachepress_toggle_in_progress = false;
 /**
@@ -72,6 +73,30 @@ function sg_cachepress_save_blacklist(event) {
 		jQuery('#sg-cachepress-blacklist').removeAttr('disabled').attr('value', sgCachePressL10n.updated);
 		});
 }
+
+/**
+ * Find optimal PHP version
+ *
+ * @since 2.3.12
+ *
+ * @function
+ *
+ * @param {jQuery.event} event
+ */
+function sg_cachepress_phpversion_check(event) {
+	event.preventDefault();
+	var $ajaxArgs;
+	$ajaxArgs = {
+		action:  'sg-cachepress-phpversion-check',
+		objects: 'all'
+	};
+	jQuery(event.target).attr('disabled','disabled').attr('value', sgCachePressL10n.phpversion_checking);   
+	jQuery.post(ajaxurl, $ajaxArgs).done(function(){
+            jQuery('#sg-cachepress-phpversion-check').removeAttr('disabled').attr('value', sgCachePressL10n.phpversion_check);
+	});
+}
+
+
 /**
  * Start the purge procedure from a button click.
  *

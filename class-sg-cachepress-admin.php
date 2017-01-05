@@ -286,7 +286,10 @@ class SG_CachePress_Admin {
 			    'notcached' => __( 'DYNAMIC', 'sg-cachepress' ),
 			    'noheaders' => __( 'CAN\'T GET HEADERS', 'sg-cachepress' ),
 			    'testurl' => __( 'Test URL', 'sg-cachepress' ),
-			    'showstat' => __( 'Test URL', 'sg-cachepress' )	    
+			    'showstat' => __( 'Test URL', 'sg-cachepress' ),
+                            'phpversion_check' => __( 'Check PHP Version', 'sg-cachepress' ),
+                            'phpversion_checking' => __( 'Checking...', 'sg-cachepress' ),
+                            'phpversion_change' => __( 'Change PHP Version', 'sg-cachepress' ),                            
 			);
 			wp_localize_script( SG_CachePress::PLUGIN_SLUG . '-admin', 'sgCachePressL10n', $strings );
 		}
