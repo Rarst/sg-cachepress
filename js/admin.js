@@ -77,7 +77,7 @@ function sg_cachepress_save_blacklist(event) {
 /**
  * Find optimal PHP version
  *
- * @since 2.3.12
+ * @since 2.3.11
  *
  * @function
  *

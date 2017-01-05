@@ -89,8 +89,11 @@ class SG_CachePress {
 	 * @param boolean $network_wide True if WPMU superadmin uses "Network Activate" action, false if WPMU is
 	 *                              disabled or plugin is activated on an individual blog.
 	 */
-	public static function activate( $network_wide ) {
-	    
+	public static function activate( $network_wide ) {   
+                // call versionChecker's active method
+                $versionChecker = new SG_CachePress_PHPVersionChecker(new SG_CachePress_Options);
+                $versionChecker->activate();
+                
 		if ( function_exists( 'is_multisite' ) && is_multisite() ) {
 			if ( $network_wide  ) {
 				// Get all blog ids
