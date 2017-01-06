@@ -2,21 +2,127 @@
 	<div class="box">
 		<h2><?php _e( 'SuperCacher for WordPress by SiteGround', 'sg-cachepress' ) ?></h2>		
 		<p><?php _e( 'The SuperCacher is a system that allows you to use the SiteGround dynamic cache and Memcached to optimize the performance of your WordPress. In order to take advantage of the system you should have the SuperCacher enabled at your web host plus the required cache options turned on below. For more information on the different caching options refer to the <a href="http://www.siteground.com/tutorials/supercacher/" target="_blank">SuperCacher Tutorial</a>!', 'sg-cachepress' ) ?></p>
-	</div>
-    
+	</div>    
     
 	<div class="box sgclr">
-		<h2><?php _e( 'PHP Version Status', 'sg-cachepress' ) ?></h2>
-                
-		<div class="greybox">
-			<p><?php _e( 'Checks the PHP version your WordPress site is running and whether you\'re on the fastest possible PHP version. In case you need to rollback the PHP version <a href="#">click here</a>   ', 'sg-cachepress' ) ?></p>
-			
-			<form method="post" action="<?php menu_page_url( 'sg-cachepress-phpversion-check' ); ?>">                            
-                            <?php submit_button( __( 'Check PHP Version', 'sg-cachepress' ), 'primary', 'sg-cachepress-phpversion-check', false );?>
-			</form>
-		</div>
-	</div>   
-    
+            <h2><?php _e( 'PHP Version Status', 'sg-cachepress' ) ?></h2>
+
+            <div class="greybox">
+                    <p><?php _e( 'Checks the PHP version your WordPress site is running and whether you\'re on the fastest possible PHP version. In case you need to rollback the PHP version <a href="#">click here</a>   ', 'sg-cachepress' ) ?></p>
+<!--
+                    <form method="post" action="<?php menu_page_url( 'sg-cachepress-phpversion-check' ); ?>">                            
+                        <?php submit_button( __( 'Check PHP Version', 'sg-cachepress' ), 'primary', 'sg-cachepress-phpversion-check', false );?>
+                    </form>-->
+            </div>
+
+            <!-- START -->                 
+            <?php
+            $phpversions = apply_filters('phpcompat_phpversions', array(
+                'PHP 7.0' => '7.0',
+                'PHP 5.6' => '5.6',
+            ));
+
+            $test_version = '7.0';
+            $only_active = 'yes';
+            ?>
+            <table class="form-table" style="display:none;">
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <label for="phptest_version">
+                                <?php _e('PHP Version', 'sg-cachepress'); ?>
+                            </label>
+                        </th>
+                        <td>
+                            <?php
+                            foreach ($phpversions as $name => $version) {
+                                printf('<label><input type="radio" name="phptest_version" value="%s" %s /> %s</label><br>', $version, checked($test_version, $version, false), $name);
+                            }
+                            ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="active_plugins"><?php _e('Only Active', 'sg-cachepress'); ?>
+                            </label>
+                        </th>
+                        <td>
+                            <label>
+                                <input type="radio" name="active_plugins" value="yes" <?php checked($only_active, 'yes', true); ?> />
+                                <?php _e('Only scan active plugins and themes', 'sg-cachepress'); ?>
+                            </label>
+                            <label>
+                                <input type="radio" name="active_plugins" value="no" <?php checked($only_active, 'no', true); ?> />
+                                <?php _e('Scan all plugins and themes', 'sg-cachepress'); ?>
+                            </label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+            <div style="display: none;" id="wpe-progress">
+                <label for=""><?php _e('Progress', 'sg-cachepress'); ?></label>
+                <div id="progressbar"></div>
+                <div id="wpe-progress-count"></div>
+                <div id="wpe-progress-active"></div>
+            </div>
+
+            <!-- Area for pretty results. -->
+            <div id="standardMode"></div>
+
+            <!-- Area for developer results. -->
+            <div style="display: none;" id="developerMode">
+                <b><?php _e('Test Results:', 'sg-cachepress'); ?></b>
+                <textarea readonly="readonly" id="testResults"></textarea>
+            </div>
+
+            <div id="footer" style="display: none;">
+                <?php
+                _e('Note: PHP Warnings will not cause errors, '
+                        . 'but could cause compatibility issues with future PHP versions, '
+                        . 'and could spam your PHP logs.', 'sg-cachepress');
+                ?><br>
+                <a id="downloadReport" href="#"><?php _e('Download Report', 'sg-cachepress'); ?></a>
+            </div>
+            </p>
+            <p>
+            <input style="float: left;" name="run" id="runButton" type="button" 
+                       value="<?php _e('Check PHP Version', 'sg-cachepress'); ?>" 
+                       class="button-primary" />
+            
+            <div class="wpe-tooltip">
+                <input style="height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" 
+                       name="run" id="cleanupButton" type="button" 
+                       value="<?php _e('Clean up', 'sg-cachepress'); ?>" class="button" />
+                <span class="wpe-tooltiptext"> <br /> <br />
+                    This will remove all database options related to this plugin, 
+                    but it will not stop a scan in progress. 
+                </span>
+            </div>
+            <div style="display:none; visibility: visible; float: left;" class="spinner"></div>
+            </p>
+
+            <!-- Results template -->
+            <script id="result-template" type="text/x-handlebars-template">
+                    <div style="border-left-color: {{#if skipped}}#999999{{else if passed}}#49587c{{else}}#e74c3c{{/if}};" class="wpe-results-card">
+                            <div class="inner-left">
+                {{#if skipped}}<img src="<?php echo esc_url(plugins_url('../php-compatibility-checker/src/images/question.png', __FILE__)); ?>">{{else if passed}}<img src="<?php echo esc_url(plugins_url('../php-compatibility-checker/src/images/check.png', __FILE__)); ?>">{{else}}<img src="<?php echo esc_url(plugins_url('../php-compatibility-checker/src/images/x.png', __FILE__)); ?>">{{/if}}
+                            </div>
+                            <div class="inner-right">
+                                    <h3 style="margin: 0px;">{{plugin_name}}</h3>
+                                    {{#if skipped}}<?php _e('Unknown', 'sg-cachepress'); ?>{{else if passed}}PHP {{test_version}} <?php _e('compatible', 'sg-cachepress'); ?>.{{else}}<b><?php _e('Possibly not', 'sg-cachepress'); ?></b> PHP {{test_version}} <?php _e('compatible', 'sg-cachepress'); ?>.{{/if}}<br>
+                                    {{update}}<br>
+                <textarea style="display: none; white-space: pre;">{{logs}}</textarea><a class="view-details"><?php _e('view details', 'sg-cachepress'); ?></a>
+            </div>
+            <?php $update_url = site_url('wp-admin/update-core.php', 'admin'); ?>
+                                    <div style="float:right;">{{#if updateAvailable}}<div class="badge wpe-update"><a href="<?php echo esc_url($update_url); ?>"><?php _e('Update Available', 'sg-cachepress'); ?></a></div>{{/if}}{{#if warnings}}<div class="badge warnings">{{warnings}} <?php _e('Warnings', 'sg-cachepress'); ?></div>{{/if}}{{#if errors}}<div class="badge errors">{{errors}} <?php _e('Errors', 'sg-cachepress'); ?></div>{{/if}}</div>
+                            </div>
+            </script>                
+            <!-- END -->
+
+	</div>
+            
     	<div class="box sgclr">
 		<h2><?php _e( 'Dynamic Cache Settings', 'sg-cachepress' ) ?></h2>
 	

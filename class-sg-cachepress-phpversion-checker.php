@@ -39,7 +39,10 @@ class SG_CachePress_PHPVersionChecker
      * @since 2.3.11
      */
     public function run()
-    {
+    {                                        
+        // Register the SG_WPEngine_PHPCompat instance
+        $phpcompat = SG_WPEngine_PHPCompat::instance();
+
         add_action('wp_ajax_sg-cachepress-phpversion-check', array($this, 'phpversion_check'));
         add_action('admin_notices', array($this, 'global_notice_phpversion_changed'));
         add_action('admin_notices', array($this, 'global_notice_phpversion_not_updated'));
@@ -98,9 +101,10 @@ class SG_CachePress_PHPVersionChecker
     public function phpversion_check()
     {
 
-        $this->options_handler->enable_option('show_notice_notification-2');
-        $this->options_handler->enable_option('show_notice_notification-1');
+//        $this->options_handler->enable_option('show_notice_notification-2');
+//        $this->options_handler->enable_option('show_notice_notification-1');
+//        print 123;exit;
 
         //die((int) $this->options_handler->update_option('prev_phpversion', $_POST['prev_phpversion']));
-    }
+    }                               
 }

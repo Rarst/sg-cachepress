@@ -1,0 +1,33 @@
+{
+	"name": "simplyadmire/composer-plugins",
+	"type": "composer-plugin",
+	"description": "Composer plugin for installing PHP_CodeSniffer standards",
+	"keywords": ["PHP_CodeSniffer", "phpcs", "standards", "TYPO3", "TYPO3 Flow", "TYPO3 CMS", "TYPO3 Neos"],
+	"license": "LGPL-3.0+",
+	"authors": [
+		{
+			"name": "Rens Admiraal",
+			"email": "rens@simplyadmire.com",
+			"role": "lead"
+		}
+	],
+	"autoload": {
+		"psr-0": {
+			"SimplyAdmire\\ComposerPlugins": ""
+		}
+	},
+	"extra": {
+		"class": [
+			"SimplyAdmire\\ComposerPlugins\\PhpCodesnifferStandardInstallerPlugin"
+		]
+	},
+	"require": {
+		"composer-plugin-api": "^1.0",
+		"squizlabs/php_codesniffer": "*"
+	},
+	"support": {
+		"issues": "https://github.com/SimplyAdmire/ComposerPlugins/issues",
+		"wiki": "https://github.com/SimplyAdmire/ComposerPlugins/wiki",
+		"source": "https://github.com/SimplyAdmire/ComposerPlugins.git"
+	}
+}
