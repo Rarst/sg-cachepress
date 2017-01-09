@@ -25,7 +25,7 @@
             $test_version = '7.0';
             $only_active = 'yes';
             ?>
-            <table class="form-table" style="display:none;">
+<!--            <table class="form-table" style="display:none;">
                 <tbody>
                     <tr>
                         <th scope="row">
@@ -58,7 +58,7 @@
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table>-->
 
             <p>
             <div style="display: none;" id="wpe-progress">
