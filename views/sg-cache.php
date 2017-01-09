@@ -8,7 +8,8 @@
             <h2><?php _e( 'PHP Version Status', 'sg-cachepress' ) ?></h2>
 
             <div class="greybox">
-                    <p><?php _e( 'Checks the PHP version your WordPress site is running and whether you\'re on the fastest possible PHP version. In case you need to rollback the PHP version <a href="#">click here</a>   ', 'sg-cachepress' ) ?></p>
+                    <p><?php _e( 'Checks the PHP version your WordPress site is '
+                            . 'running and whether you\'re on the fastest possible PHP version.', 'sg-cachepress' ) ?></p>
 <!--
                     <form method="post" action="<?php menu_page_url( 'sg-cachepress-phpversion-check' ); ?>">                            
                         <?php submit_button( __( 'Check PHP Version', 'sg-cachepress' ), 'primary', 'sg-cachepress-phpversion-check', false );?>
@@ -25,7 +26,7 @@
             $test_version = '7.0';
             $only_active = 'yes';
             ?>
-<!--            <table class="form-table" style="display:none;">
+            <table class="form-table" style="display:none;">
                 <tbody>
                     <tr>
                         <th scope="row">
@@ -58,7 +59,7 @@
                         </td>
                     </tr>
                 </tbody>
-            </table>-->
+            </table>
 
             <p>
             <div style="display: none;" id="wpe-progress">
@@ -78,11 +79,11 @@
             </div>
 
             <div id="footer" style="display: none;">
-                <?php
+                <?php /*
                 _e('Note: PHP Warnings will not cause errors, '
                         . 'but could cause compatibility issues with future PHP versions, '
                         . 'and could spam your PHP logs.', 'sg-cachepress');
-                ?><br>
+                */?><br>
                 <a id="downloadReport" href="#"><?php _e('Download Report', 'sg-cachepress'); ?></a>
             </div>
             </p>
@@ -100,7 +101,7 @@
                     but it will not stop a scan in progress. 
                 </span>
             </div>
-            <div style="display:none; visibility: visible; float: left;" class="spinner"></div>
+<!--            <div style="display:none; visibility: visible; float: left;" class="spinner"></div>-->
             </p>
 
             <!-- Results template -->

@@ -84,6 +84,8 @@ class SG_WPEPHPCompat {
 		'*/comment-mail/*' => '7.0', // https://wordpress.org/support/topic/false-positive-comment-mail/
 		'*/social-networks-auto-poster-facebook-twitter-g/*' => '7.0', // https://wordpress.org/plugins/social-networks-auto-poster-facebook-twitter-g/
 		'*/mailpoet/*' => '7.0', // https://wordpress.org/support/topic/false-positive-mailpoet-3-not-compatible-with-php7/
+                '*/sg-cachepress/*' => '7.0',
+            
 	);
 
 	/**
@@ -101,7 +103,6 @@ class SG_WPEPHPCompat {
 	 * @return  null
 	 */
 	public function start_test() {
-
 		$this->debug_log( 'startScan: ' . isset( $_POST['startScan'] ) );
 
 		/**
@@ -204,14 +205,14 @@ class SG_WPEPHPCompat {
 			$this->debug_log( 'Processing: ' . $directory->post_title );
 
 			// Add the plugin/theme name to the results.
-			$scan_results .= __( 'Name', 'php-compatibility-checker' ) . ': ' . $directory->post_title . "\n\n";
+			$scan_results .= __( 'Name', 'sg-cachepress' ) . ': ' . $directory->post_title . "\n\n";
 
 			// Keep track of the number of times we've attempted to scan the plugin.
 			$count = get_post_meta( $directory->ID, 'count', true ) ?: 1;
 			$this->debug_log( 'Attempted scan count: ' . $count );
 
 			if ( $count > 2 ) { // If we've already tried twice, skip it.
-				$scan_results .= __( 'The plugin/theme was skipped as it was too large to scan before the server killed the process.', 'php-compatibility-checker' ) . "\n\n";
+				$scan_results .= __( 'The plugin/theme was skipped as it was too large to scan before the server killed the process.', 'sg-cachepress' ) . "\n\n";
 				update_option( 'sg_wpephpcompat.scan_results', $scan_results , false );
 				wp_delete_post( $directory->ID );
 				$count = 0;
@@ -227,7 +228,7 @@ class SG_WPEPHPCompat {
 			$report = $this->process_file( $directory->post_content );
 
 			if ( ! $report ) {
-				$report = 'PHP ' . $this->test_version . __( ' compatible.', 'php-compatibility-checker' );
+				$report = 'PHP ' . $this->test_version . __( ' compatible.', 'sg-cachepress' );
 			}
 
 			$scan_results .= $report . "\n";
@@ -332,7 +333,7 @@ class SG_WPEPHPCompat {
 			// Exclude active plugins if only_active = "yes".
 			if ( 'yes' === $this->only_active ) {
 				// Get array of active plugins.
-				$active_plugins = get_option( 'active_plugins' );
+				$active_plugins = get_option( 'sg_active_plugins' );
 
 				if ( ! in_array( $k, $active_plugins ) ) {
 					continue;

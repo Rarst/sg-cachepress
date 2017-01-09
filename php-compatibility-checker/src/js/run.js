@@ -38,7 +38,7 @@ jQuery( document ).ready(function($) {
 		// Empty the results textarea.
 		resetDisplay();
 		test_version = $( 'input[name=phptest_version]:checked' ).val();
-		only_active = $( 'input[name=active_plugins]:checked' ).val();
+		only_active = $( 'input[name=sg_active_plugins]:checked' ).val();
 		var data = {
 			'action': 'sg_wpephpcompat_start_test',
 			'test_version': test_version,
@@ -233,11 +233,11 @@ function displayReport( response ) {
 
 	// Display global compatibility status.
 	if ( compatible ) {
-		$( '#standardMode' ).prepend( '<h3>' + window.sg_wpephpcompat.your_wp + ' PHP ' + test_version + ' ' + window.sg_wpephpcompat.compatible + '.</h3>' );
+		//$( '#standardMode' ).prepend( '<h3>' + window.sg_wpephpcompat.your_wp + ' PHP ' + test_version + ' ' + window.sg_wpephpcompat.compatible + '.</h3>' );
 	} else {
 		// Display scan stats.
-		$( '#standardMode' ).prepend( '<p>' + failedCount + ' ' + window.sg_wpephpcompat.out_of + ' ' + plugins.length + ' ' + window.sg_wpephpcompat.are_not + '.</p>' );
+		//$( '#standardMode' ).prepend( '<p>' + failedCount + ' ' + window.sg_wpephpcompat.out_of + ' ' + plugins.length + ' ' + window.sg_wpephpcompat.are_not + '.</p>' );
 
-		$( '#standardMode' ).prepend( '<h3>' + window.sg_wpephpcompat.is_not + ' ' + test_version + ' ' + window.sg_wpephpcompat.compatible + '.</h3>' );
+		//$( '#standardMode' ).prepend( '<h3>' + window.sg_wpephpcompat.is_not + ' ' + test_version + ' ' + window.sg_wpephpcompat.compatible + '.</h3>' );
 	}
 }

@@ -59,7 +59,7 @@ class SG_WPEngine_PHPCompat {
 		add_action( 'wp_ajax_sg_wpephpcompat_clean_up', array( self::instance(), 'clean_up' ) );
 
 		// Create custom post type.
-		add_action( 'init', array( self::instance(), 'create_job_queue' ) );                    
+		add_action( 'init', array( self::instance(), 'create_job_queue' ) );              
 	}
 
 	/**
@@ -74,7 +74,7 @@ class SG_WPEngine_PHPCompat {
 		if ( current_user_can( 'manage_options' ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
 			global $wpdb;
 
-			$wpephpc = new \SG_WPEPHPCompat( __DIR__ );
+			$wpephpc = new \SG_WPEPHPCompat( dirname(__DIR__) );
 
 			if ( isset( $_POST['startScan'] ) ) {
 				$test_version = sanitize_text_field( $_POST['test_version'] );
@@ -98,50 +98,50 @@ class SG_WPEngine_PHPCompat {
 	 * @action wp_ajax_wpephpcompat_check_status
 	 * @return null
 	 */
-	function check_status() {
-		if ( current_user_can( 'manage_options' ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
-			$scan_status = get_option( 'sg_wpephpcompat.status' );
-			$count_jobs = wp_count_posts( 'sg_wpephpcompat_jobs' );
-			$total_jobs = get_option( 'sg_wpephpcompat.numdirs' );
-			$test_version = get_option( 'sg_wpephpcompat.test_version' );
-			$only_active = get_option( 'sg_wpephpcompat.only_active' );
+	function check_status() {            
+            if ( current_user_can( 'manage_options' ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
+                    $scan_status = get_option( 'sg_wpephpcompat.status' );
+                    $count_jobs = wp_count_posts( 'sg_wpephpcompat_jobs' );
+                    $total_jobs = get_option( 'sg_wpephpcompat.numdirs' );
+                    $test_version = get_option( 'sg_wpephpcompat.test_version' );
+                    $only_active = get_option( 'sg_wpephpcompat.only_active' );
 
-			$active_job = false;
-			$jobs = get_posts( array(
-				'posts_per_page' => -1,
-				'post_type'      => 'sg_wpephpcompat_jobs',
-				'orderby'        => 'title',
-				'order'          => 'ASC',
-			) );
+                    $active_job = false;
+                    $jobs = get_posts( array(
+                            'posts_per_page' => -1,
+                            'post_type'      => 'sg_wpephpcompat_jobs',
+                            'orderby'        => 'title',
+                            'order'          => 'ASC',
+                    ) );
 
-			if ( 0 < count( $jobs ) ) {
-				$active_job = $jobs[0]->post_title;
-			}
+                    if ( 0 < count( $jobs ) ) {
+                            $active_job = $jobs[0]->post_title;
+                    }
 
-			$to_encode = array(
-				'status'     => $scan_status,
-				'count'      => $count_jobs->publish,
-				'total'      => $total_jobs,
-				'activeJob'  => $active_job,
-				'version'    => $test_version,
-				'onlyActive' => $only_active,
-			);
+                    $to_encode = array(
+                            'status'     => $scan_status,
+                            'count'      => $count_jobs->publish,
+                            'total'      => $total_jobs,
+                            'activeJob'  => $active_job,
+                            'version'    => $test_version,
+                            'onlyActive' => $only_active,
+                    );
 
-			// If the scan is still running.
-			if ( $scan_status ) {
-				$to_encode['results'] = '0';
-				$to_encode['progress'] = ( ( $total_jobs - $count_jobs->publish ) / $total_jobs) * 100;
-			} else {
-				// Else return the results and clean up!
-				$scan_results = get_option( 'sg_wpephpcompat.scan_results' );
-				// Not using esc_html since the results are shown in a textarea.
-				$to_encode['results'] = $scan_results;
+                    // If the scan is still running.
+                    if ( $scan_status ) {
+                            $to_encode['results'] = '0';
+                            $to_encode['progress'] = ( ( $total_jobs - $count_jobs->publish ) / $total_jobs) * 100;
+                    } else {
+                            // Else return the results and clean up!
+                            $scan_results = get_option( 'sg_wpephpcompat.scan_results' );
+                            // Not using esc_html since the results are shown in a textarea.
+                            $to_encode['results'] = $scan_results;
 
-				$wpephpc = new \SG_WPEPHPCompat( __DIR__ );
-				$wpephpc->clean_after_scan();
-			}
-			wp_send_json( $to_encode );
-		}
+                            $wpephpc = new \SG_WPEPHPCompat( dirname(__DIR__) );
+                            $wpephpc->clean_after_scan();
+                    }
+                    wp_send_json( $to_encode );
+            }
 	}
 
 	/**
@@ -152,7 +152,7 @@ class SG_WPEngine_PHPCompat {
 	 */
 	function clean_up() {
 		if ( current_user_can( 'manage_options' ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
-			$wpephpc = new \SG_WPEPHPCompat( __DIR__ );
+			$wpephpc = new \SG_WPEPHPCompat( dirname(__DIR__) );
 			$wpephpc->clean_after_scan();
 			delete_option( 'sg_wpephpcompat.scan_results' );
 			wp_send_json( 'success' );
@@ -208,17 +208,56 @@ class SG_WPEngine_PHPCompat {
 		 * These translated strings can be access in jquery with window.sg_wpephpcompat object.
 		 */
 		$strings = array(
-			'name'       => __( 'Name', 'php-compatibility-checker' ),
-			'compatible' => __( 'compatible', 'php-compatibility-checker' ),
-			'are_not'    => __( 'plugins/themes are possibly not compatible', 'php-compatibility-checker' ),
-			'is_not'     => __( 'Your WordPress site is possibly not PHP', 'php-compatibility-checker' ),
-			'out_of'     => __( 'out of', 'php-compatibility-checker' ),
-			'run'        => __( 'Check PHP Version', 'php-compatibility-checker' ),
-			'rerun'      => __( 'Check PHP Version', 'php-compatibility-checker' ),
-			'your_wp'    => __( 'Your WordPress site is', 'php-compatibility-checker' ),
+			'name'       => __( 'Name', 'sg-cachepress' ),
+			'compatible' => __( 'compatible', 'sg-cachepress' ),
+			//'are_not'    => __( 'plugins/themes are possibly not compatible', 'sg-cachepress' ),
+			//'is_not'     => __( 'Your WordPress site is possibly not PHP', 'sg-cachepress' ),
+			//'out_of'     => __( 'out of', 'sg-cachepress' ),
+			'run'        => __( 'Check PHP Version', 'sg-cachepress' ),
+			'rerun'      => __( 'Check PHP Version', 'sg-cachepress' ),
+			//'your_wp'    => __( 'Your WordPress site is', 'sg-cachepress' ),
 		);
 
 		wp_localize_script( 'sg_wpephpcompat', 'sg_wpephpcompat', $strings );
 	}
+        
+        
+        /**
+        * This function hides the notice from displaying when it is manually closed
+        *
+        * @since 2.2.7
+        */
+        function message_hide()
+        {
+           $id = $_POST['notice_id'];           
+           update_option('show_notice_' . $id, 0); // disable option                 
+           echo $id;
+           wp_die();
+        }
+       
+        public function global_notice_template($msg, $id)
+        {
+            if (get_option('show_notice_' . $id)) {
+                $html = '<div id="ajax-' . $id . '" class="updated sg-cachepress-notification-by-id">';
+                $html .= '<p>';
+                $html .= __('<strong>SG CachePress PHP Version:</strong>'
+                        . $msg . ' Click <a href="http://www.siteground.com/tutorials/supercacher/" target="_blank">here</a> for mode details. '
+                        . '<a href="javascript:;" id="' . $id . '" class="dismiss-sg-cahepress-notification-by-id">Click here to hide this notice</a>.', 'ajax-notification');
+                $html .= '</p>';
+                $html .= '<span id="ajax-notification-nonce" class="hidden">' . wp_create_nonce('ajax-notification-nonce') . '</span>';
+                $html .= '</div>';
+                echo $html;
+            }
+        }
+
+    public function global_notice_phpversion_changed()
+    {
+        global_notice_template(' Your PHP version has been changed to <strong>PHP 7.0.13</strong>.', 'notification-1');
+    }
+
+    public function global_notice_phpversion_not_updated()
+    {
+        global_notice_template(' You website doesn\'t run on the recommended by SiteGround PHP version. ', 'notification-2');
+    }
 
 }
