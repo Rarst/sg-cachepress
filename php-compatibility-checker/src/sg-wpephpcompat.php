@@ -115,61 +115,61 @@ class SG_WPEPHPCompat {
 		*
 		* @param int $timeout The timeout in seconds.
 		*/
-		$timeout = apply_filters( 'wpephpcompat_scan_timeout', MINUTE_IN_SECONDS );
+		$timeout = apply_filters( 'sg_wpephpcompat_scan_timeout', MINUTE_IN_SECONDS );
 		$this->debug_log( 'timeout: ' . $timeout );
 
 		// No reason to lock if there's no timeout.
 		if ( 0 !== $timeout ) {
 			// Try to lock.
-			$lock_result = add_option( 'wpephpcompat.lock', time(), '', 'no' );
+			$lock_result = add_option( 'sg_wpephpcompat.lock', time(), '', 'no' );
 
 			$this->debug_log( 'lock: ' . $lock_result );
 
 			if ( ! $lock_result ) {
-				$lock_result = get_option( 'wpephpcompat.lock' );
+				$lock_result = get_option( 'sg_wpephpcompat.lock' );
 
 				// Bail if we were unable to create a lock, or if the existing lock is still valid.
 				if ( ! $lock_result || ( $lock_result > ( time() - $timeout ) ) ) {
 					$this->debug_log( 'Process already running (locked), returning.' );
 
-					$timestamp = wp_next_scheduled( 'wpephpcompat_start_test_cron' );
+					$timestamp = wp_next_scheduled( 'sg_wpephpcompat_start_test_cron' );
 
 					if ( false == $timestamp ) {
-						wp_schedule_single_event( time() + $timeout, 'wpephpcompat_start_test_cron' );
+						wp_schedule_single_event( time() + $timeout, 'sg_wpephpcompat_start_test_cron' );
 					}
 					return;
 				}
 			}
-			update_option( 'wpephpcompat.lock', time(), false );
+			update_option( 'sg_wpephpcompat.lock', time(), false );
 		}
 
 		// Check to see if scan has already started.
-		$scan_status = get_option( 'wpephpcompat.status' );
+		$scan_status = get_option( 'sg_wpephpcompat.status' );
 		$this->debug_log( 'scan status: ' . $scan_status );
 		if ( ! $scan_status ) {
 
 			// Clear the previous results.
-			delete_option( 'wpephpcompat.scan_results' );
+			delete_option( 'sg_wpephpcompat.scan_results' );
 
-			update_option( 'wpephpcompat.status', '1', false );
-			update_option( 'wpephpcompat.test_version', $this->test_version, false );
-			update_option( 'wpephpcompat.only_active', $this->only_active, false );
+			update_option( 'sg_wpephpcompat.status', '1', false );
+			update_option( 'sg_wpephpcompat.test_version', $this->test_version, false );
+			update_option( 'sg_wpephpcompat.only_active', $this->only_active, false );
 
 			$this->debug_log( 'Generating directory list.' );
 			//Add plugins and themes.
 			$this->generate_directory_list();
 
-			$count_jobs = wp_count_posts( 'wpephpcompat_jobs' );
-			update_option( 'wpephpcompat.numdirs', $count_jobs->publish, false );
+			$count_jobs = wp_count_posts( 'sg_wpephpcompat_jobs' );
+			update_option( 'sg_wpephpcompat.numdirs', $count_jobs->publish, false );
 		} else {
 			// Get scan settings from database.
-			$this->test_version = get_option( 'wpephpcompat.test_version' );
-			$this->only_active = get_option( 'wpephpcompat.only_active' );
+			$this->test_version = get_option( 'sg_wpephpcompat.test_version' );
+			$this->only_active = get_option( 'sg_wpephpcompat.only_active' );
 		}
 
 		$args = array(
 			'posts_per_page' => -1,
-			'post_type'      => 'wpephpcompat_jobs',
+			'post_type'      => 'sg_wpephpcompat_jobs',
 			'orderby'        => 'title',
 			'order'          => 'ASC',
 		);
@@ -179,12 +179,12 @@ class SG_WPEPHPCompat {
 		// If there are no directories to scan, we're finished!
 		if ( ! $directories ) {
 			$this->debug_log( 'No more plugins to process.' );
-			update_option( 'wpephpcompat.status', '0', false );
+			update_option( 'sg_wpephpcompat.status', '0', false );
 
 			return;
 		}
 		if ( 0 !== $timeout ) {
-			wp_schedule_single_event( time() + $timeout, 'wpephpcompat_start_test_cron' );
+			wp_schedule_single_event( time() + $timeout, 'sg_wpephpcompat_start_test_cron' );
 		}
 
 		if ( ! $this->is_command_line() ) {
@@ -198,7 +198,7 @@ class SG_WPEPHPCompat {
 			set_time_limit( ( $timeout > 5 ? $timeout - 5 : $timeout ) );
 		}
 
-		$scan_results = get_option( 'wpephpcompat.scan_results' );
+		$scan_results = get_option( 'sg_wpephpcompat.scan_results' );
 
 		foreach ( $directories as $directory ) {
 			$this->debug_log( 'Processing: ' . $directory->post_title );
@@ -212,7 +212,7 @@ class SG_WPEPHPCompat {
 
 			if ( $count > 2 ) { // If we've already tried twice, skip it.
 				$scan_results .= __( 'The plugin/theme was skipped as it was too large to scan before the server killed the process.', 'php-compatibility-checker' ) . "\n\n";
-				update_option( 'wpephpcompat.scan_results', $scan_results , false );
+				update_option( 'sg_wpephpcompat.scan_results', $scan_results , false );
 				wp_delete_post( $directory->ID );
 				$count = 0;
 				$this->debug_log( 'Skipped: ' . $directory->post_title );
@@ -241,12 +241,12 @@ class SG_WPEPHPCompat {
 
 			$scan_results .= "\n";
 
-			update_option( 'wpephpcompat.scan_results', $scan_results , false );
+			update_option( 'sg_wpephpcompat.scan_results', $scan_results , false );
 
 			wp_delete_post( $directory->ID );
 		}
 
-		update_option( 'wpephpcompat.status', '0', false );
+		update_option( 'sg_wpephpcompat.status', '0', false );
 
 		$this->debug_log( 'Scan finished.' );
 
@@ -415,17 +415,17 @@ class SG_WPEPHPCompat {
 	 */
 	public function clean_after_scan() {
 		// Delete options created during the scan.
-		delete_option( 'wpephpcompat.lock' );
-		delete_option( 'wpephpcompat.status' );
-		delete_option( 'wpephpcompat.numdirs' );
+		delete_option( 'sg_wpephpcompat.lock' );
+		delete_option( 'sg_wpephpcompat.status' );
+		delete_option( 'sg_wpephpcompat.numdirs' );
 
 		// Clear scheduled cron.
-		wp_clear_scheduled_hook( 'wpephpcompat_start_test_cron' );
+		wp_clear_scheduled_hook( 'sg_wpephpcompat_start_test_cron' );
 
 		//Make sure all directories are removed from the queue.
 		$args = array(
 			'posts_per_page' => -1,
-			'post_type'      => 'wpephpcompat_jobs',
+			'post_type'      => 'sg_wpephpcompat_jobs',
 		);
 		$directories = get_posts( $args );
 
@@ -435,7 +435,7 @@ class SG_WPEPHPCompat {
 	}
 
 	/**
-	 * Add a path to the wpephpcompat_jobs custom post type.
+	 * Add a path to the sg_wpephpcompat_jobs custom post type.
 	 *
 	 * @param string $name Plugin or theme name.
 	 * @param string $path Full path to the plugin or theme directory.
@@ -447,7 +447,7 @@ class SG_WPEPHPCompat {
 			'post_content'  => $path,
 			'post_status'   => 'publish',
 			'post_author'   => 1,
-			'post_type'     => 'wpephpcompat_jobs',
+			'post_type'     => 'sg_wpephpcompat_jobs',
 		);
 
 		return wp_insert_post( $dir );

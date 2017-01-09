@@ -53,10 +53,10 @@ class SG_WPEngine_PHPCompat {
 		add_action( 'admin_enqueue_scripts', array( self::instance(), 'admin_enqueue' ) );
 
 		// The action to run the compatibility test.
-		add_action( 'wp_ajax_wpephpcompat_start_test', array( self::instance(), 'start_test' ) );
-		add_action( 'wp_ajax_wpephpcompat_check_status', array( self::instance(), 'check_status' ) );
-		add_action( 'wpephpcompat_start_test_cron', array( self::instance(), 'start_test' ) );
-		add_action( 'wp_ajax_wpephpcompat_clean_up', array( self::instance(), 'clean_up' ) );
+		add_action( 'wp_ajax_sg_wpephpcompat_start_test', array( self::instance(), 'start_test' ) );
+		add_action( 'wp_ajax_sg_wpephpcompat_check_status', array( self::instance(), 'check_status' ) );
+		add_action( 'sg_wpephpcompat_start_test_cron', array( self::instance(), 'start_test' ) );
+		add_action( 'wp_ajax_sg_wpephpcompat_clean_up', array( self::instance(), 'clean_up' ) );
 
 		// Create custom post type.
 		add_action( 'init', array( self::instance(), 'create_job_queue' ) );                    
@@ -66,15 +66,15 @@ class SG_WPEngine_PHPCompat {
 	 * Start the test!
 	 *
 	 * @since  1.0.0
-	 * @action wp_ajax_wpephpcompat_start_test
-	 * @action wpephpcompat_start_test_cron
+	 * @action wp_ajax_sg_wpephpcompat_start_test
+	 * @action sg_wpephpcompat_start_test_cron
 	 * @return null
 	 */
 	function start_test() {
 		if ( current_user_can( 'manage_options' ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
 			global $wpdb;
 
-			$wpephpc = new \WPEPHPCompat( __DIR__ );
+			$wpephpc = new \SG_WPEPHPCompat( __DIR__ );
 
 			if ( isset( $_POST['startScan'] ) ) {
 				$test_version = sanitize_text_field( $_POST['test_version'] );
@@ -100,16 +100,16 @@ class SG_WPEngine_PHPCompat {
 	 */
 	function check_status() {
 		if ( current_user_can( 'manage_options' ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
-			$scan_status = get_option( 'wpephpcompat.status' );
-			$count_jobs = wp_count_posts( 'wpephpcompat_jobs' );
-			$total_jobs = get_option( 'wpephpcompat.numdirs' );
-			$test_version = get_option( 'wpephpcompat.test_version' );
-			$only_active = get_option( 'wpephpcompat.only_active' );
+			$scan_status = get_option( 'sg_wpephpcompat.status' );
+			$count_jobs = wp_count_posts( 'sg_wpephpcompat_jobs' );
+			$total_jobs = get_option( 'sg_wpephpcompat.numdirs' );
+			$test_version = get_option( 'sg_wpephpcompat.test_version' );
+			$only_active = get_option( 'sg_wpephpcompat.only_active' );
 
 			$active_job = false;
 			$jobs = get_posts( array(
 				'posts_per_page' => -1,
-				'post_type'      => 'wpephpcompat_jobs',
+				'post_type'      => 'sg_wpephpcompat_jobs',
 				'orderby'        => 'title',
 				'order'          => 'ASC',
 			) );
@@ -133,11 +133,11 @@ class SG_WPEngine_PHPCompat {
 				$to_encode['progress'] = ( ( $total_jobs - $count_jobs->publish ) / $total_jobs) * 100;
 			} else {
 				// Else return the results and clean up!
-				$scan_results = get_option( 'wpephpcompat.scan_results' );
+				$scan_results = get_option( 'sg_wpephpcompat.scan_results' );
 				// Not using esc_html since the results are shown in a textarea.
 				$to_encode['results'] = $scan_results;
 
-				$wpephpc = new \WPEPHPCompat( __DIR__ );
+				$wpephpc = new \SG_WPEPHPCompat( __DIR__ );
 				$wpephpc->clean_after_scan();
 			}
 			wp_send_json( $to_encode );
@@ -152,9 +152,9 @@ class SG_WPEngine_PHPCompat {
 	 */
 	function clean_up() {
 		if ( current_user_can( 'manage_options' ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
-			$wpephpc = new \WPEPHPCompat( __DIR__ );
+			$wpephpc = new \SG_WPEPHPCompat( __DIR__ );
 			$wpephpc->clean_after_scan();
-			delete_option( 'wpephpcompat.scan_results' );
+			delete_option( 'sg_wpephpcompat.scan_results' );
 			wp_send_json( 'success' );
 		}
 	}
@@ -166,7 +166,7 @@ class SG_WPEngine_PHPCompat {
 	 * @return  null
 	 */
 	function create_job_queue() {
-		register_post_type( 'wpephpcompat_jobs',
+		register_post_type( 'sg_wpephpcompat_jobs',
 			array(
 				'labels' => array(
 					'name' => __( 'Jobs' ),
@@ -191,12 +191,12 @@ class SG_WPEngine_PHPCompat {
 		}
 
 		// Styles
-		wp_enqueue_style( 'wpephpcompat-style', plugins_url( '/src/css/style.css', __FILE__ ) );
+		wp_enqueue_style( 'sg_wpephpcompat-style', plugins_url( '/src/css/style.css', __FILE__ ) );
 
 		// Scripts
-		wp_enqueue_script( 'wpephpcompat-handlebars', plugins_url( '/src/js/handlebars.js', __FILE__ ), array( 'jquery' ) );
-		wp_enqueue_script( 'wpephpcompat-download', plugins_url( '/src/js/download.min.js', __FILE__ ) );
-		wp_enqueue_script( 'wpephpcompat', plugins_url( '/src/js/run.js', __FILE__ ), array( 'jquery', 'wpephpcompat-handlebars', 'wpephpcompat-download' ) );
+		wp_enqueue_script( 'sg_wpephpcompat-handlebars', plugins_url( '/src/js/handlebars.js', __FILE__ ), array( 'jquery' ) );
+		wp_enqueue_script( 'sg_wpephpcompat-download', plugins_url( '/src/js/download.min.js', __FILE__ ) );
+		wp_enqueue_script( 'sg_wpephpcompat', plugins_url( '/src/js/run.js', __FILE__ ), array( 'jquery', 'sg_wpephpcompat-handlebars', 'sg_wpephpcompat-download' ) );
 
 		// Progress Bar
 		wp_enqueue_script( 'jquery-ui-progressbar' );
@@ -205,7 +205,7 @@ class SG_WPEngine_PHPCompat {
 		/**
 		 * i18n strings
 		 *
-		 * These translated strings can be access in jquery with window.wpephpcompat object.
+		 * These translated strings can be access in jquery with window.sg_wpephpcompat object.
 		 */
 		$strings = array(
 			'name'       => __( 'Name', 'php-compatibility-checker' ),
@@ -218,7 +218,7 @@ class SG_WPEngine_PHPCompat {
 			'your_wp'    => __( 'Your WordPress site is', 'php-compatibility-checker' ),
 		);
 
-		wp_localize_script( 'wpephpcompat', 'wpephpcompat', $strings );
+		wp_localize_script( 'sg_wpephpcompat', 'sg_wpephpcompat', $strings );
 	}
 
 }
