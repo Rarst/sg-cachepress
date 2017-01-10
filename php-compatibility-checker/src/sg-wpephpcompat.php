@@ -333,7 +333,7 @@ class SG_WPEPHPCompat {
 			// Exclude active plugins if only_active = "yes".
 			if ( 'yes' === $this->only_active ) {
 				// Get array of active plugins.
-				$active_plugins = get_option( 'sg_active_plugins' );
+				$active_plugins = get_option( 'active_plugins' );
 
 				if ( ! in_array( $k, $active_plugins ) ) {
 					continue;

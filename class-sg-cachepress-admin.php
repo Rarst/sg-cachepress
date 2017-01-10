@@ -294,6 +294,57 @@ class SG_CachePress_Admin {
 			wp_localize_script( SG_CachePress::PLUGIN_SLUG . '-admin', 'sgCachePressL10n', $strings );
 		}
 	}
+        
+        /**
+         * 
+         * Returns the current PHP version Wordpress is running on.
+         * example (5.6, 7.0 ... etc)
+         * 
+         * @since 2.3.11
+         */
+        public function get_current_php_version() {
+            if (!defined('PHP_VERSION_ID')) {
+                $version = explode('.', PHP_VERSION);
+                define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+            }
+            
+            if (PHP_VERSION_ID < 50207) {
+                define('PHP_MAJOR_VERSION',   $version[0]);
+                define('PHP_MINOR_VERSION',   $version[1]);
+                define('PHP_RELEASE_VERSION', $version[2]);
+            }
+            
+            return PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+        }
+        
+        /**
+         * 
+         * Returns an associative array of recommended php versions by priority
+         * 
+         * @since 2.3.11
+        */        
+        public function get_recommended_php_versions() {
+            return array(
+                '7.0', '5.6'
+            );
+        }
+        
+        /**
+         * 
+         * Returns an associative array of all available PHP versions we support.
+         * 
+         * @since 2.3.11
+         */        
+        public function get_available_php_versions() {
+            return apply_filters('phpcompat_phpversions', array(
+                'PHP 7.1' => '7.1',
+                'PHP 7.0' => '7.0',
+                'PHP 5.6' => '5.6',
+                'PHP 5.5' => '5.5',
+                'PHP 5.4' => '5.4',
+                'PHP 5.3' => '5.3',                                                                                
+            ));
+        }
 
 	/**
 	 * Register the top level page into the WordPress admin menu.

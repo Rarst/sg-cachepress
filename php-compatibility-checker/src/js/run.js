@@ -27,8 +27,7 @@ jQuery( document ).ready(function($) {
 			textarea.css( 'display', 'none' );
 		}
 	});
-	$( '#runButton' ).on( 'click', function() {
-            
+	$( '#runButton' ).on( 'click', function() {            
                 jQuery('#runButton').removeAttr('disabled').attr('value', sgCachePressL10n.phpversion_checking);
 		// Unselect button so it's not highlighted.
 		$( '#runButton' ).blur();
@@ -38,7 +37,7 @@ jQuery( document ).ready(function($) {
 		// Empty the results textarea.
 		resetDisplay();
 		test_version = $( 'input[name=phptest_version]:checked' ).val();
-		only_active = $( 'input[name=sg_active_plugins]:checked' ).val();
+		only_active = $( 'input[name=active_plugins]:checked' ).val();
 		var data = {
 			'action': 'sg_wpephpcompat_start_test',
 			'test_version': test_version,
@@ -66,11 +65,19 @@ jQuery( document ).ready(function($) {
 });
 /**
  * Check the scan status and display results if scan is done.
+ * onDocumentReady
  */
 function checkStatus() {
+        var $ = jQuery; 
+        $( '#phpVersionCheckerContainer' ).show();
+        // show default message
+        $( '#phpVersionCheckerText' ).html(window.sg_wpephpcompat.check_your_php_version); 
+        
 	var data = {
 		'action': 'sg_wpephpcompat_check_status'
 	};
+        
+        var noReport = true;
 
 	var obj;
 	jQuery.post( ajaxurl, data, function( obj ) {
@@ -79,7 +86,8 @@ function checkStatus() {
 		 * Status 1: the test is currently running
 		 * Status 0: the test as completed but is not currently running
 		 */
-		if ( false === obj.results ) {
+                jQuery( '#runButton' ).show();
+		if ( false === obj.results ) {                        
 			jQuery( '#runButton' ).val( window.sg_wpephpcompat.run );
 		} else {
 			jQuery( '#runButton' ).val( window.sg_wpephpcompat.rerun );
@@ -93,6 +101,7 @@ function checkStatus() {
 
 		if ( '0' !== obj.results ) {
 			if( false !== obj.results ) {
+                                noReport = false;
 				test_version = obj.version;
 				displayReport( obj.results );
 			}
@@ -114,6 +123,11 @@ function checkStatus() {
 				checkStatus();
 			}, 5000);
 		}
+                
+//                if (noReport) {
+//                    // show default message                 
+//                }
+
 	}, 'json' ).fail(function ( xhr, status, error )
 	{
 		// Server responded correctly, but the response wasn't valid.
@@ -137,6 +151,9 @@ function resetDisplay() {
 	jQuery( '#wpe-progress-count' ).text('');
 	jQuery( '#wpe-progress-active' ).text('');
 	jQuery( '#footer' ).hide();
+        jQuery( '#upgradeButton' ).hide();
+        jQuery( '#phpVersionCheckerTextBelow' ).text('');
+        
 }
 /**
  * Loop through a string and count the total matches.
@@ -161,11 +178,11 @@ function findAll( regex, log ) {
  * Display the pretty report.
  * @param  {string} response Full test results.
  */
-function displayReport( response ) {
+function displayReport( response ) {   
 	// Clean up before displaying results.
 	resetDisplay();
-	var $ = jQuery;
-	var compatible = 1;
+	var $ = jQuery;                
+	var compatible = 1;        
 
 	// Keep track of the number of failed plugins/themes.
 	var failedCount = 0;
@@ -186,9 +203,9 @@ function displayReport( response ) {
 
 	// Remove the first item, it's empty.
 	plugins.shift();
-
+        
 	// Loop through them.
-	for ( var x in plugins ) {
+	for ( var x in plugins ) {             
 		var updateVersion;
 		var updateAvailable = 0;
 		var passed = 1;
@@ -210,31 +227,54 @@ function displayReport( response ) {
 			passed = 0;
 			failedCount++;
 		}
+                
+                if ( parseInt( warnings ) > 0 ) {
+			compatible = 0;
+		}
 		// Trim whitespace and newlines from report.
 		log = log.replace( /^\s+|\s+$/g, '' );
 
 		if ( log.search('skipped') !== -1 ) {
 			skipped = 1;
 		}
-		// Use handlebars to build our template.
-		var context = {
-			plugin_name: name,
-			warnings: warnings,
-			errors: errors,
-			logs: log,
-			passed: passed,
-			skipped: skipped,
-			test_version: test_version,
-			updateAvailable: updateAvailable
-		};
-		var html = template( context );
-		$('#standardMode').append( html );
+                
+                // only if warnings or errors
+                if (errors || warnings) {
+                    // Use handlebars to build our template.
+                    var context = {
+                            plugin_name: name,
+                            warnings: warnings,
+                            errors: errors,
+                            logs: log,
+                            passed: passed,
+                            skipped: skipped,
+                            test_version: test_version,
+                            updateAvailable: updateAvailable
+                    };                                
+
+                    var html = template( context );                
+                    $('#standardMode').append( html );
+                }
+
 	}
 
 	// Display global compatibility status.
-	if ( compatible ) {
+	if ( compatible ) {           
+            $( '#phpVersionCheckerTextBelow' ).html(window.sg_wpephpcompat.your_wp + 
+                    ' PHP ' + test_version + ' ' +
+                    window.sg_wpephpcompat.compatible + '. ' +
+                    window.sg_wpephpcompat.click_upgrade_version);
+            
+            $( '#upgradeButton' ).show();
+            $( '#upgradeButton' ).val(window.sg_wpephpcompat.upgrade_to + ' PHP ' + test_version);
+                    
 		//$( '#standardMode' ).prepend( '<h3>' + window.sg_wpephpcompat.your_wp + ' PHP ' + test_version + ' ' + window.sg_wpephpcompat.compatible + '.</h3>' );
 	} else {
+            $( '#phpVersionCheckerTextBelow' ).html(
+                    window.sg_wpephpcompat.not_compatible + 
+                    ' PHP ' + test_version + '. ' + 
+                    window.sg_wpephpcompat.see_details_below);
+                                                
 		// Display scan stats.
 		//$( '#standardMode' ).prepend( '<p>' + failedCount + ' ' + window.sg_wpephpcompat.out_of + ' ' + plugins.length + ' ' + window.sg_wpephpcompat.are_not + '.</p>' );
 
