@@ -27,8 +27,8 @@ jQuery( document ).ready(function($) {
 			textarea.css( 'display', 'none' );
 		}
 	});
-	$( '#runButton' ).on( 'click', function() {            
-                jQuery('#runButton').removeAttr('disabled').attr('value', sgCachePressL10n.phpversion_checking);
+	$( '#runButton' ).on( 'click', function() {   
+                jQuery('#runButton').attr('disabled', true).attr('value', sgCachePressL10n.phpversion_checking);
 		// Unselect button so it's not highlighted.
 		$( '#runButton' ).blur();
 
@@ -53,6 +53,39 @@ jQuery( document ).ready(function($) {
 			checkStatus();
 		});
 	});
+        
+        $( '#upgradeButton' ).on( 'click', function() {
+            $( '#upgradeButton' ).blur();
+
+            // Show the ajax spinner.
+            $( '.spinner' ).show();
+
+            var data = {
+                    'action': 'sg_wpephpcompat_change_version',
+                    'version': test_version
+            };
+
+            // Start the upgrade!
+            jQuery.post( ajaxurl, data ).always(function(res) {
+                if (res === '1') {
+                    alert('PHP Version upgraded');
+                }
+            });
+	});
+        
+        $( '#changeVersionButton' ).on( 'click', function() {
+            var data = {
+                    'action': 'sg_wpephpcompat_change_version',
+                    'version': $( '#manualVersionValue' ).val()
+            };
+
+            // Start the upgrade!
+            jQuery.post( ajaxurl, data ).always(function(res) {
+                if (res === '1') {
+                    alert('PHP Version changed');
+                }
+            });
+	});                        
 
 	$( '#cleanupButton' ).on( 'click', function() {
 		clearTimeout( timer );
@@ -92,7 +125,9 @@ function checkStatus() {
 		} else {
 			jQuery( '#runButton' ).val( window.sg_wpephpcompat.rerun );
 		}
-
+                
+                jQuery('#runButton').removeAttr('disabled');
+                
 		if ( '1' === obj.status ) {
 			jQuery( '.spinner' ).show();
 		} else {
@@ -222,15 +257,12 @@ function displayReport( response ) {
 			updateAvailable = 1;
 		}
 		// Update plugin and global compatibility flags.
-		if ( parseInt( errors ) > 0 ) {
+		if ( parseInt( errors ) > 0 || parseInt( warnings ) > 0) {
 			compatible = 0;
 			passed = 0;
 			failedCount++;
 		}
-                
-                if ( parseInt( warnings ) > 0 ) {
-			compatible = 0;
-		}
+
 		// Trim whitespace and newlines from report.
 		log = log.replace( /^\s+|\s+$/g, '' );
 

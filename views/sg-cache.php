@@ -14,9 +14,9 @@
 
                              
             <?php
-            $phpversions = $this->get_available_php_versions();
-            $current_version = $this->get_current_php_version();
-            $recommended_php_versions = $this->get_recommended_php_versions();                        
+            $phpversions = SG_WPEngine_PHPCompat::get_available_php_versions();                        
+            $current_version = SG_WPEngine_PHPCompat::get_current_php_version();
+            $recommended_php_versions = SG_WPEngine_PHPCompat::get_recommended_php_versions();                        
             $recommended_php_version = $recommended_php_versions[0];
             $only_active = 'yes';
             ?>
@@ -97,7 +97,7 @@
                    id="upgradeButton" 
                    type="button"                         
                    class="button-primary" />
-            
+                        
 <!--            <div style="display:none; visibility: visible; float: left;" class="spinner"></div>-->
             </p>
             <p id="phpVersionCheckerTextBelow" style="font-style: italic;"></p>
@@ -136,16 +136,16 @@
                     </p>
                     <div class="clr"></div>		
             </div>
-            
             <br />
             <input type="button" 
+                   id="changeVersionButton"
                    name="sg-cachepress-purge" 
                    style="background: #3e4b68; color: #FFF; border: none; box-shadow: none;" 
                    class="button"
-                   value="<?php _e('Cahnge PHP Version to', 'sg-cachepress'); ?>"
+                   value="<?php _e('Change PHP Version to', 'sg-cachepress'); ?>"
                    >
                         
-            <select>                           
+            <select id="manualVersionValue">                           
             <?php
             foreach ($phpversions as $name => $version) {
                 printf('<option value="%s" %s>%s</option><label>', htmlspecialchars($version), selected($recommended_php_version, $version, false), htmlspecialchars($name));

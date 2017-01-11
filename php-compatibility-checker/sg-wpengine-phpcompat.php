@@ -57,6 +57,7 @@ class SG_WPEngine_PHPCompat {
 		add_action( 'wp_ajax_sg_wpephpcompat_check_status', array( self::instance(), 'check_status' ) );
 		add_action( 'sg_wpephpcompat_start_test_cron', array( self::instance(), 'start_test' ) );
 		add_action( 'wp_ajax_sg_wpephpcompat_clean_up', array( self::instance(), 'clean_up' ) );
+                add_action( 'wp_ajax_sg_wpephpcompat_change_version', array( self::instance(), 'change_current_php_version' ) );
 
 		// Create custom post type.
 		add_action( 'init', array( self::instance(), 'create_job_queue' ) );              
@@ -231,7 +232,7 @@ class SG_WPEngine_PHPCompat {
         /**
         * This function hides the notice from displaying when it is manually closed
         *
-        * @since 2.2.7
+        * @since 2.3.11
         */
         function message_hide()
         {
@@ -264,6 +265,120 @@ class SG_WPEngine_PHPCompat {
     public function global_notice_phpversion_not_updated()
     {
         global_notice_template(' You website doesn\'t run on the recommended by SiteGround PHP version. ', 'notification-2');
+    }
+    
+            
+    /**
+     * 
+     * Change current php version in .htaccess
+     * 
+     * @since 2.3.11
+     * 
+     * @return string
+     * 0 - failed 
+     * 1 - success
+     * 2 - no changes     
+    */        
+    public static function change_current_php_version() {        
+        $availableVersions = self::get_available_php_versions();
+        
+        if ( !in_array($_POST['version'], $availableVersions) ) {
+            die(0);
+        } else {
+            $version = $_POST['version'];
+        }                
+        
+        $basedir = dirname(dirname(dirname(dirname(__DIR__))));
+        $filename = $basedir. '/.htaccess';
+
+        if (!is_writable($filename)) {
+            die(0);
+        }
+
+        $htaccessContent = file_get_contents($filename);            
+        $version = str_replace('.', '', $version);
+
+        $addHandlerOption = 'AddHandler application/x-httpd-php' . $version . ' .php .php5 .php4 .php3';
+
+        $htaccessNewContent = preg_replace(
+            '/(AddHandler\s+application\/x-httpd-php)(\w+)(\s+\.php\s+\.php5\s+\.php4\s+\.php3)/s', 
+            '${1}'. $version .'${3}', 
+            $htaccessContent,
+            -1,
+            $count
+        );
+        
+        // add it manually
+        if (!$count) {
+            $htaccessNewContent .= PHP_EOL . $addHandlerOption;
+        }
+          
+        // no changes
+        if ($htaccessContent === $htaccessNewContent) {
+            die('2');
+        }
+        
+        $fp = fopen($filename, "w+");
+
+        if (flock($fp, LOCK_EX)) { // do an exclusive lock
+            fwrite($fp, $htaccessNewContent);
+            flock($fp, LOCK_UN); // release the lock
+        } else {
+            die(0);
+        }
+        
+        die('1');
+    }
+    
+    /**
+     * 
+     * Returns an associative array of all available PHP versions we support.
+     * 
+     * @since 2.3.11
+     */        
+    public static function get_available_php_versions() {
+        return apply_filters('phpcompat_phpversions', array(
+            'PHP 7.1' => '7.1',
+            'PHP 7.0' => '7.0',
+            'PHP 5.6' => '5.6',
+            'PHP 5.5' => '5.5',
+            'PHP 5.4' => '5.4',
+            'PHP 5.3' => '5.3',                                                                                
+        ));
+    }
+        
+    /**
+     * 
+     * Returns the current PHP version Wordpress is running on.
+     * example (5.6, 7.0 ... etc)
+     * 
+     * @since 2.3.11
+     */
+    public static function get_current_php_version() {
+        if (!defined('PHP_VERSION_ID')) {
+            $version = explode('.', PHP_VERSION);
+            define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+        }
+
+        if (PHP_VERSION_ID < 50207) {
+            define('PHP_MAJOR_VERSION',   $version[0]);
+            define('PHP_MINOR_VERSION',   $version[1]);
+            define('PHP_RELEASE_VERSION', $version[2]);
+        }
+
+        return PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+    }
+    
+    /**
+     * 
+     * Returns an associative array of recommended php versions by priority
+     * 
+     * @since 2.3.11
+    */        
+    public static function get_recommended_php_versions() {
+        return array(
+            '7.0', '5.6'
+        );
     }
 
 }
