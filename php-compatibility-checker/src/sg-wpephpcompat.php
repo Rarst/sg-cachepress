@@ -57,8 +57,8 @@ class SG_WPEPHPCompat {
 	 */
 	public $base = null;
         
-        /*
-         * White URL
+        /**
+         * Whitelist URL 
          */
         private $whitelistUrl = 'http://updates.sgvps.net/plugins_whitelist.json';
         
