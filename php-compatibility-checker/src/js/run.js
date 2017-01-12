@@ -68,7 +68,7 @@ jQuery( document ).ready(function($) {
             // Start the upgrade!
             jQuery.post( ajaxurl, data ).always(function(res) {
                 if (res === '1') {
-                    alert('PHP Version upgraded');
+                    window.location.reload();
                 }
             });
 	});
@@ -82,10 +82,10 @@ jQuery( document ).ready(function($) {
             // Start the upgrade!
             jQuery.post( ajaxurl, data ).always(function(res) {
                 if (res === '1') {
-                    alert('PHP Version changed');
+                    window.location.reload();
                 }
             });
-	});                        
+	});    
 
 	$( '#cleanupButton' ).on( 'click', function() {
 		clearTimeout( timer );
@@ -291,25 +291,31 @@ function displayReport( response ) {
 	}
 
 	// Display global compatibility status.
-	if ( compatible ) {           
-            $( '#phpVersionCheckerTextBelow' ).html(window.sg_wpephpcompat.your_wp + 
+	if ( compatible ) {                        
+            var recommendedVersionNumber = parseInt(test_version.replace(/\./, ''));   
+            var current_version = $( '#current_php_version' ).val();
+            
+            var currentVersionNumber = parseInt(current_version.replace(/\./, ''));
+            if (currentVersionNumber < recommendedVersionNumber) {
+                $( '#phpVersionCheckerTextBelow' ).html(window.sg_wpephpcompat.your_wp + 
                     ' PHP ' + test_version + ' ' +
                     window.sg_wpephpcompat.compatible + '. ' +
                     window.sg_wpephpcompat.click_upgrade_version);
             
-            $( '#upgradeButton' ).show();
-            $( '#upgradeButton' ).val(window.sg_wpephpcompat.upgrade_to + ' PHP ' + test_version);
-                    
-		//$( '#standardMode' ).prepend( '<h3>' + window.sg_wpephpcompat.your_wp + ' PHP ' + test_version + ' ' + window.sg_wpephpcompat.compatible + '.</h3>' );
+                $( '#upgradeButton' ).show();
+                $( '#upgradeButton' ).val(window.sg_wpephpcompat.upgrade_to + ' PHP ' + test_version);                
+                
+            // Up to Date
+            } else {
+                $( '#phpVersionCheckerTextBelow' ).html(window.sg_wpephpcompat.you_running_running_on + ' ' +
+                    current_version + ' ' +
+                    window.sg_wpephpcompat.recommended_or_higher);
+            }
+            
 	} else {
             $( '#phpVersionCheckerTextBelow' ).html(
                     window.sg_wpephpcompat.not_compatible + 
                     ' PHP ' + test_version + '. ' + 
                     window.sg_wpephpcompat.see_details_below);
-                                                
-		// Display scan stats.
-		//$( '#standardMode' ).prepend( '<p>' + failedCount + ' ' + window.sg_wpephpcompat.out_of + ' ' + plugins.length + ' ' + window.sg_wpephpcompat.are_not + '.</p>' );
-
-		//$( '#standardMode' ).prepend( '<h3>' + window.sg_wpephpcompat.is_not + ' ' + test_version + ' ' + window.sg_wpephpcompat.compatible + '.</h3>' );
 	}
 }

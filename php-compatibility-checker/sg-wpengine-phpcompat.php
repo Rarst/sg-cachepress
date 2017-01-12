@@ -49,6 +49,8 @@ class SG_WPEngine_PHPCompat {
 	 * @since 0.1.0
 	 */
 	public static function init() {
+                add_action( 'wp_ajax_sg_wpephpcompat_global_message', array( self::instance(), 'global_notice_phpversion_not_updated' ) );
+      
 		// Load our JavaScript.
 		add_action( 'admin_enqueue_scripts', array( self::instance(), 'admin_enqueue' ) );
 
@@ -222,51 +224,13 @@ class SG_WPEngine_PHPCompat {
 			'your_wp'    => __( 'Your WordPress site is', 'sg-cachepress' ),
                         'check_your_php_version' => __( 'Checks the PHP version your WordPress site is running and whether you\'re on the fastest possible PHP version.', 'sg-cachepress' ),
                         'upgrade_to' => __( 'Upgrade to', 'sg-cachepress' ),
+                        'you_running_running_on'    => __( 'Your website is already running on PHP', 'sg-cachepress' ),
+                        'recommended_or_higher'    => __( 'which is our recommended PHP version or higher.', 'sg-cachepress' ),
 		);
                                
 
 		wp_localize_script( 'sg_wpephpcompat', 'sg_wpephpcompat', $strings );
-	}
-        
-        
-        /**
-        * This function hides the notice from displaying when it is manually closed
-        *
-        * @since 2.3.11
-        */
-        function message_hide()
-        {
-           $id = $_POST['notice_id'];           
-           update_option('show_notice_' . $id, 0); // disable option                 
-           echo $id;
-           wp_die();
-        }
-       
-        public function global_notice_template($msg, $id)
-        {
-            if (get_option('show_notice_' . $id)) {
-                $html = '<div id="ajax-' . $id . '" class="updated sg-cachepress-notification-by-id">';
-                $html .= '<p>';
-                $html .= __('<strong>SG CachePress PHP Version:</strong>'
-                        . $msg . ' Click <a href="http://www.siteground.com/tutorials/supercacher/" target="_blank">here</a> for mode details. '
-                        . '<a href="javascript:;" id="' . $id . '" class="dismiss-sg-cahepress-notification-by-id">Click here to hide this notice</a>.', 'ajax-notification');
-                $html .= '</p>';
-                $html .= '<span id="ajax-notification-nonce" class="hidden">' . wp_create_nonce('ajax-notification-nonce') . '</span>';
-                $html .= '</div>';
-                echo $html;
-            }
-        }
-
-    public function global_notice_phpversion_changed()
-    {
-        global_notice_template(' Your PHP version has been changed to <strong>PHP 7.0.13</strong>.', 'notification-1');
-    }
-
-    public function global_notice_phpversion_not_updated()
-    {
-        global_notice_template(' You website doesn\'t run on the recommended by SiteGround PHP version. ', 'notification-2');
-    }
-    
+	}       
             
     /**
      * 
@@ -285,9 +249,10 @@ class SG_WPEngine_PHPCompat {
         if ( !in_array($_POST['version'], $availableVersions) ) {
             die(0);
         } else {
-            $version = $_POST['version'];
+            $newVersionOrig = $_POST['version'];
         }                
         
+        $currentVersion = self::get_current_php_version();
         $basedir = dirname(dirname(dirname(dirname(__DIR__))));
         $filename = $basedir. '/.htaccess';
 
@@ -296,13 +261,13 @@ class SG_WPEngine_PHPCompat {
         }
 
         $htaccessContent = file_get_contents($filename);            
-        $version = str_replace('.', '', $version);
+        $newVersion = str_replace('.', '', $newVersionOrig);
 
-        $addHandlerOption = 'AddHandler application/x-httpd-php' . $version . ' .php .php5 .php4 .php3';
+        $addHandlerOption = 'AddHandler application/x-httpd-php' . $newVersion . ' .php .php5 .php4 .php3';
 
         $htaccessNewContent = preg_replace(
             '/(AddHandler\s+application\/x-httpd-php)(\w+)(\s+\.php\s+\.php5\s+\.php4\s+\.php3)/s', 
-            '${1}'. $version .'${3}', 
+            '${1}'. $newVersion .'${3}', 
             $htaccessContent,
             -1,
             $count
@@ -327,6 +292,21 @@ class SG_WPEngine_PHPCompat {
             die(0);
         }
         
+        update_option('sg_wpephpcompat.current_php_version', $newVersionOrig);
+        update_option('sg_wpephpcompat.prev_php_version', $currentVersion); 
+        
+        // Log
+        $user = @get_current_user();
+        $r = @posix_getpwnam($user);
+        
+        $report = time() . 
+                ' from_' . $currentVersion . 
+                ' to_' . $newVersionOrig .
+                ' ' . $basedir .
+                ' ' . get_site_url();
+                                                
+        @file_put_contents($r['dir'] . '/.wp_version_change', $report . PHP_EOL , FILE_APPEND);
+        
         die('1');
     }
     
@@ -345,6 +325,14 @@ class SG_WPEngine_PHPCompat {
             'PHP 5.4' => '5.4',
             'PHP 5.3' => '5.3',                                                                                
         ));
+    }
+    
+    /**
+     * get previous PHP version
+     * @since 2.3.11
+     */
+    public static function get_prev_php_version() {
+        return get_option('sg_wpephpcompat.prev_php_version');
     }
         
     /**

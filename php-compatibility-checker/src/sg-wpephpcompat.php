@@ -56,6 +56,21 @@ class SG_WPEPHPCompat {
 	 * @var string
 	 */
 	public $base = null;
+        
+        /*
+         * White URL
+         */
+        private $whitelistUrl = 'http://updates.sgvps.net/plugins_whitelist.json';
+        
+        /**
+	 *  Array of "directory name" => "latest PHP version it's compatible with".
+	 *
+	 *  @todo Using the directory name is brittle, we shouldn't use it.
+	 *  @since 1.0.3
+	 *  @var array
+	 */
+            
+        public $whitelist = null;
 
 	/**
 	 *  Array of "directory name" => "latest PHP version it's compatible with".
@@ -64,7 +79,7 @@ class SG_WPEPHPCompat {
 	 *  @since 1.0.3
 	 *  @var array
 	 */
-	public $whitelist = array(
+	public $whitelistFallback = array(
 		'*/jetpack/*' => '7.0', // https://github.com/wpengine/phpcompat/wiki/Results#jetpack
 		'*/wordfence/*' => '7.0', // https://github.com/wpengine/phpcompat/wiki/Results#wordfence-security
 		'*/woocommerce/*' => '7.0', // https://github.com/wpengine/phpcompat/wiki/Results#woocommerce
@@ -87,6 +102,24 @@ class SG_WPEPHPCompat {
                 '*/sg-cachepress/*' => '7.0',
             
 	);
+        
+        public function get_whitelist() {
+            if ($this->whitelist !== null) {
+                return $this->whitelist;
+            }
+
+            ini_set('default_socket_timeout', 10);
+            $whitelistJson = file_get_contents($this->whitelistUrl);
+            $whitelistArray = json_decode($whitelistJson, true);
+            
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $this->whitelist = $whitelistArray;
+            } else {
+                $this->whitelist = $this->whitelistFallback;
+            }
+            
+            return $this->whitelist;
+        }
 
 	/**
 	 * @param string $dir Base plugin directory.
@@ -296,7 +329,7 @@ class SG_WPEPHPCompat {
 			'*/tmp/*', // Temporary files.
 		);
 
-		foreach ( $this->whitelist as $plugin => $version ) {
+		foreach ( $this->get_whitelist() as $plugin => $version ) {
 			// Check to see if the plugin is compatible with the tested version.
 			if ( version_compare( $this->test_version, $version, '<=' ) ) {
 				array_push( $ignored, $plugin );
