@@ -56,6 +56,7 @@ class SG_CachePress_PHPVersionChecker
      * This function hides the notice from displaying when it is manually closed
      *
      * @since 2.2.7
+     * @return void
      */
     function message_hide()
     {
@@ -66,6 +67,12 @@ class SG_CachePress_PHPVersionChecker
         wp_die();
     }
 
+    /**
+     * Template for global messages
+     *
+     * @since 2.2.7
+     * @return void
+     */
     public function global_notice_template($msg, $id)
     {
         if ($this->options_handler->is_enabled('show_notice_' . $id)) {
@@ -81,6 +88,12 @@ class SG_CachePress_PHPVersionChecker
         }
     }
 
+    /**
+     * This notice is printed on plugin activation or update
+     *
+     * @since 2.2.7
+     * @return void
+     */
     public function global_notice_phpversion_not_updated()
     {
         $this->global_notice_template(__(' You website doesn\'t run on the recommended by SiteGround PHP version. ',

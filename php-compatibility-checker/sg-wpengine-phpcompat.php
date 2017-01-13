@@ -1,14 +1,4 @@
 <?php
-/*
-Plugin Name: PHP Compatibility Checker
-Plugin URI: https://wpengine.com
-Description: Make sure your plugins and themes are compatible with newer PHP versions.
-Author: WP Engine
-Version: 1.3.2
-Author URI: https://wpengine.com
-Text Domain: php-compatibility-checker
-*/
-
 // Exit if this file is directly accessed
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -46,7 +36,7 @@ class SG_WPEngine_PHPCompat {
 	/**
 	 * Initialize hooks and setup environment variables.
 	 *
-	 * @since 0.1.0
+	 * @since 2.3.11
 	 */
 	public static function init() {
                 add_action( 'wp_ajax_sg_wpephpcompat_global_message', array( self::instance(), 'global_notice_phpversion_not_updated' ) );
@@ -68,7 +58,7 @@ class SG_WPEngine_PHPCompat {
 	/**
 	 * Start the test!
 	 *
-	 * @since  1.0.0
+	 * @since  2.3.11
 	 * @action wp_ajax_sg_wpephpcompat_start_test
 	 * @action sg_wpephpcompat_start_test_cron
 	 * @return null
@@ -97,7 +87,7 @@ class SG_WPEngine_PHPCompat {
 	 * Check the progress or result of the tests.
 	 *
 	 * @todo Use heartbeat API.
-	 * @since  1.0.0
+	 * @since  2.3.11
 	 * @action wp_ajax_wpephpcompat_check_status
 	 * @return null
 	 */
@@ -150,7 +140,7 @@ class SG_WPEngine_PHPCompat {
 	/**
 	 * Remove all database options from the database.
 	 *
-	 * @since 1.3.2
+	 * @since 2.3.11
 	 * @action wp_ajax_wpephpcompat_clean_up
 	 */
 	function clean_up() {
@@ -165,7 +155,7 @@ class SG_WPEngine_PHPCompat {
 	/**
 	 * Create custom post type to store the directories we need to process.
 	 *
-	 * @since 1.0.0
+	 * @since 2.3.11
 	 * @return  null
 	 */
 	function create_job_queue() {
@@ -184,7 +174,7 @@ class SG_WPEngine_PHPCompat {
 	/**
 	 * Enqueue our JavaScript and CSS.
 	 *
-	 * @since 1.0.0
+	 * @since 2.3.11
 	 * @action admin_enqueue_scripts
 	 * @return  null
 	 */
