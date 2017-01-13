@@ -60,38 +60,17 @@
 
             <p> 
             <!-- to Delete -->
-<!--            <div style="display: none;" id="wpe-progress">
+            <div  id="wpe-progress">
                 <label for=""><?php _e('Progress', 'sg-cachepress'); ?></label>
                 <div id="progressbar"></div>
                 <div id="wpe-progress-count"></div>
                 <div id="wpe-progress-active"></div>
-            </div>-->
-
-            <div class="wpe-tooltip">
-                <input style="height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" 
-                       name="run" id="cleanupButton" type="button" 
-                       value="<?php _e('Clean up', 'sg-cachepress'); ?>" class="button" />
-                <span class="wpe-tooltiptext"> <br /> <br />
-                    This will remove all database options related to this plugin, 
-                    but it will not stop a scan in progress. 
-                </span>
             </div>
 
             <div style="display: none;" id="developerMode">
                 <b><?php //_e('Test Results:', 'sg-cachepress'); ?></b>
                 <textarea readonly="readonly" id="testResults"></textarea>
             </div>
-<!--
-                <div id="footer" style="display: none;">
-                <?php /*
-                _e('Note: PHP Warnings will not cause errors, '
-                        . 'but could cause compatibility issues with future PHP versions, '
-                        . 'and could spam your PHP logs.', 'sg-cachepress');
-                */?><br>
-                <a id="downloadReport" href="#"><?php _e('Download Report', 'sg-cachepress'); ?></a>
-            </div>
--->
-            <!-- to Delete -->
              
             </p>
             <p>
@@ -102,7 +81,7 @@
                    type="button"                         
                    class="button-primary" />
                         
-<!--            <div style="display:none; visibility: visible; float: left;" class="spinner"></div>-->
+            <div style="display:none; visibility: visible; float: left;" class="spinner"></div>
             </p>
             <p id="phpVersionCheckerTextBelow" style="font-style: italic;"></p>
             <br />
