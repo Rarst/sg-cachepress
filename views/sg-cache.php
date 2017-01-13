@@ -81,7 +81,7 @@
                    type="button"                         
                    class="button-primary" />
                         
-            <div style="display:none; visibility: visible; float: left;" class="spinner"></div>
+<!--            <div style="display:none; visibility: visible; float: left;" class="spinner"></div>-->
             </p>
             <p id="phpVersionCheckerTextBelow" style="font-style: italic;"></p>
             <br />
