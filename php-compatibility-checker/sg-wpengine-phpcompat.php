@@ -292,8 +292,13 @@ class SG_WPEngine_PHPCompat {
                 ' to_' . $newVersionOrig .
                 ' ' . $basedir .
                 ' ' . get_site_url();
-                                                
+
         @file_put_contents($r['dir'] . '/.wp_version_change', $report . PHP_EOL , FILE_APPEND);
+ 
+        if (self::isUpToDate($newVersionOrig)) {
+            $options_handler = new \SG_CachePress_Options();
+            $options_handler->disable_option('show_notice_notification-1');
+        }
         
         die('1');
     }
@@ -355,6 +360,25 @@ class SG_WPEngine_PHPCompat {
         return array(
             '7.0', '5.6'
         );
+    }
+    /**
+     * @since 2.3.11
+     * @param type $newVersionOrig
+     * @return bool
+     */
+    public function isUpToDate($newVersionOrig=false) {
+        if ($newVersionOrig !== false) {
+            $currentVersion = $newVersionOrig;
+        } else {
+            $currentVersion = self::get_current_php_version();
+        }
+                
+        $recommendedPHPVersions = self::get_recommended_php_versions();
+        $recommendedPHPVersion = $recommendedPHPVersions[0];
+        $recommendedPHPVersion  = intval(str_replace('.', '', $recommendedPHPVersion ));
+        $currentVersion = intval(str_replace('.', '', $currentVersion ));
+        
+        return ($currentVersion >= $recommendedPHPVersion);
     }
 
 }
