@@ -8,7 +8,7 @@ require_once( __DIR__ . '/../vendor/autoload.php' );
  *
  * @since 1.0.0
  */
-class PHPCompat_Command extends WP_CLI_Command {
+class SGPHPCompat_Command extends WP_CLI_Command {
 
 	/**
 	 * Test compatibility with different PHP versions.
@@ -58,7 +58,7 @@ class PHPCompat_Command extends WP_CLI_Command {
  *  Using this for now since there are issues with the PHPDoc syntax.
  *  TODO: Use PHPDoc syntax.
  */
-WP_CLI::add_command( 'phpcompat', 'PHPCompat_Command', array(
+WP_CLI::add_command( 'phpcompat', 'SGPHPCompat_Command', array(
 	'shortdesc' => 'Test compatibility with different PHP versions.',
 	'synopsis' => array(
 		array(

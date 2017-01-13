@@ -39,8 +39,6 @@ class SG_WPEngine_PHPCompat {
 	 * @since 2.3.11
 	 */
 	public static function init() {
-                add_action( 'wp_ajax_sg_wpephpcompat_global_message', array( self::instance(), 'global_notice_phpversion_not_updated' ) );
-      
 		// Load our JavaScript.
 		add_action( 'admin_enqueue_scripts', array( self::instance(), 'admin_enqueue' ) );
 

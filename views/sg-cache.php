@@ -74,16 +74,14 @@
              
             </p>
             <p>
-            <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" name="run" id="runButton" type="button" class="button-primary" />   <div style="display:none; visibility: visible; float: left;" class="spinner"></div>            
-            <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" 
-                   name="upgradeButton" 
-                   id="upgradeButton" 
-                   type="button"                         
+            <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" name="run" id="runButton" type="button" class="button-primary" />   <div style="display:none; visibility: visible; float: left;" class="spinner"></div>
+            <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;"
+                   name="upgradeButton"
+                   id="upgradeButton"
+                   type="button"
                    class="button-primary" />
                         
-					<input style="float: left; margin-left: 5px;" name="run" id="cleanupButton" type="button" value="<?php esc_attr_e( 'Clean up', 'php-compatibility-checker' ); ?>" class="button" />
-   
-            
+	    <input style="float: left; margin-left: 5px;" name="run" id="cleanupButton" type="button" value="<?php esc_attr_e( 'Clean up', 'php-compatibility-checker' ); ?>" class="button" />
             
             </p>
             <p id="phpVersionCheckerTextBelow" style="font-style: italic;"></p>

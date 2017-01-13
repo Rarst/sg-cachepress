@@ -48,8 +48,16 @@ class SG_CachePress_PHPVersionChecker
     
     public function activate()
     {
-        // @Todo to enable this message also onPluginUpdate
-        $this->options_handler->enable_option('show_notice_notification-1');
+        $currentVersion = SG_WPEngine_PHPCompat::get_current_php_version();
+        $recommendedPHPVersions = SG_WPEngine_PHPCompat::get_recommended_php_versions();
+        $recommendedPHPVersion = $recommendedPHPVersions[0];
+        $recommendedPHPVersion  = intval(str_replace('.', '', $recommendedPHPVersion ));
+        $currentVersion = intval(str_replace('.', '', $currentVersion ));
+
+        if ($currentVersion < $recommendedPHPVersion) {
+            // @Todo to enable this message also onPluginUpdate
+            $this->options_handler->enable_option('show_notice_notification-1');
+        }                                  
     }
 
     /**
