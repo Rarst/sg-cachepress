@@ -59,13 +59,13 @@
             </table>
 
             <p> 
-            <!-- to Delete -->
+            <!-- to Delete
             <div  id="wpe-progress">
                 <label for=""><?php _e('Progress', 'sg-cachepress'); ?></label>
                 <div id="progressbar"></div>
                 <div id="wpe-progress-count"></div>
                 <div id="wpe-progress-active"></div>
-            </div>
+            </div> -->
 
             <div style="display: none;" id="developerMode">
                 <b><?php //_e('Test Results:', 'sg-cachepress'); ?></b>
@@ -74,14 +74,17 @@
              
             </p>
             <p>
-            <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" name="run" id="runButton" type="button" class="button-primary" />            
+            <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" name="run" id="runButton" type="button" class="button-primary" />   <div style="display:none; visibility: visible; float: left;" class="spinner"></div>            
             <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" 
                    name="upgradeButton" 
                    id="upgradeButton" 
                    type="button"                         
                    class="button-primary" />
                         
-<!--            <div style="display:none; visibility: visible; float: left;" class="spinner"></div>-->
+					<input style="float: left; margin-left: 5px;" name="run" id="cleanupButton" type="button" value="<?php esc_attr_e( 'Clean up', 'php-compatibility-checker' ); ?>" class="button" />
+   
+            
+            
             </p>
             <p id="phpVersionCheckerTextBelow" style="font-style: italic;"></p>
             <br />

@@ -32,8 +32,6 @@ jQuery( document ).ready(function($) {
 		// Unselect button so it's not highlighted.
 		$( '#runButton' ).blur();
 
-		// Show the ajax spinner.
-		$( '.spinner' ).show();
 		// Empty the results textarea.
 		resetDisplay();
 		test_version = $( 'input[name=phptest_version]:checked' ).val();
@@ -129,7 +127,8 @@ function checkStatus() {
                 jQuery('#runButton').removeAttr('disabled');
                 
 		if ( '1' === obj.status ) {
-			jQuery( '.spinner' ).show();
+			//jQuery( '.spinner' ).show();
+			jQuery('#runButton').attr('disabled', true).attr('value', sgCachePressL10n.phpversion_checking);
 		} else {
 			jQuery( '.spinner' ).hide();
 		}
@@ -170,7 +169,7 @@ function checkStatus() {
 			alert( "Error: " + error + "\nResponse: " + xhr.responseText );
 		}
 		else { // Server didn't respond correctly.
-			alert( "Error: " + error + "\nStatus: " + xhr.status );
+			alert( "Error: Plase, do not close this tab or refresh the page while the plugin is running!" );
 		}
 	});
 }
