@@ -58,7 +58,7 @@ class SGPHPCompat_Command extends WP_CLI_Command {
  *  Using this for now since there are issues with the PHPDoc syntax.
  *  TODO: Use PHPDoc syntax.
  */
-WP_CLI::add_command( 'phpcompat', 'SGPHPCompat_Command', array(
+WP_CLI::add_command( 'sgphpcompat', 'SGPHPCompat_Command', array(
 	'shortdesc' => 'Test compatibility with different PHP versions.',
 	'synopsis' => array(
 		array(
