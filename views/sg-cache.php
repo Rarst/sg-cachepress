@@ -59,14 +59,6 @@
             </table>
 
             <p> 
-            <!-- to Delete
-            <div  id="wpe-progress">
-                <label for=""><?php _e('Progress', 'sg-cachepress'); ?></label>
-                <div id="progressbar"></div>
-                <div id="wpe-progress-count"></div>
-                <div id="wpe-progress-active"></div>
-            </div> -->
-
             <div style="display: none;" id="developerMode">
                 <b><?php //_e('Test Results:', 'sg-cachepress'); ?></b>
                 <textarea readonly="readonly" id="testResults"></textarea>
