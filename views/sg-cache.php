@@ -2,7 +2,26 @@
 	<div class="box">
 		<h2><?php _e( 'SuperCacher for WordPress by SiteGround', 'sg-cachepress' ) ?></h2>		
 		<p><?php _e( 'The SuperCacher is a system that allows you to use the SiteGround dynamic cache and Memcached to optimize the performance of your WordPress. In order to take advantage of the system you should have the SuperCacher enabled at your web host plus the required cache options turned on below. For more information on the different caching options refer to the <a href="http://www.siteground.com/tutorials/supercacher/" target="_blank">SuperCacher Tutorial</a>!', 'sg-cachepress' ) ?></p>
-	</div>    
+	</div>  
+    
+        <div class="box" style="display:none;"></div>
+        
+        <!-- START enableSSLandHTTP2 -->
+	<div class="box">
+            <h2><?php _e( 'Enable SSL & HTTPS2', 'sg-cachepress' ) ?></h2>
+            <div class="greybox">				
+                    <a href="" id="sg-cachepress-ssl-toggle" 
+                       class="<?php  if ( $this->options_handler->get_option('enable_ssl') ==1 ) echo 'toggleon'; else echo 'toggleoff'; ?>"></a>
+
+                    <p id="sg-cachepress-ssl-text"><?php _e( 'Enable SSL & HTTPS2', 'sg-cachepress' ) ?></p>
+                    <p class="error" id="sg-cachepress-ssl-error"></p>
+
+                    <div class="clr"></div>
+                    <p><?php _e( 'Switching on will reconfigure your WordPress site to work entirely through HTTPS. Furthermore, all insecure resource requests will be fixed automatically. Important: You will have to login anew after this feature is enabled.', 'sg-cachepress' ) ?></p>
+                    <div class="clr"></div>		
+            </div>
+	</div>
+        <!-- END enableSSLandHTTP2 -->
     
         <!-- START phpVersionChecker -->
 	<div class="box sgclr" id="phpVersionCheckerContainer" style="display: none;">
@@ -97,7 +116,7 @@
             </script>                            
 	</div>     
         <!-- END phpVersionChecker -->
-                
+                                
         <!-- START manualPHPVersion -->
         <div class="box">
             <h2><?php _e( 'Manual PHP Version Settings', 'sg-cachepress' ) ?></h2>
@@ -138,8 +157,8 @@
             
 	</div>
         <!-- END manualPHPVersion -->
-
-                               
+        
+        
     	<div class="box sgclr">
 		<h2><?php _e( 'Dynamic Cache Settings', 'sg-cachepress' ) ?></h2>
 	

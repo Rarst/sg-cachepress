@@ -7,6 +7,7 @@ jQuery( function ($) {
 	jQuery('#sg-cachepress-autoflush-cache-toggle').on('click.sg-cachepress', function(event){event.preventDefault();sg_cachepress_toggle_option('autoflush-cache');});
 	jQuery('#sg-cachepress-blacklist').on('click.sg-cachepress', sg_cachepress_save_blacklist);
         jQuery('#sg-cachepress-phpversion-check').on('click.sg-cachepress', sg_cachepress_phpversion_check);
+        jQuery('#sg-cachepress-ssl-toggle').on('click.sg-cachepress', function(event){event.preventDefault();sg_cachepress_toggle_option('ssl');});
 });
 var sg_cachepress_toggle_in_progress = false;
 /**

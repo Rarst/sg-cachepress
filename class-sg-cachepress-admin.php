@@ -197,11 +197,16 @@ class SG_CachePress_Admin {
 			'dynamic-cache' 	=> 'enable_cache',
 			'memcached'			=> 'enable_memcached',
 			'autoflush-cache'	=> 'autoflush_cache',
+                        'ssl'                   => 'enable_ssl',
 		);
 
 		$paramName = $paramTranslator[$_POST['parameterName']];
 		$currentValue = (int)$this->options_handler->get_option($paramName);
 		$toggledValue = (int)!$currentValue;
+                
+                if ($paramName == 'enable_ssl') {
+                    SG_CachePress_SSL::enable_ssl();
+		}
 
 		//if cache is turned on or off it's a good idea to flush it on right away
 		if ($paramName == 'enable_cache') {

@@ -36,6 +36,7 @@ require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-memcache.php';
 require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-admin.php';
 require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-phpversion-checker.php';
 require plugin_dir_path( __FILE__ ) . 'php-compatibility-checker/sg-wpengine-phpcompat.php';
+require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-ssl.php';
 
 
 // Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
