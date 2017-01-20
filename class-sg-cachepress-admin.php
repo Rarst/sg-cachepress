@@ -71,11 +71,12 @@ class SG_CachePress_Admin {
 		add_action( 'wp_ajax_sg-cachepress-parameter-update', array( $this, 'update_parameter' ) );
 		add_action( 'wp_ajax_sg-cachepress-cache-test', array( $this, 'cache_test_callback' ) );
 		add_action( 'wp_ajax_sg-cachepress-cache-test-message-hide', array( $this, 'cache_test_message_hide' ) );
-		
+                add_action( 'wp_ajax_sg-cachepress-ssl-toggle', array( 'SG_CachePress_SSL', 'toggle' ) );
 
 		// Add the admin bar purge button handler
 		add_action( 'admin_post_sg-cachepress-purge',  array( 'SG_CachePress_Supercacher', 'purge_cache_admin_bar' ) );
-	}
+                
+	}        
 	
 	/**
 	 * Displays the notice on the top of admin panel if it has caching issues
@@ -196,17 +197,12 @@ class SG_CachePress_Admin {
 		$paramTranslator = array(
 			'dynamic-cache' 	=> 'enable_cache',
 			'memcached'			=> 'enable_memcached',
-			'autoflush-cache'	=> 'autoflush_cache',
-                        'ssl'                   => 'enable_ssl',
+			'autoflush-cache'	=> 'autoflush_cache'
 		);
 
 		$paramName = $paramTranslator[$_POST['parameterName']];
 		$currentValue = (int)$this->options_handler->get_option($paramName);
-		$toggledValue = (int)!$currentValue;
-                
-                if ($paramName == 'enable_ssl') {
-                    SG_CachePress_SSL::enable_ssl();
-		}
+		$toggledValue = (int)!$currentValue;               
 
 		//if cache is turned on or off it's a good idea to flush it on right away
 		if ($paramName == 'enable_cache') {

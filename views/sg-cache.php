@@ -1,3 +1,13 @@
+<?php     
+// php version checker variables
+$phpversions = SG_WPEngine_PHPCompat::get_available_php_versions();                        
+$current_version = SG_WPEngine_PHPCompat::get_current_php_version();
+$recommended_php_versions = SG_WPEngine_PHPCompat::get_recommended_php_versions();
+$recommended_php_version = $recommended_php_versions[0];
+$only_active = 'yes';
+$prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
+
+?>
 <div class="sgwrap">
 	<div class="box">
 		<h2><?php _e( 'SuperCacher for WordPress by SiteGround', 'sg-cachepress' ) ?></h2>		
@@ -11,7 +21,9 @@
             <h2><?php _e( 'Enable SSL & HTTPS2', 'sg-cachepress' ) ?></h2>
             <div class="greybox">				
                     <a href="" id="sg-cachepress-ssl-toggle" 
-                       class="<?php  if ( $this->options_handler->get_option('enable_ssl') ==1 ) echo 'toggleon'; else echo 'toggleoff'; ?>"></a>
+                       class="<?php  if ( 
+                               SG_CachePress_SSL::is_enabled()
+                               ) echo 'toggleon'; else echo 'toggleoff'; ?>"></a>
 
                     <p id="sg-cachepress-ssl-text"><?php _e( 'Enable SSL & HTTPS2', 'sg-cachepress' ) ?></p>
                     <p class="error" id="sg-cachepress-ssl-error"></p>
@@ -30,17 +42,7 @@
             <div class="greybox" >
                     <p id="phpVersionCheckerText"></p>
             </div>
-
                              
-            <?php            
-            $phpversions = SG_WPEngine_PHPCompat::get_available_php_versions();                        
-            $current_version = SG_WPEngine_PHPCompat::get_current_php_version();
-            $recommended_php_versions = SG_WPEngine_PHPCompat::get_recommended_php_versions();
-            $recommended_php_version = $recommended_php_versions[0];
-            $only_active = 'yes';
-            
-            $prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
-            ?>
             <input type="hidden" id="current_php_version" value="<?php echo htmlentities($current_version)?>" />
             <table class="form-table" style="display:none;">
                 <tbody>
