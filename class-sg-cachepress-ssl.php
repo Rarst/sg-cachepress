@@ -31,21 +31,33 @@ class SG_CachePress_SSL
      * 
      * Enable SSL in .htaccess
      * 
-     * @since 2.3.11
+     * @since 2.3.11     
      * 
+     * @return
+     * 
+     * dies with:
      * 1 - enabled
-     * 2 - semi-enabled
-     * 3 - disabled
-     * 4 - failed
+     * 0 - disabled
+     * or error message
+     * 
      */
     public static function toggle()
-    {     
-        if (!self::is_enabled() && self::enable()) {
+    {   
+        
+        /* 
+         * for some reason wordpress site_url and home is already changes https no not enabled form .htaccess
+         * just enable from htaccess
+         */        
+        if(self::is_enabled_from_wordpress_options() && !self::is_enabled_from_htaccess() && self::enable_from_htaccess()) {
+            die('1');
+        }
+                
+        if(!self::is_enabled() && self::enable()) {
             die('1');      
-        } else {
-            if (self::disable()) {
-                die('3');
-            }            
+        }
+       
+        if (self::is_enabled() && self::disable()) {
+            die('0');
         }
     }
     

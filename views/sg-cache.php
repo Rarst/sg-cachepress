@@ -18,15 +18,19 @@ $prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
         
         <!-- START enableSSLandHTTP2 -->
 	<div class="box">
-            <h2><?php _e( 'Enable SSL & HTTPS2', 'sg-cachepress' ) ?></h2>
+            <h2><?php _e( 'Toggle SSL & HTTPS2', 'sg-cachepress' ) ?></h2>
             <div class="greybox">				
                     <a href="" id="sg-cachepress-ssl-toggle" 
                        class="<?php  if ( 
                                SG_CachePress_SSL::is_enabled()
                                ) echo 'toggleon'; else echo 'toggleoff'; ?>"></a>
 
-                    <p id="sg-cachepress-ssl-text"><?php _e( 'Enable SSL & HTTPS2', 'sg-cachepress' ) ?></p>
-                    <p class="error" id="sg-cachepress-ssl-error"></p>
+                    <p id="sg-cachepress-ssl-text"><?php _e( 'Toggle SSL & HTTPS2', 'sg-cachepress' ) ?></p>
+                    <p class="error" id="sg-cachepress-ssl-error"><?php  if ( 
+                               SG_CachePress_SSL::is_enabled_from_wordpress_options()
+                               && !SG_CachePress_SSL::is_enabled_from_htaccess()
+                               ) _e( 'Warning: It seems you’ve been using another plugin or manually configured your WordPress application to work over HTTPS. Please, disable all SSL forcing plugins and remove all .htaccess rules regarding SSL before you enable the option in order to avoid potential issues.', 'sg-cachepress' ) ?></p>
+                    
 
                     <div class="clr"></div>
                     <p><?php _e( 'Switching on will reconfigure your WordPress site to work entirely through HTTPS. Furthermore, all insecure resource requests will be fixed automatically. Important: You will have to login anew after this feature is enabled.', 'sg-cachepress' ) ?></p>

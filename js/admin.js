@@ -11,6 +11,12 @@ jQuery( function ($) {
 var sg_cachepress_toggle_in_progress = false;
 var sg_cachepress_toggle_ssl_in_progress = false;
 
+
+/**
+ * 0 - disabled
+ * 1 - enabled
+ * or error message
+ */
 jQuery('#sg-cachepress-ssl-toggle').on('click.sg-cachepress', function(event){    
     event.preventDefault();
     if (sg_cachepress_toggle_ssl_in_progress) {
@@ -26,15 +32,22 @@ jQuery('#sg-cachepress-ssl-toggle').on('click.sg-cachepress', function(event){
 
     jQuery.post(ajaxurl, $ajaxArgs).done(function(data){
         sg_cachepress_toggle_ssl_in_progress = false;
-        if (data === '1') {
-            jQuery('#sg-cachepress-ssl-toggle').removeClass('toggleoff').addClass('toggleon', 1000);
-        } else if (data === '3') {
+        jQuery('#sg-cachepress-ssl-text').show();
+        jQuery('#sg-cachepress-ssl-error').hide();
+        
+        if (data === '0') {
+            //HTTP
             jQuery('#sg-cachepress-ssl-toggle').removeClass('toggleon').addClass('toggleoff', 1000);
+            location.href = 'http:' + window.location.href.substring(window.location.protocol.length);
+        } else if (data === '1') {
+            //HTTPS
+            jQuery('#sg-cachepress-ssl-toggle').removeClass('toggleoff').addClass('toggleon', 1000);
+            location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+        } else {
+            jQuery('#sg-cachepress-ssl-text').hide();
+            jQuery('#sg-cachepress-ssl-error').html(sgCachePressL10n.ssl_toggle_failed).show();	
         }
     });
-    
-    
-    //sg_cachepress_enable_ssl();
 });
 
  

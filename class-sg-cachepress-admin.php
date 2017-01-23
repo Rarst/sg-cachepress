@@ -290,7 +290,8 @@ class SG_CachePress_Admin {
 			    'showstat' => __( 'Test URL', 'sg-cachepress' ),
                             'phpversion_check' => __( 'Check PHP Version', 'sg-cachepress' ),
                             'phpversion_checking' => __( 'Checking please wait...', 'sg-cachepress' ),
-                            'phpversion_change' => __( 'Change PHP Version', 'sg-cachepress' ),                            
+                            'phpversion_change' => __( 'Change PHP Version', 'sg-cachepress' ),    
+                            'ssl_toggle_failed' => __( 'SSL toggle failed', 'sg-cachepress' ),                            
 			);
 			wp_localize_script( SG_CachePress::PLUGIN_SLUG . '-admin', 'sgCachePressL10n', $strings );
 		}
