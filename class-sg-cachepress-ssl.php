@@ -113,8 +113,13 @@ class SG_CachePress_SSL
     {
         $filename = self::get_htaccess_filename(false);
         $htaccessContent = file_get_contents($filename);
-
+        
         $htaccessNewContent = preg_replace( "/\#\s+HTTPS\s+forced\s+by\s+SG-CachePress(.+?)\#\s+END\s+HTTPS/ims", '', $htaccessContent );
+        
+        if (substr($htaccessNewContent, 0 , 1) === PHP_EOL) {
+             $htaccessNewContent = substr($htaccessNewContent, 1);
+        }
+        
         $fp = fopen($filename, "w+");
         if (flock($fp, LOCK_EX)) { // do an exclusive lock
             fwrite($fp, $htaccessNewContent);
