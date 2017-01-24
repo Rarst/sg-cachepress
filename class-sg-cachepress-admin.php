@@ -52,6 +52,10 @@ class SG_CachePress_Admin {
 		// Add the admin page and menu item.
 		add_action( 'admin_menu', array( $this, 'add_plugin_admin_menu' ));
 		
+		// Add the submenu pages and menu items
+		add_action( 'admin_menu', array( $this, 'add_plugin_ssl_menu' ));
+		add_action( 'admin_menu', array( $this, 'add_plugin_caching_menu' ));
+		
 		// Admin Init
 		add_action( 'admin_init', array( $this, 'load_admin_global_js' ));
 		
@@ -71,7 +75,7 @@ class SG_CachePress_Admin {
 		add_action( 'wp_ajax_sg-cachepress-parameter-update', array( $this, 'update_parameter' ) );
 		add_action( 'wp_ajax_sg-cachepress-cache-test', array( $this, 'cache_test_callback' ) );
 		add_action( 'wp_ajax_sg-cachepress-cache-test-message-hide', array( $this, 'cache_test_message_hide' ) );
-                add_action( 'wp_ajax_sg-cachepress-ssl-toggle', array( 'SG_CachePress_SSL', 'toggle' ) );
+        add_action( 'wp_ajax_sg-cachepress-ssl-toggle', array( 'SG_CachePress_SSL', 'toggle' ) );
 
 		// Add the admin bar purge button handler
 		add_action( 'admin_post_sg-cachepress-purge',  array( 'SG_CachePress_Supercacher', 'purge_cache_admin_bar' ) );
@@ -259,6 +263,8 @@ class SG_CachePress_Admin {
 		$screen = get_current_screen();
 		if ( $screen->id == $this->page_hook )
 			wp_enqueue_style( SG_CachePress::PLUGIN_SLUG . '-admin', plugins_url( 'css/admin.css', __FILE__ ), array(), SG_CachePress::VERSION );
+			wp_enqueue_style( 'ssl', plugins_url( 'css/admin.css', __FILE__ ), array(), SG_CachePress::VERSION );
+			wp_enqueue_style( 'caching', plugins_url( 'css/admin.css', __FILE__ ), array(), SG_CachePress::VERSION );
 	}
 
 	/**
@@ -271,9 +277,13 @@ class SG_CachePress_Admin {
 	public function enqueue_admin_scripts() {
 		if ( ! isset( $this->page_hook ) )
 			return;
-
+	
 		$screen = get_current_screen();
-		if ( $screen->id == $this->page_hook ) {
+	
+		
+		if ( in_array($screen->id, ['supercacher_page_ssl','supercacher_page_caching','toplevel_page_sg-cachepress'] ) )
+		
+		{
 			wp_enqueue_script( SG_CachePress::PLUGIN_SLUG . '-admin', plugins_url( 'js/admin.js', __FILE__ ), array( 'jquery' ), SG_CachePress::VERSION, true );
 			$strings = array(
 				'purge'   => __( 'Purge the Cache', 'sg-cachepress' ),
@@ -312,6 +322,39 @@ class SG_CachePress_Admin {
 			plugins_url('sg-cachepress/css/logo-white.svg')
 		);
 	}
+	
+	/**
+	 * Register the sub-pages in the WordPress Admin Menu
+	 *
+	 * @since 3.0.0
+	 */
+	
+	public function add_plugin_ssl_menu() {
+		$this->page_hook = add_submenu_page(
+			SG_CachePress::PLUGIN_SLUG, 
+			__( 'SSL Config', 'sg-cachepress' ), // Page title
+			__( 'SSL Settings', 'sg-cachepress' ),    // Menu item title
+			'manage_options',
+			'ssl',   // Page slug
+			array( $this, 'display_plugin_ssl_page' ),
+			plugins_url('sg-cachepress/css/logo-white.svg')
+		);
+	}
+	
+	public function add_plugin_caching_menu() {
+		$this->page_hook = add_submenu_page(
+			SG_CachePress::PLUGIN_SLUG, 
+			__( 'Caching Config', 'sg-cachepress' ), // Page title
+			__( 'Caching Settings', 'sg-cachepress' ),    // Menu item title
+			'manage_options',
+			'caching',   // Page slug
+			array( $this, 'display_plugin_caching_page' ),
+			plugins_url('sg-cachepress/css/logo-white.svg')
+		);
+	}
+	
+	
+	
 
 	/**
 	 * Render the settings page for this plugin.
@@ -320,5 +363,11 @@ class SG_CachePress_Admin {
 	 */
 	public function display_plugin_admin_page() {
 		include 'views/sg-cache.php';
+	}
+	public function display_plugin_ssl_page() {
+		include 'views/ssl.php';
+	}
+	public function display_plugin_caching_page() {
+		include 'views/caching.php';
 	}
 }
