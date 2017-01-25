@@ -318,8 +318,8 @@ class SG_CachePress_Admin {
 	 */
 	public function add_plugin_admin_menu() {
 		$this->page_hook = add_menu_page(
-			__( 'SuperCacher', 'sg-cachepress' ), // Page title
-			__( 'SuperCacher', 'sg-cachepress' ),    // Menu item title
+			__( 'SG Optimizer', 'sg-cachepress' ), // Page title
+			__( 'SG Optimizer', 'sg-cachepress' ),    // Menu item title
 			'manage_options',
 			SG_CachePress::PLUGIN_SLUG,   // Page slug
 			array( $this, 'display_plugin_admin_page' ),
