@@ -177,7 +177,7 @@ class SG_WPEngine_PHPCompat {
 	 * @return  null
 	 */
 	function admin_enqueue( $hook ) {
-		if ( $hook !== 'toplevel_page_sg-cachepress' ) {
+		if ( $hook !== 'supercacher_page_php-check' ) {
 			return;
 		}
 
