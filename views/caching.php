@@ -28,7 +28,7 @@
 		</div>
 		<div class="greybox">
 			<h3><?php _e( 'Exclude URLs From Dynamic Caching', 'sg-cachepress' ) ?></h3>
-			<p><?php _e( 'Provide a list of your website URLs you would like to exclude from the cache. Partial URLs are supported.', 'sg-cachepress' ) ?></p>
+			<p><?php _e( 'Provide a list of your website URLs you would like to exclude from the cache. You can add part of the URLs that you want to exclude.', 'sg-cachepress' ) ?></p>
 			
 			<form method="post" action="<?php menu_page_url( 'sg-cachepress-purge' ); ?>">
 				<textarea id="sg-cachepress-blacklist-textarea"><?php  echo esc_textarea($this->options_handler->get_blacklist()); ?></textarea>

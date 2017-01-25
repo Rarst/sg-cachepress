@@ -53,8 +53,9 @@ class SG_CachePress_Admin {
 		add_action( 'admin_menu', array( $this, 'add_plugin_admin_menu' ));
 		
 		// Add the submenu pages and menu items
-		add_action( 'admin_menu', array( $this, 'add_plugin_ssl_menu' ));
 		add_action( 'admin_menu', array( $this, 'add_plugin_caching_menu' ));
+		add_action( 'admin_menu', array( $this, 'add_plugin_ssl_menu' ));
+		add_action( 'admin_menu', array( $this, 'add_plugin_php_menu' ));
 		
 		// Admin Init
 		add_action( 'admin_init', array( $this, 'load_admin_global_js' ));
@@ -353,6 +354,21 @@ class SG_CachePress_Admin {
 		);
 	}
 	
+	public function add_plugin_php_menu() {
+		$this->page_hook = add_submenu_page(
+			SG_CachePress::PLUGIN_SLUG, 
+			__( 'PHP Version', 'sg-cachepress' ), // Page title
+			__( 'PHP Version', 'sg-cachepress' ),    // Menu item title
+			'manage_options',
+			'php-check',   // Page slug
+			array( $this, 'display_plugin_php_page' ),
+			plugins_url('sg-cachepress/css/logo-white.svg')
+		);
+	}
+	
+	
+	
+	
 	
 	
 
@@ -369,5 +385,8 @@ class SG_CachePress_Admin {
 	}
 	public function display_plugin_caching_page() {
 		include 'views/caching.php';
+	}
+	public function display_plugin_php_page() {
+		include 'views/php-check.php';
 	}
 }
