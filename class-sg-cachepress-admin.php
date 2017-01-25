@@ -12,7 +12,8 @@
 
 /** SG CachePress purge cache admin class */
 
-class SG_CachePress_Admin {
+class SG_CachePress_Admin {    
+        public static $enable_php_version_checker = false;
 
 	/**
 	 * Slug of the plugin screen.
@@ -55,7 +56,10 @@ class SG_CachePress_Admin {
 		// Add the submenu pages and menu items
 		add_action( 'admin_menu', array( $this, 'add_plugin_caching_menu' ));
 		add_action( 'admin_menu', array( $this, 'add_plugin_ssl_menu' ));
-		add_action( 'admin_menu', array( $this, 'add_plugin_php_menu' ));
+		if (self::$enable_php_version_checker) {
+                    add_action( 'admin_menu', array( $this, 'add_plugin_php_menu' ));
+                }
+                
 		
 		// Admin Init
 		add_action( 'admin_init', array( $this, 'load_admin_global_js' ));
@@ -76,7 +80,7 @@ class SG_CachePress_Admin {
 		add_action( 'wp_ajax_sg-cachepress-parameter-update', array( $this, 'update_parameter' ) );
 		add_action( 'wp_ajax_sg-cachepress-cache-test', array( $this, 'cache_test_callback' ) );
 		add_action( 'wp_ajax_sg-cachepress-cache-test-message-hide', array( $this, 'cache_test_message_hide' ) );
-        add_action( 'wp_ajax_sg-cachepress-ssl-toggle', array( 'SG_CachePress_SSL', 'toggle' ) );
+                add_action( 'wp_ajax_sg-cachepress-ssl-toggle', array( 'SG_CachePress_SSL', 'toggle' ) );
 
 		// Add the admin bar purge button handler
 		add_action( 'admin_post_sg-cachepress-purge',  array( 'SG_CachePress_Supercacher', 'purge_cache_admin_bar' ) );
