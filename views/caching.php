@@ -1,8 +1,4 @@
-<div class="sgwrap">
-		<h2><?php _e( 'SiteGround Caching Settings', 'sg-cachepress' ) ?></h2>		  
-		<p><?php _e( 'In this screen you can configure all the aspects of the SuperCacher caching.', 'sg-cachepress' ) ?></p>
-        
-                
+<div class="sgwrap">         
     	<div class="box sgclr">
 		<h2><?php _e( 'Dynamic Cache Settings', 'sg-cachepress' ) ?></h2>
 	
