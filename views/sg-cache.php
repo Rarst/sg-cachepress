@@ -1,6 +1,27 @@
-<div class="sgwrap">
-	<div class="box">
-		<h2><?php _e( 'SuperCacher for WordPress by SiteGround', 'sg-cachepress' ) ?></h2>		
-		<p><?php _e( 'The SuperCacher is a system that allows you to use the SiteGround dynamic cache and Memcached to optimize the performance of your WordPress. In order to take advantage of the system you should have the SuperCacher enabled at your web host plus the required cache options turned on below. For more information on the different caching options refer to the <a href="http://www.siteground.com/tutorials/supercacher/" target="_blank">SuperCacher Tutorial</a>!', 'sg-cachepress' ) ?></p>
-	</div>  
- </div>
+<div class="sgwrap">         
+     	<div class="box sgclr">
+     	
+ 		<h2><?php _e( 'SuperCacher for WordPress by SiteGround', 'sg-cachepress' ) ?></h2>		
+ 		<p><?php _e( 'The SuperCacher is a system that allows you to use the SiteGround dynamic cache and Memcached to optimize the performance of your WordPress. In order to take advantage of the system you should have the SuperCacher enabled at your web host plus the required cache options turned on below. For more information on the different caching options refer to the <a href="http://www.siteground.com/tutorials/supercacher/" target="_blank">SuperCacher Tutorial</a>!', 'sg-cachepress' ) ?></p>
+ 	
+ 		<div class="three sgclr">
+ 			<div class="greybox">
+ 				<h3><?php _e( 'Caching Settings', 'sg-cachepress' ) ?></h3>
+ 				<a href="./admin.php?page=caching"><img src="<?php echo plugin_dir_url( __FILE__ )?>../css/cache.png" alt="" /></a>
+ 				<a id="caching-link" class="button" href="./admin.php?page=caching">Confiure</a>
+ 			</div>
+ 		
+ 			<div class="greybox">
+ 					<h3><?php _e( 'Force HTTPS', 'sg-cachepress' ) ?></h3>
+ 					<a href="./admin.php?page=ssl"><img src="<?php echo plugin_dir_url( __FILE__ )?>../css/ssl.png" alt="" /></a>
+ 					<a id="caching-link" class="button" href="./admin.php?page=ssl">Confiure</a>
+ 			</div>
+ 			
+ 			<div class="greybox">
+ 					<h3><?php _e( 'PHP Version Settings', 'sg-cachepress' ) ?></h3>
+ 					<a href="./admin.php?page=php-check"><img src="<?php echo plugin_dir_url( __FILE__ )?>../css/php.png" alt="" /></a>
+ 					<a id="caching-link" class="button" href="./admin.php?page=php-check">Confiure</a>
+ 			</div>
+ 			
+ 		</div>
+</div>

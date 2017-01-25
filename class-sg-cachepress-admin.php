@@ -336,8 +336,8 @@ class SG_CachePress_Admin {
 	public function add_plugin_ssl_menu() {
 		$this->page_hook = add_submenu_page(
 			SG_CachePress::PLUGIN_SLUG, 
-			__( 'SSL Config', 'sg-cachepress' ), // Page title
-			__( 'SSL Settings', 'sg-cachepress' ),    // Menu item title
+			__( 'Force HTTPS', 'sg-cachepress' ), // Page title
+			__( 'Force HTTPS', 'sg-cachepress' ),    // Menu item title
 			'manage_options',
 			'ssl',   // Page slug
 			array( $this, 'display_plugin_ssl_page' ),
@@ -348,8 +348,8 @@ class SG_CachePress_Admin {
 	public function add_plugin_caching_menu() {
 		$this->page_hook = add_submenu_page(
 			SG_CachePress::PLUGIN_SLUG, 
-			__( 'Caching Config', 'sg-cachepress' ), // Page title
-			__( 'Caching Settings', 'sg-cachepress' ),    // Menu item title
+			__( 'SuperCacher Config', 'sg-cachepress' ), // Page title
+			__( 'SuperCacher Config', 'sg-cachepress' ),    // Menu item title
 			'manage_options',
 			'caching',   // Page slug
 			array( $this, 'display_plugin_caching_page' ),

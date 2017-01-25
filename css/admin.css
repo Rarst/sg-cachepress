@@ -12,7 +12,15 @@ h3 { margin: 0 0 10px; }
 .sgwrap p.error { border: none !important;}
 .cached { color: green; font-weight:700 }
 input[type="name"] {box-shadow: none !important; height: 10px}
-#sg-cachepress-purge {background: #3e4b68; color: #FFF; border: none; box-shadow: none;}
+
+.greybox img {
+	text-align: center;
+	display: block;
+	margin: 20px auto
+}
+
+#sg-cachepress-purge, #caching-link, #ssl-link, #php-link {background: #3e4b68; color: #FFF; border: none; box-shadow: none;}
+
 .wp-core-ui .button-primary { background: #3D4A69; color: #fff; border: none; border-color: #3D4A69; box-shadow: none; height: 40px; line-height: 40px; text-align: center; }
 .wp-core-ui .button-primary:hover,
 .wp-core-ui .button-primary:active,
