@@ -60,7 +60,7 @@ class SG_WPEPHPCompat {
         private $whitelistUrl = 'http://updates.sgvps.net/plugins_whitelist.json';  
         
         // used by get_list
-        private $errorsIgnorelistUrl = 'http://paceto.net/ignorelist.json';                        
+        private $errorsIgnorelistUrl = 'http://updates.sgvps.net/errors_ignorelist.json';                        
         
         // used by get_list
         private $whitelist = null;   
