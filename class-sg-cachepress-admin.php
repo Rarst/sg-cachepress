@@ -13,7 +13,7 @@
 /** SG CachePress purge cache admin class */
 
 class SG_CachePress_Admin {    
-        public static $enable_php_version_checker = false;
+        public static $enable_php_version_checker = true;
 
 	/**
 	 * Slug of the plugin screen.
@@ -280,12 +280,12 @@ class SG_CachePress_Admin {
 	 * @return null Return early if no settings page is registered.
 	 */
 	public function enqueue_admin_scripts() {
+  
 		if ( ! isset( $this->page_hook ) )
 			return;
 	
-		$screen = get_current_screen();               
-		
-		if ( in_array($screen->id, ['supercacher_page_ssl','supercacher_page_caching','toplevel_page_sg-cachepress', 'supercacher_page_php-check'] ) )
+		$screen = get_current_screen();
+		if ( in_array($screen->id, ['supercacher_page_ssl','supercacher_page_caching','toplevel_page_sg-cachepress', 'sg-optimizer_page_php-check'] ) )
 		
 		{
 			wp_enqueue_script( SG_CachePress::PLUGIN_SLUG . '-admin', plugins_url( 'js/admin.js', __FILE__ ), array( 'jquery' ), SG_CachePress::VERSION, true );

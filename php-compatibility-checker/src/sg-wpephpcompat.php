@@ -56,21 +56,24 @@ class SG_WPEPHPCompat {
 	 * @var string
 	 */
 	public $base = null;
+        // used by get_list
+        private $whitelistUrl = 'http://updates.sgvps.net/plugins_whitelist.json';  
         
-        /**
-         * Whitelist URL 
-         */
-        private $whitelistUrl = 'http://updates.sgvps.net/plugins_whitelist.json';
+        // used by get_list
+        private $errorsIgnorelistUrl = 'http://paceto.net/ignorelist.json';                        
         
-        /**
-	 *  Array of "directory name" => "latest PHP version it's compatible with".
-	 *
-	 *  @todo Using the directory name is brittle, we shouldn't use it.
-	 *  @since 1.0.3
-	 *  @var array
-	 */
-            
-        public $whitelist = null;
+        // used by get_list
+        private $whitelist = null;   
+        
+        // used by get_list
+        private $errorsIgnorelist = null;  
+        
+        // used by get_list
+        private $errorsIgnorelistFallback = array(
+            array("rx" => "/WARNING\s+\|\s+INI\s+directive\s+'safe_mode'\s+is\s+deprecated\s+since\s+PHP\s+5\.3\s+and\s+removed\s+since\s+PHP\s+5\.4/"),
+            array("str" => "WARNING | INI directive 'safe_mode' is deprecated since PHP 5.3 and removed since PHP 5.4"),
+            array("str" => "File has mixed line endings; this may cause incorrect results")
+        );    
 
 	/**
 	 *  Array of "directory name" => "latest PHP version it's compatible with".
@@ -102,22 +105,22 @@ class SG_WPEPHPCompat {
                 '*/sg-cachepress/*' => '7.0',            
 	);
         
-        public function get_whitelist() {
-            if ($this->whitelist !== null) {
-                return $this->whitelist;
+        public function get_list($listName) {
+            if ($this->$listName !== null) {
+                return $this->$listName;
             }
 
             ini_set('default_socket_timeout', 10);
-            $whitelistJson = file_get_contents($this->whitelistUrl);
-            $whitelistArray = json_decode($whitelistJson, true);
-            
+            $listJson = file_get_contents($this->{$listName . 'Url'});
+            $listArray = json_decode($listJson, true);
+
             if (json_last_error() === JSON_ERROR_NONE) {
-                $this->whitelist = $whitelistArray;
+                $this->$listName = $listArray;
             } else {
-                $this->whitelist = $this->whitelistFallback;
+                $this->$listName = $this->{$listName . 'Fallback'};
             }
             
-            return $this->whitelist;
+            return $this->$listName;
         }
 
 	/**
@@ -282,7 +285,43 @@ class SG_WPEPHPCompat {
 		update_option( 'sg_wpephpcompat.status', '0', false );
 
 		$this->debug_log( 'Scan finished.' );
-
+                
+                $lines = array();
+                $i = 0;                
+                
+                foreach(explode(PHP_EOL, $scan_results) as $line) {
+                    
+                    $lines[$i] = $line;
+                    $isIgnored = false;
+                    
+                    // check if this row match some of the whitelisted (ignored) warnings
+                    foreach ($this->get_list('errorsIgnorelist') as $ignoredErr) {
+                        if (isset($ignoredErr['str']) && strpos($line, $ignoredErr['str']) !== false) {
+                            $isIgnored = true;
+                        }
+                   
+                        if (isset($ignoredErr['rx']) && preg_match($ignoredErr['rx'], $line)) {
+                            $isIgnored = true;
+                        }                         
+                    }
+                    
+                    // delete the whole block
+                    if ($isIgnored) {
+                        foreach (range(0, 4) as $num) {
+                            if (strlen($lines[$i - $num])) {
+                                $lines[$i - $num] = '';
+                            }
+                        }
+                    }
+                    
+                    $i++;
+                }               
+                
+                $scan_results = implode(PHP_EOL, $lines);   
+                                
+                $scan_results .= 'End Report ';
+                $scan_results .= time();                
+                update_option( 'sg_wpephpcompat.scan_results', $scan_results , false );                
 		return $scan_results;
 	}
 
@@ -328,7 +367,7 @@ class SG_WPEPHPCompat {
 			'*/tmp/*', // Temporary files.
 		);
 
-		foreach ( $this->get_whitelist() as $plugin => $version ) {
+		foreach ( $this->get_list('whitelist') as $plugin => $version ) {
 			// Check to see if the plugin is compatible with the tested version.
 			if ( version_compare( $this->test_version, $version, '<=' ) ) {
 				array_push( $ignored, $plugin );
