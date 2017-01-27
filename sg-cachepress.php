@@ -7,7 +7,7 @@
  * @link              http://www.siteground.com/
  *
  * @wordpress-plugin
- * Plugin Name:       SG CachePress
+ * Plugin Name:       SG Optimizer
  * Description:       Through the settings of this plugin you can manage how your Wordpress interracts with NGINX and Memcached.
  * Version:           3.0.0
  * Author:            SiteGround
