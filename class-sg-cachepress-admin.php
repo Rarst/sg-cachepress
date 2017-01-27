@@ -283,9 +283,9 @@ class SG_CachePress_Admin {
   
 		if ( ! isset( $this->page_hook ) )
 			return;
-	
 		$screen = get_current_screen();
-		if ( in_array($screen->id, ['supercacher_page_ssl','supercacher_page_caching','toplevel_page_sg-cachepress', 'sg-optimizer_page_php-check'] ) )
+
+		if ( in_array($screen->id, ['sg-optimizer_page_ssl','sg-optimizer_page_caching','toplevel_page_sg-cachepress', 'sg-optimizer_page_php-check'] ) )
 		
 		{
 			wp_enqueue_script( SG_CachePress::PLUGIN_SLUG . '-admin', plugins_url( 'js/admin.js', __FILE__ ), array( 'jquery' ), SG_CachePress::VERSION, true );
