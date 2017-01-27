@@ -90,12 +90,13 @@ $prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
                             </div>
                             <div class="inner-right">
                                     <h3 style="margin: 0px;">{{plugin_name}}</h3>
-                                    {{#if skipped}}<?php _e('Unknown', 'sg-cachepress'); ?>{{else if passed}}PHP {{test_version}} <?php _e('compatible', 'sg-cachepress'); ?>.{{else}}<b><?php _e('Possibly not', 'sg-cachepress'); ?></b> PHP {{test_version}} <?php _e('compatible', 'sg-cachepress'); ?>.{{/if}}<br>
-                                    {{update}}<br>
-                <textarea style="display: none; white-space: pre;">{{logs}}</textarea><a class="view-details"><?php _e('view details', 'sg-cachepress'); ?></a>
+                                    {{#if skipped}}<?php _e('Unknown', 'sg-cachepress'); ?>{{else if passed}}PHP {{test_version}} <?php _e('compatible', 'sg-cachepress'); ?>.{{else}}<b><?php _e('Possibly not', 'sg-cachepress'); ?></b> PHP {{test_version}} <?php _e('compatible', 'sg-cachepress'); ?>.{{/if}}
+                                    {{update}}
+                <textarea style="display: none; white-space: pre;">{{logs}}</textarea><a class="view-details"><?php _e('Details', 'sg-cachepress'); ?></a>
             </div>
+            
             <?php $update_url = site_url('wp-admin/update-core.php', 'admin'); ?>
-                                    <div style="float:right;">{{#if updateAvailable}}<div class="badge wpe-update"><a href="<?php echo esc_url($update_url); ?>"><?php _e('Update Available', 'sg-cachepress'); ?></a></div>{{/if}}{{#if warnings}}<div class="badge warnings">{{warnings}} <?php _e('Warnings', 'sg-cachepress'); ?></div>{{/if}}{{#if errors}}<div class="badge errors">{{errors}} <?php _e('Errors', 'sg-cachepress'); ?></div>{{/if}}</div>
+                                    <div style="position:absolute; top:5px; right:5px;float:right;">{{#if updateAvailable}}<div class="badge wpe-update"><a href="<?php echo esc_url($update_url); ?>"><?php _e('Update Available', 'sg-cachepress'); ?></a></div>{{/if}}{{#if warnings}}<div class="badge warnings">{{warnings}} <?php _e('Warnings', 'sg-cachepress'); ?></div>{{/if}}{{#if errors}}<div class="badge errors">{{errors}} <?php _e('Errors', 'sg-cachepress'); ?></div>{{/if}}</div>
                             </div>
             </script>                            
 	</div>     
