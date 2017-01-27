@@ -18,7 +18,6 @@ $prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
 
             <div class="greybox" >
                     <p id="phpVersionCheckerText"></p>
-            </div>
                              
             <input type="hidden" id="current_php_version" value="<?php echo htmlentities($current_version)?>" />
             <table class="form-table" style="display:none;">
@@ -74,26 +73,30 @@ $prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
 	    <input style="float: left; margin-left: 5px;" name="run" id="cleanupButton" type="button" value="<?php esc_attr_e( 'Clean up', 'php-compatibility-checker' ); ?>" class="button" />
             
             </p>
-            <p id="phpVersionCheckerTextBelow" style="font-style: italic;"></p>
+            <h2 id="phpVersionCheckerTextBelow"></h2>
             <br />
             <div id="standardMode"></div>
             <!-- Results template -->
             <script id="result-template" type="text/x-handlebars-template">
                     <div style="border-left-color: {{#if skipped}}#999999{{else if passed}}#49587c{{else}}#e74c3c{{/if}};" class="wpe-results-card">
-                            <div class="inner-left">
-                {{#if skipped}}<img src="<?php echo esc_url(plugins_url('../php-compatibility-checker/src/images/question.png', __FILE__)); ?>">{{else if passed}}<img src="<?php echo esc_url(plugins_url('../php-compatibility-checker/src/images/check.png', __FILE__)); ?>">{{else}}<img src="<?php echo esc_url(plugins_url('../php-compatibility-checker/src/images/x.png', __FILE__)); ?>">{{/if}}
-                            </div>
+                            
                             <div class="inner-right">
-                                    <h3 style="margin: 0px;">{{plugin_name}}</h3>
+                                    <h3 style="margin: 0px;font-weight:400">{{plugin_name}}</h3>
                                     {{#if skipped}}<?php _e('Unknown', 'sg-cachepress'); ?>{{else if passed}}PHP {{test_version}} <?php _e('compatible', 'sg-cachepress'); ?>.{{else}}<b><?php _e('Possibly not', 'sg-cachepress'); ?></b> PHP {{test_version}} <?php _e('compatible', 'sg-cachepress'); ?>.{{/if}}
                                     {{update}}
-                <textarea style="display: none; white-space: pre;">{{logs}}</textarea><a class="view-details"><?php _e('Details', 'sg-cachepress'); ?></a>
+                                    
+                                    
+                <a class="view-details"><?php _e('See Errors', 'sg-cachepress'); ?></a>
+                <textarea style="display: none; white-space: pre;">{{logs}}</textarea>
+         
             </div>
             
             <?php $update_url = site_url('wp-admin/update-core.php', 'admin'); ?>
-                                    <div style="position:absolute; top:5px; right:5px;float:right;">{{#if updateAvailable}}<div class="badge wpe-update"><a href="<?php echo esc_url($update_url); ?>"><?php _e('Update Available', 'sg-cachepress'); ?></a></div>{{/if}}{{#if warnings}}<div class="badge warnings">{{warnings}} <?php _e('Warnings', 'sg-cachepress'); ?></div>{{/if}}{{#if errors}}<div class="badge errors">{{errors}} <?php _e('Errors', 'sg-cachepress'); ?></div>{{/if}}</div>
+                                    <div style="position:absolute; top:5px; right:5px;float:right;">{{#if updateAvailable}}<div class="badge wpe-update"><a href="<?php echo esc_url($update_url); ?>"><?php _e('Update Available', 'sg-cachepress'); ?></a></div>{{/if}}{{#if warnings}}<div class="badge warnings">{{warnings}} <?php _e('Warnings', 'sg-cachepress'); ?></div>{{/if}}{{#if errors}}{{/if}}</div>
                             </div>
-            </script>                            
+            </script>   
+            
+            </div>                         
 	</div>     
         <!-- END phpVersionChecker -->
                                 
@@ -110,7 +113,7 @@ $prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
                         <?php _e( 'Here you can manually change the current version your Wordpress is running on.', 'sg-cachepress' ) ?>
                     </p>
                     <div class="clr"></div>		
-            </div>
+            
             <br />
             <input type="button" 
                    id="changeVersionButton"
@@ -134,7 +137,7 @@ $prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
             }
             ?>
             </select>
-            
+            </div>
 	</div>
         <!-- END manualPHPVersion -->        
 </div>
