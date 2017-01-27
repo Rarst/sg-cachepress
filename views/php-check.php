@@ -64,7 +64,7 @@ $prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
             </div>
              
             </p>
-            <p>
+
             <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" name="run" id="runButton" type="button" class="button-primary" />   <div style="display:none; visibility: visible; float: left;" class="spinner"></div>
             <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;"
                    name="upgradeButton"
@@ -74,9 +74,10 @@ $prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
                         
 	    <input style="float: left; margin-left: 5px;" name="run" id="cleanupButton" type="button" value="<?php esc_attr_e( 'Clean up', 'php-compatibility-checker' ); ?>" class="button" />
             
-            </p>
+			<div class="clr"></div>
             <h2 id="phpVersionCheckerTextBelow"></h2>
-            <br />
+            <div class="clr"></div>
+            
             <div id="standardMode"></div>
             <!-- Results template -->
             <script id="result-template" type="text/x-handlebars-template">

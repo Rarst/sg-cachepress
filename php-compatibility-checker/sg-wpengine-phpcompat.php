@@ -201,18 +201,18 @@ class SG_WPEngine_PHPCompat {
 		$strings = array(
 			'name'       => __( 'Name', 'sg-cachepress' ),
 			'compatible' => __( 'compatible', 'sg-cachepress' ),
-                        'not_compatible' => __( 'Your WordPress site is NOT compatible with ', 'sg-cachepress' ),
-                        'see_details_below' => __( 'See details below.', 'sg-cachepress' ),
+                        'not_compatible' => __( 'The following plugins/themes are not compatible with PHP ', 'sg-cachepress' ),
+                        'see_details_below' => __( '', 'sg-cachepress' ),
                         'click_upgrade_version' => __( 'Click upgrade button to ugprade your PHP version.', 'sg-cachepress' ),
 			//'are_not'    => __( 'plugins/themes are possibly not compatible', 'sg-cachepress' ),
 			//'is_not'     => __( 'Your WordPress site is possibly not PHP', 'sg-cachepress' ),
 			//'out_of'     => __( 'out of', 'sg-cachepress' ),
-			'run'        => __( 'Check PHP Version', 'sg-cachepress' ),
+			'run'        => __( 'Check PHP Compatibility', 'sg-cachepress' ),
 			'rerun'      => __( 'Check Again', 'sg-cachepress' ),
 			'your_wp'    => __( 'Your WordPress site is', 'sg-cachepress' ),
                         'check_your_php_version' => __( 'Checks the PHP version your WordPress site is running and whether you\'re on the fastest possible PHP version.', 'sg-cachepress' ),
                         'upgrade_to' => __( 'Upgrade to', 'sg-cachepress' ),
-                        'you_running_running_on'    => __( 'Your website is already running on PHP', 'sg-cachepress' ),
+                        'you_running_running_on'    => __( 'Site is compatible and running on', 'sg-cachepress' ),
                         'recommended_or_higher'    => __( 'which is our recommended PHP version or higher.', 'sg-cachepress' ),
 		);
                                
