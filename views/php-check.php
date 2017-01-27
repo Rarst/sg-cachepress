@@ -14,7 +14,8 @@ $prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
     
 	<!-- START phpVersionChecker -->
 	<div class="box sgclr" id="phpVersionCheckerContainer" style="display: none;">
-            <h2><?php _e( 'PHP Version Status', 'sg-cachepress' ) ?></h2>
+            <h2><?php _e( 'PHP Version', 'sg-cachepress' ) ?></h2>
+            <p><?php _e( 'This tool will allow you to check if your website is compatible with the recommended by SiteGround PHP version and switch to it. In addition to that, you can manually change the active PHP version for your site.', 'sg-cachepress' ) ?></p>
 
             <div class="greybox" >
                     <p id="phpVersionCheckerText"></p>
@@ -102,25 +103,21 @@ $prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
                                 
         <!-- START manualPHPVersion -->
         <div class="box">
-            <h2><?php _e( 'Manual PHP Version Settings', 'sg-cachepress' ) ?></h2>
+            <h2><?php _e( 'Manual PHP Version Change', 'sg-cachepress' ) ?></h2>
             <div class="greybox">											
                     <div class="clr"></div>
                     <p>
-                        <?php _e( 'Your wordpress is currently running on ' . 
+                        <?php _e( 'Active PHP Version: ' . 
                                 '<b>PHP ' . $current_version . '</b>'
                                 , 'sg-cachepress' ) ?>
-                        <br />
-                        <?php _e( 'Here you can manually change the current version your Wordpress is running on.', 'sg-cachepress' ) ?>
                     </p>
                     <div class="clr"></div>		
-            
-            <br />
             <input type="button" 
                    id="changeVersionButton"
                    name="sg-cachepress-purge" 
                    style="background: #3e4b68; color: #FFF; border: none; box-shadow: none;" 
                    class="button"
-                   value="<?php _e('Change PHP Version to', 'sg-cachepress'); ?>"
+                   value="<?php _e('Switch to', 'sg-cachepress'); ?>"
                    >
                         
             <select id="manualVersionValue">                           
