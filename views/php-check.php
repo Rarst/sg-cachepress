@@ -11,6 +11,7 @@ $prev_php_version = SG_WPEngine_PHPCompat::get_prev_php_version();
 <div class="sgwrap">
 	<div class="box" style="display:none;"></div>
 	<div class="box" style="display:none;"></div>
+		<div class="box" style="display:none;"></div>	<div class="box" style="display:none;"></div>
     
 	<!-- START phpVersionChecker -->
 	<div class="box sgclr" id="phpVersionCheckerContainer" style="display: none;">
