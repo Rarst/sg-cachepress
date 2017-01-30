@@ -14,18 +14,17 @@
 /** SG CachePress main plugin class  */
 class SG_CachePress_SSL
 {
+    
+    public static $http_urls = array();
 
     /**
      * Holds the options object.
      *
      * @type SG_CachePress_Options
      */
-    protected $options_handler;
 
-    public function __construct($options_handler, $environment)
+    public function __construct()
     {
-        $this->options_handler = $options_handler;
-        $this->fix_mixed_content();
     }
 
     /**
@@ -289,16 +288,16 @@ class SG_CachePress_SSL
      * @since  3.0.0
      * @access public
      */
-    public function fix_mixed_content()
+    public static function fix_mixed_content()
     {
-        $this->build_url_list();
+        self::build_url_list();
 
         if (is_admin()) {
-            add_action("admin_init", array($this, "start_buffer"));
+            add_action("admin_init", array("SG_CachePress_SSL", "start_buffer"));
         } else {
-            add_action("init", array($this, "start_buffer"));
+            add_action("init", array("SG_CachePress_SSL", "start_buffer"));
         }
-        add_action("shutdown", array($this, "end_buffer"));
+        add_action("shutdown", array("SG_CachePress_SSL", "end_buffer"));
     }
 
     /**
@@ -306,19 +305,19 @@ class SG_CachePress_SSL
      * @since  3.0.0
      * @access public
      */
-    public function filter_buffer($buffer)
+    public static function filter_buffer($buffer)
     {
         global $rsssl_front_end;
-        $buffer = $this->replace_insecure_links($buffer);
+        $buffer = self::replace_insecure_links($buffer);
         return $buffer;
     }
 
-    public function start_buffer()
+    public static function start_buffer()
     {
-        ob_start(array($this, "filter_buffer"));
+        ob_start(array("SG_CachePress_SSL", "filter_buffer"));
     }
 
-    public function end_buffer()
+    public static function end_buffer()
     {
         if (ob_get_length())
             ob_end_flush();
@@ -329,12 +328,12 @@ class SG_CachePress_SSL
      * @since  3.0.0
      * @access public
      */
-    public function build_url_list()
+    public static function build_url_list()
     {
         $home_no_www = str_replace("://www.", "://", get_option('home'));
         $home_yes_www = str_replace("://", "://www.", $home_no_www);
 
-        $this->http_urls = array(
+        self::$http_urls = array(
             str_replace("https://", "http://", $home_yes_www),
             str_replace("https://", "http://", $home_no_www),
             "src='http://",
@@ -347,9 +346,9 @@ class SG_CachePress_SSL
      * @since  3.0.0
      * @access public
      */
-    public function replace_insecure_links($str)
+    public static function replace_insecure_links($str)
     {
-        $search_array = apply_filters('rlrsssl_replace_url_args', $this->http_urls);
+        $search_array = apply_filters('rlrsssl_replace_url_args', self::$http_urls);
         $ssl_array = str_replace("http://", "https://", $search_array);
         //now replace these links
         $str = str_replace($search_array, $ssl_array, $str);
