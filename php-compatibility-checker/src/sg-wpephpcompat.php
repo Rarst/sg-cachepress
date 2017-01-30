@@ -56,19 +56,15 @@ class SG_WPEPHPCompat {
 	 * @var string
 	 */
 	public $base = null;
-        // used by get_list
+
         private $whitelistUrl = 'http://updates.sgvps.net/plugins_whitelist.json';  
         
-        // used by get_list
         private $errorsIgnorelistUrl = 'http://updates.sgvps.net/errors_ignorelist.json';                        
         
-        // used by get_list
         private $whitelist = null;   
         
-        // used by get_list
         private $errorsIgnorelist = null;  
         
-        // used by get_list
         private $errorsIgnorelistFallback = array(
             array("rx" => "/WARNING\s+\|\s+INI\s+directive\s+'safe_mode'\s+is\s+deprecated\s+since\s+PHP\s+5\.3\s+and\s+removed\s+since\s+PHP\s+5\.4/"),
             array("str" => "WARNING | INI directive 'safe_mode' is deprecated since PHP 5.3 and removed since PHP 5.4"),
@@ -83,27 +79,53 @@ class SG_WPEPHPCompat {
 	 *  @var array
 	 */
 	public $whitelistFallback = array(
-		'*/jetpack/*' => '7.0', // https://github.com/wpengine/phpcompat/wiki/Results#jetpack
-		'*/wordfence/*' => '7.0', // https://github.com/wpengine/phpcompat/wiki/Results#wordfence-security
-		'*/woocommerce/*' => '7.0', // https://github.com/wpengine/phpcompat/wiki/Results#woocommerce
-		'*/wp-migrate-db/*' => '7.0', // https://github.com/wpengine/phpcompat/wiki/Results#wp-migrate-db
-		'*/easy-digital-downloads/*' => '7.0', // https://github.com/wpengine/phpcompat/wiki/Results#easy-digital-downloads
-		'*/updraftplus/*' => '7.0',
-		'*/megamenu/*' => '7.0',
-		'*/tablepress/*' => '7.0',
-		'*/myMail/*' => '7.0',
-		'*/wp-spamshield/*' => '7.0',
-		'*/vendor/stripe/stripe-php/lib/StripeObject.php' => '7.0', // https://github.com/wpengine/phpcompat/issues/89
-		'*/gravityforms/*' => '7.0', // https://github.com/wpengine/phpcompat/issues/85
-		'*/download-monitor/*' => '7.0', // https://github.com/wpengine/phpcompat/issues/84
-		'*/query-monitor/*' => '7.0', // https://wordpress.org/support/topic/false-positive-showing-query-monitor-as-not-php-7-compatible/
-		'*/bbpress/*' => '7.0', // https://wordpress.org/support/topic/false-positive-showing-bbpress-as-not-php-7-compatible/
-		'*/comet-cache/*' => '7.0', // https://wordpress.org/support/topic/false-positive-comet-cache/
-		'*/comment-mail/*' => '7.0', // https://wordpress.org/support/topic/false-positive-comment-mail/
-		'*/social-networks-auto-poster-facebook-twitter-g/*' => '7.0', // https://wordpress.org/plugins/social-networks-auto-poster-facebook-twitter-g/
-		'*/mailpoet/*' => '7.0', // https://wordpress.org/support/topic/false-positive-mailpoet-3-not-compatible-with-php7/
-                '*/sg-cachepress/*' => '7.0',            
-	);
+          // https://wordpress.org/support/topic/false-positive-showing-bbpress-as-not-php-7-compatible/
+          "*/bbpress/*" => array( "bbPress", "2.5.12", "7.0"),
+
+          // https://wordpress.org/support/topic/false-positive-comet-cache/
+          "*/comet-cache/*" => array( "Comet Cache", "161221", "7.0"), 
+
+          // https://wordpress.org/support/topic/false-positive-comment-mail/
+          "*/comment-mail/*" => array( "Comment Mail", "161213", "7.0",),   
+
+          // https://github.com/wpengine/phpcompat/issues/84
+          "*/download-monitor/*" => array( "Download Monitor" , "1.9.5", "7.0",), 
+
+          // https://github.com/wpengine/phpcompat/wiki/Results#easy-digital-downloads
+          "*/easy-digital-downloads/*" => array( "Easy Digital Downloads" , "2.6.17","7.0",), 
+
+          // https://github.com/wpengine/phpcompat/issues/85
+          "*/gravityforms/*" => array( "GravityForm to Post" , "0.9" ,"7.0",), 
+
+          // https://github.com/wpengine/phpcompat/wiki/Results#jetpack
+          "*/jetpack/*" => array( "Jetpack by WordPress.com" , "4.5" ,"7.0",),    
+
+          // https://wordpress.org/support/topic/false-positive-mailpoet-3-not-compatible-with-php7/
+          "*/mailpoet/*" => array( "MailPoet" , "3.0.0-beta.15" ,"7.0",),  
+
+          "*/megamenu/*" => array( "Max Mega Menu" , "2.3.4" ,"7.0",),
+
+          "*/myMail/*" => array( "MyMail - Email Newsletter Plugin for WordPress" , "2.1.32", "7.0",),
+
+          // https://wordpress.org/support/topic/false-positive-showing-query-monitor-as-not-php-7-compatible/
+          "*/query-monitor/*" => array( "Query Monitor" , "2.13.2", "7.0",),
+          "*/sg-cachepress/*" => array( ["SG CachePress", "SG Optimizer"] , "3.0.0", "7.0",),
+            // https://wordpress.org/plugins/social-networks-auto-poster-facebook-twitter-g/
+          "*/social-networks-auto-poster-facebook-twitter-g/*"  => array( "NextScripts: Social Networks Auto-Poster" , "3.7.14", "7.0",),    
+          "*/tablepress/*" => array( "TablePress" , "1.7", "7.0",),
+          "*/updraftplus/*" => array( "UpdraftPlus" , "1.12.32", "7.0",),
+          "*/vendor/stripe/stripe-php/lib/StripeObject.php" => array( '*' , '*', "7.0",),
+
+          // https://github.com/wpengine/phpcompat/wiki/Results#woocommerce
+          "*/woocommerce/*" => array( "WooCommerce" , "2.6.13", "7.0",),
+
+          // https://github.com/wpengine/phpcompat/wiki/Results#wordfence-security
+          "*/wordfence/*" => array( "Wordfence Security" , "6.3.0", "7.0",),
+
+          // https://github.com/wpengine/phpcompat/wiki/Results#wp-migrate-db
+          "*/wp-migrate-db/*" => array( "WP Migrate DB" , "0.9.2", "7.0",),
+          "*/wp-spamshield/*" => array( "WP-SpamShield" , "1.9.9.8.7", "7.0",),
+            );
         
         public function get_list($listName) {
             if ($this->$listName !== null) {
@@ -237,6 +259,9 @@ class SG_WPEPHPCompat {
 		$scan_results = get_option( 'sg_wpephpcompat.scan_results' );
 
 		foreach ( $directories as $directory ) {
+                        $data = json_decode($directory->post_excerpt, true);                                                  
+                        $myVersion = isset($data['Version']) && strlen($data['Version']) ? $data['Version'] : 'XXX';
+                        $ts = time();
 			$this->debug_log( 'Processing: ' . $directory->post_title );
 
 			// Add the plugin/theme name to the results.
@@ -260,7 +285,7 @@ class SG_WPEPHPCompat {
 			update_post_meta( $directory->ID, 'count', $count );
 
 			// Start the scan.
-			$report = $this->process_file( $directory->post_content );
+			$report = $this->process_file( $directory->post_content, $directory->post_title, $data );
 
 			if ( ! $report ) {
 				$report = 'PHP ' . $this->test_version . __( ' compatible.', 'sg-cachepress' );
@@ -290,7 +315,6 @@ class SG_WPEPHPCompat {
                 $i = 0;                
                 
                 foreach(explode(PHP_EOL, $scan_results) as $line) {
-                    
                     $lines[$i] = $line;
                     $isIgnored = false;
                     
@@ -331,7 +355,9 @@ class SG_WPEPHPCompat {
 	* @since  1.0.0
 	* @return string Scan results.
 	*/
-	public function process_file( $dir ) {
+	public function process_file( $dir, $plugin_name, $plugin_data ) {            
+                $plugin_version = isset($plugin_data['Version']) ? $plugin_data['Version'] : false;
+                
 		$this->values['files']       = $dir;
 		$this->values['testVersion'] = $this->test_version;
 		$this->values['standard']    = 'PHPCompatibility';
@@ -339,8 +365,8 @@ class SG_WPEPHPCompat {
 		$this->values['extensions']  = array( 'php' );
 
 		// Whitelist.
-		$this->values['ignored'] = $this->generate_ignored_list();
-
+		$this->values['ignored'] = $this->generate_ignored_list($plugin_name, $plugin_version);
+                
 		PHP_CodeSniffer::setConfigData( 'testVersion', $this->test_version, true );
 
 		ob_start();
@@ -358,7 +384,7 @@ class SG_WPEPHPCompat {
 	 * @since 1.0.3
 	 * @return array An array containing files and directories that should be ignored.
 	 */
-	public function generate_ignored_list() {
+	public function generate_ignored_list($plugin_name, $current_plugin_version) {
 		// Default ignored list.
 		$ignored = array(
 			'*/tests/*', // No reason to scan tests.
@@ -366,10 +392,36 @@ class SG_WPEPHPCompat {
 			'*/node_modules/*', // Commonly used for development but not in production.
 			'*/tmp/*', // Temporary files.
 		);
-
-		foreach ( $this->get_list('whitelist') as $plugin => $version ) {
-			// Check to see if the plugin is compatible with the tested version.
-			if ( version_compare( $this->test_version, $version, '<=' ) ) {
+                
+                //print_r(json_encode($this->get_list('whitelist')));exit;
+		foreach ( $this->get_list('whitelist') as $plugin => $whitelistData ) {
+                    $whitelisted_plugin_name = $whitelistData[0];
+                    $whitelisted_plugin_version = $whitelistData[1];
+                    $whitelisted_php_version = $whitelistData[2];
+                    
+                    // plugin name not mtach (array)
+                    if ($whitelisted_plugin_version !== '*' && // is not wildcard
+                            is_array($whitelisted_plugin_name) &&  
+                            !in_array( $plugin_name, $whitelisted_plugin_name )
+                        ) {
+                        continue;
+                    }
+                    
+                    // plugin name not mtach (string)
+                    if ($whitelisted_plugin_version !== '*' && // is not wildcard
+                            !is_array($whitelisted_plugin_name) && 
+                            $plugin_name !== $whitelisted_plugin_name) {
+                        continue;
+                    }
+                    
+                    // compare plugin version
+                    if ($whitelisted_plugin_version !== null && !version_compare( $current_plugin_version, $whitelisted_plugin_version, '>=' )) {                                               
+                        continue;
+                    } 
+                                                 
+                                         
+                    // Check to see if the plugin is compatible with the tested PHP version.
+                    if ( version_compare( $this->test_version, $whitelisted_php_version, '<=' ) ) {
 				array_push( $ignored, $plugin );
 			}
 		}
@@ -420,7 +472,8 @@ class SG_WPEPHPCompat {
 				$plugin_path = $plugin_base . $plugin_file;
 			}
 
-			$id = $this->add_directory( $v['Name'], $plugin_path );
+                        $data = isset($v['Version']) ? array( 'Version' => $v['Version']) : false;
+			$id = $this->add_directory( $v['Name'], $plugin_path, $data );
 
 			if ( is_object( $update_plugins ) && is_array( $update_plugins->response ) ) {
 				// Check for plugin updates.
@@ -450,7 +503,8 @@ class SG_WPEPHPCompat {
 
 			$theme_path = $all_themes[ $k ]->theme_root . DIRECTORY_SEPARATOR . $k . DIRECTORY_SEPARATOR;
 
-			$this->add_directory( $all_themes[ $k ]->Name, $theme_path );
+                        $data = isset($all_themes[ $k ]->Version) ? array( 'Version' => $all_themes[ $k ]->Version) : false;   
+			$this->add_directory( $all_themes[ $k ]->Name, $theme_path, $data );
 		}
 
 		// Add parent theme if the current theme is a child theme.
@@ -459,7 +513,9 @@ class SG_WPEPHPCompat {
 			$theme_data        = wp_get_theme();
 			$parent_theme_name = $theme_data->parent()->Name;
 
-			$this->add_directory( $parent_theme_name, $parent_theme_path );
+                        $parent_theme_version = $theme_data->parent()->Version;
+                        $data = isset($parent_theme_version) ? array( 'Version' => $parent_theme_version) : false;                                                 
+			$this->add_directory( $parent_theme_name, $parent_theme_path, $data );
 		}
 	}
 
@@ -513,10 +569,11 @@ class SG_WPEPHPCompat {
 	 * @param string $path Full path to the plugin or theme directory.
 	 * @return null
 	 */
-	private function add_directory( $name, $path ) {
+	private function add_directory( $name, $path, $data=array() ) {
 		$dir = array(
 			'post_title'    => $name,
 			'post_content'  => $path,
+                        'post_excerpt'  => json_encode($data),
 			'post_status'   => 'publish',
 			'post_author'   => 1,
 			'post_type'     => 'sg_wpephpcompat_jobs',
