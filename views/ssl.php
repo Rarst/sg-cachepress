@@ -34,12 +34,10 @@ $siteurlHTTPS = SG_CachePress_SSL::switchProtocol('http', 'https', $siteurl)
                     <?php if (SG_CachePress_SSL::is_fully_enabled()) {?>
                     <p id="sg-cachepress-logout"><strong><?php _e( 'Important:',  'sg-cachepress') ?></strong> <?php _e( 'You may have to login again after this feature is enabled!', 'sg-cachepress' ) ?></p>
                     <?php } ?> 
-                    
-
 
                     <?php if (!SG_CachePress_SSL::is_certificate_enabled()) {?>
                     <p class="notcached" id="sg-cachepress-ssl-error">
-                        <?php _e( 'Warning: You don’t have a certificate issued for '. $siteurlHTTPS .' . '
+                        <?php _e( 'Warning: You don’t have a certificate issued for '. $siteurlHTTPS .'. '
                                 . 'Please, install an SSL certificate before you force a HTTPS connection. '
                                 . 'Check out <a href="https://www.siteground.com/tutorials/cpanel/lets-encrypt.htm" target="_blank">this tutorial</a> '
                                 . 'for more information on that matter.', 'sg-cachepress' ); 

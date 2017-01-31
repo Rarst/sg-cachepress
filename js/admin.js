@@ -21,8 +21,7 @@ jQuery('#sg-cachepress-ssl-toggle').on('click.sg-cachepress', function(event){
     event.preventDefault();
     if (sg_cachepress_toggle_ssl_in_progress) {
         return;
-    }   
-    
+    }   	
     sg_cachepress_toggle_ssl_in_progress = true;
     
     var $ajaxArgs = {
@@ -46,10 +45,9 @@ jQuery('#sg-cachepress-ssl-toggle').on('click.sg-cachepress', function(event){
         } else {
             jQuery('#sg-cachepress-ssl-text').hide();
             jQuery('#sg-cachepress-ssl-error').html(sgCachePressL10n.ssl_toggle_failed).show();	
-        }
+        }        
     });
 });
-
  
 /**
  * Update a setting parameter
