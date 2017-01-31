@@ -2,7 +2,7 @@
 Contributors: Hristo Sg, danielkanchev, ivanyordanov, siteground
 Tags: nginx, caching, speed, memcache, memcached, performance, siteground, nginx, supercacher
 Requires at least: 3.0.1
-Tested up to: 4.6
+Tested up to: 4.7
 Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -11,13 +11,21 @@ The SG CachePress is a plugin that allows you to use the SiteGround dynamic cach
 
 == Description ==
 
-The main functionality of SG CachePress is to purge your dynamic cache whenever your content updates. For example, when you create a new post, someone comments your articles, etc. In addition to that, if you have a working Memcached service on your server, the plugin will allow you to easily configure and enable WordPress to use it.
+This plugin is designed to link WordPress with the SiteGround Performance services. It 'will not work' on another hosting provider hosting provider. The SG Connector plugin has few different parts handling speciffic performance optimizations:
+
+= SuperCacher =
+
+The main functionality of SuperCacher part of the plugin is to purge your dynamic cache whenever your content updates. For example, when you create a new post, someone comments your articles, etc. In addition to that, if you have a working Memcached service on your server, the plugin will allow you to easily configure and enable WordPress to use it.
 
 There is public Purge function - sg_cachepress_purge_cache, which can be used by other plugins/themes. Example usage:
 
 if (function_exists('sg_cachepress_purge_cache')) {
 sg_cachepress_purge_cache();
 }
+
+= HTTPS =
+
+We have created it easier than ever to enable HTTPS for your website, reconfigure WordPress to use it and force all requests to your site to go through encrypted connection. Simply press the Force HTTPS button and your WordPress site will start working through HTTPS. There's a functionality to fix insecure content too, so you should not worry about manually fixing loaded resources.
 
 = Requirements =
 
