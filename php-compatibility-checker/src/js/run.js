@@ -2,6 +2,7 @@
 var test_version, only_active, timer;
 
 jQuery( document ).ready(function($) {
+        cleanupAction();
 
 	// Check the status immediately to reflect if tests are running.
 	checkStatus();
@@ -83,15 +84,17 @@ jQuery( document ).ready(function($) {
                     window.location.reload();
                 }
             });
-	});    
+	});   
 
-	$( '#cleanupButton' ).on( 'click', function() {
+        //$( '#cleanupButton' ).on( 'click', function() {
+	function cleanupAction() {
 		clearTimeout( timer );
 		jQuery.get( ajaxurl,  { 'action': 'sg_wpephpcompat_clean_up' }, function() {
 			resetDisplay();
 			checkStatus();
 		});
-	});
+	};
+        //});
 
 });
 /**
