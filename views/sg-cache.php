@@ -7,20 +7,23 @@
  		<div class="three sgclr">
  			<div class="greybox">
  				<h3><?php _e( 'Caching Settings', 'sg-cachepress' ) ?></h3>
- 				<a href="./admin.php?page=caching"><img src="<?php echo plugin_dir_url( __FILE__ )?>../css/cache.png" alt="" /></a>
+ 				<a href="./admin.php?page=caching"><img src="<?php echo plugin_dir_url( __FILE__ )?>../css/cache.png" alt="Caching Settings" title="Caching Settings" /></a>
  				<a id="caching-link" class="button" href="./admin.php?page=caching">Confiure</a>
  			</div>
  		
  			<div class="greybox">
  					<h3><?php _e( 'Force HTTPS', 'sg-cachepress' ) ?></h3>
- 					<a href="./admin.php?page=ssl"><img src="<?php echo plugin_dir_url( __FILE__ )?>../css/ssl.png" alt="" /></a>
+ 					<a href="./admin.php?page=ssl"><img src="<?php echo plugin_dir_url( __FILE__ )?>../css/ssl.png" alt="Force HTTPS" title="Force HTTPS" /></a>
  					<a id="caching-link" class="button" href="./admin.php?page=ssl">Confiure</a>
  			</div>
  			
- 			<div class="greybox">
- 					<h3><?php _e( 'PHP Version Settings', 'sg-cachepress' ) ?></h3>
+ 			<div class="greybox" style="padding: 0; border: none;">
+ 					<!--<h3><?php _e( 'PHP Version Settings', 'sg-cachepress' ) ?></h3>
  					<a href="./admin.php?page=php-check"><img src="<?php echo plugin_dir_url( __FILE__ )?>../css/php.png" alt="" /></a>
- 					<a id="caching-link" class="button" href="./admin.php?page=php-check">Confiure</a>
+ 					<a id="caching-link" class="button" href="./admin.php?page=php-check">Confiure</a>-->
+ 					
+ 					<img style="margin: 0;" src="<?php echo plugin_dir_url( __FILE__ )?>../css/coming-soon.jpg" alt="Coming Soon" title="Coming Soon" />
+ 					
  			</div>
  			
  		</div>
