@@ -43,6 +43,8 @@ class SG_CachePress_SSL
      */
     public static function toggle()
     {
+        
+        sg_cachepress_purge_cache();
         if (self::is_fully_enabled()) {
             self::disable();
             die('0');
