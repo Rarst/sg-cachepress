@@ -21,6 +21,10 @@ input[type="name"] {box-shadow: none !important; height: 10px}
 
 #sg-cachepress-purge, #caching-link, #ssl-link, #php-link {background: #3e4b68; color: #FFF; border: none; box-shadow: none;}
 
+#sg-cachepress-logout, #sg-cachepress-ssl-error {
+	clear: both;
+}
+
 .wp-core-ui .button-primary { background: #3D4A69; color: #fff; border: none; border-color: #3D4A69; box-shadow: none; height: 40px; line-height: 40px; text-align: center; }
 .wp-core-ui .button-primary:hover,
 .wp-core-ui .button-primary:active,
@@ -79,3 +83,4 @@ input#testurl {
 	margin-right: 20px;
 	border: 1px solid #dbdbdb;
 }
+
