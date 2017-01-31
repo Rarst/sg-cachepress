@@ -24,7 +24,10 @@ input[type="name"] {box-shadow: none !important; height: 10px}
 #sg-cachepress-logout, #sg-cachepress-ssl-error {
 	clear: both;
 }
-
+.ssl-ul {
+	padding-left: 20px;
+	list-style: inside;
+}
 .wp-core-ui .button-primary { background: #3D4A69; color: #fff; border: none; border-color: #3D4A69; box-shadow: none; height: 40px; line-height: 40px; text-align: center; }
 .wp-core-ui .button-primary:hover,
 .wp-core-ui .button-primary:active,

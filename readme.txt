@@ -61,6 +61,13 @@ This field allows you to exclude URLs from the cache. This means that if you nee
 
 == Changelog ==
 
+= Version 3.0.0 =
+
+* Plugin renamed to SG Optimizer
+* Interface split into multiple screens
+* HTTPS Force functionality added which will reconfigure WordPress, make an .htaccess redirect to force all the traffic through HTTPS and fixes any potential insecure content issues
+* Plugin prepared for PHP version compatibility checker and changer tool
+
 = Version 2.3.11 =
 * Added public purge function
 * Memcached bug fixes

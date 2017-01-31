@@ -13,7 +13,7 @@
 /** SG CachePress purge cache admin class */
 
 class SG_CachePress_Admin {    
-        public static $enable_php_version_checker = true;
+	public static $enable_php_version_checker = false;
 
 	/**
 	 * Slug of the plugin screen.
@@ -341,8 +341,8 @@ class SG_CachePress_Admin {
 	public function add_plugin_ssl_menu() {
 		$this->page_hook = add_submenu_page(
 			SG_CachePress::PLUGIN_SLUG, 
-			__( 'Force HTTPS', 'sg-cachepress' ), // Page title
-			__( 'Force HTTPS', 'sg-cachepress' ),    // Menu item title
+			__( 'HTTPS Config', 'sg-cachepress' ), // Page title
+			__( 'HTTPS Config', 'sg-cachepress' ),    // Menu item title
 			'manage_options',
 			'ssl',   // Page slug
 			array( $this, 'display_plugin_ssl_page' ),
@@ -365,19 +365,14 @@ class SG_CachePress_Admin {
 	public function add_plugin_php_menu() {
 		$this->page_hook = add_submenu_page(
 			SG_CachePress::PLUGIN_SLUG, 
-			__( 'PHP Version', 'sg-cachepress' ), // Page title
-			__( 'PHP Version', 'sg-cachepress' ),    // Menu item title
+			__( 'PHP Config', 'sg-cachepress' ), // Page title
+			__( 'PHP Config', 'sg-cachepress' ),    // Menu item title
 			'manage_options',
 			'php-check',   // Page slug
 			array( $this, 'display_plugin_php_page' ),
 			plugins_url('sg-cachepress/css/logo-white.svg')
 		);
 	}
-	
-	
-	
-	
-	
 	
 
 	/**
