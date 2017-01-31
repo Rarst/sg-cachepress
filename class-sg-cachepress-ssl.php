@@ -17,6 +17,7 @@ class SG_CachePress_SSL
     
     public static $http_urls = array();
     public static $is_certificate_enabled = null;
+    public static $is_fully_enabled = null;
 
     /**
      * Holds the options object.
@@ -33,7 +34,7 @@ class SG_CachePress_SSL
             return self::$is_certificate_enabled;
         }
         
-        $siteurl = get_option('siteurl');
+	$siteurl = get_option('siteurl').'?sgCacheCheck=022870ae06716782ce17e4f6e7f69cc2';
         $siteurlHTTPS = SG_CachePress_SSL::switchProtocol('http', 'https', $siteurl);
         
         $stream = stream_context_create (array("ssl" => array("capture_peer_cert" => true)));
@@ -63,6 +64,7 @@ class SG_CachePress_SSL
      */
     public static function toggle()
     {	
+		sg_cachepress_purge_cache();
                    
         if (self::is_fully_enabled()) {
             self::disable();
@@ -132,12 +134,21 @@ class SG_CachePress_SSL
      * 
      * @return type
      */
-    public static function is_fully_enabled()
-    {
+    //
+    
+    public static function is_fully_enabled() 
+    {  
+    	if (self::$is_fully_enabled !== null) {
+    	    return self::$is_fully_enabled;
+    	}
+    
+    	$res = false;
         if (!self::is_certificate_enabled()) {
-            return false;
+            $res = false;
         }
-        return self::is_enabled_from_htaccess() && self::is_enabled_from_wordpress_options();
+        $res = self::is_enabled_from_htaccess() && self::is_enabled_from_wordpress_options();
+        self::$is_fully_enabled = $res;
+        return $res;
     }
 
     /**
