@@ -16,6 +16,7 @@ class SG_CachePress_SSL
 {
     
     public static $http_urls = array();
+    public static $is_certificate_enabled = null;
 
     /**
      * Holds the options object.
@@ -26,6 +27,25 @@ class SG_CachePress_SSL
     public function __construct()
     {
     }
+    
+    public static function is_certificate_enabled() {
+        if (self::$is_certificate_enabled !== null) {
+            return self::$is_certificate_enabled;
+        }
+        
+        $siteurl = get_option('siteurl');
+        $siteurlHTTPS = SG_CachePress_SSL::switchProtocol('http', 'https', $siteurl);
+        
+        $stream = stream_context_create (array("ssl" => array("capture_peer_cert" => true)));
+        $read = @fopen($siteurlHTTPS, "rb", false, $stream);
+        $cont = @stream_context_get_params($read);
+        $var = ($cont["options"]["ssl"]["peer_certificate"]);
+        $result = (!is_null($var)) ? true : false;
+        
+        self::$is_certificate_enabled = $result;
+        return $result;
+    }
+
 
     /**
      * 
@@ -43,7 +63,7 @@ class SG_CachePress_SSL
      */
     public static function toggle()
     {
-        
+                
         sg_cachepress_purge_cache();
         if (self::is_fully_enabled()) {
             self::disable();
@@ -62,10 +82,10 @@ class SG_CachePress_SSL
         
 
         
-        if (self::is_enabled_from_wordpress_options() && !self::is_enabled_from_htaccess()) {
-            //self::enable_from_htaccess();
-            die('1');
-        }
+//        if (self::is_enabled_from_wordpress_options() && !self::is_enabled_from_htaccess()) {
+//            //self::enable_from_htaccess();
+//            die('1');
+//        }
         
     }
 
@@ -82,7 +102,7 @@ class SG_CachePress_SSL
      */
     private static function enable()
     {
-        
+                
         if (!self::is_enabled_from_htaccess()) {           
             self::enable_from_htaccess();
         }
@@ -100,6 +120,10 @@ class SG_CachePress_SSL
      */
     public static function is_partially_enabled()
     {
+        if (!self::is_certificate_enabled()) {
+            return false;
+        }
+        
         return
                 !self::is_fully_enabled() &&
                 (self::is_enabled_from_htaccess() || self::is_enabled_from_one_of_the_wordpress_options());
@@ -111,6 +135,9 @@ class SG_CachePress_SSL
      */
     public static function is_fully_enabled()
     {
+        if (!self::is_certificate_enabled()) {
+            return false;
+        }
         return self::is_enabled_from_htaccess() && self::is_enabled_from_wordpress_options();
     }
 
@@ -119,7 +146,7 @@ class SG_CachePress_SSL
      * @return boolean
      */
     public static function is_enabled_from_htaccess()
-    {
+    {                
         $filename = self::get_htaccess_filename();
         $htaccessContent = file_get_contents($filename);
 
@@ -196,7 +223,7 @@ class SG_CachePress_SSL
      * @param string $url  
      * @return type
      */
-    private static function switchProtocol($from, $to, $url)
+    public static function switchProtocol($from, $to, $url)
     {
         if (preg_match("/^$from\:/s", $url)) {
             return preg_replace("/^$from:/i", "$to:", $url);
