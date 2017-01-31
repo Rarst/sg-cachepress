@@ -123,7 +123,7 @@ class SG_CachePress_SSL
         $filename = self::get_htaccess_filename();
         $htaccessContent = file_get_contents($filename);
 
-        if (preg_match('/HTTPS forced by SG-CachePress/s', $htaccessContent, $m)) {
+        if (preg_match('/HTTPS forced by SG-Optimizer/s', $htaccessContent, $m)) {
             return true;
         }
 
@@ -139,7 +139,7 @@ class SG_CachePress_SSL
         $filename = self::get_htaccess_filename(false);
         $htaccessContent = file_get_contents($filename);
 
-        $htaccessNewContent = preg_replace("/\#\s+HTTPS\s+forced\s+by\s+SG-CachePress(.+?)\#\s+END\s+HTTPS/ims", '', $htaccessContent);
+        $htaccessNewContent = preg_replace("/\#\s+HTTPS\s+forced\s+by\s+SG-Optimizer(.+?)\#\s+END\s+HTTPS/ims", '', $htaccessContent);
 
         if (substr($htaccessNewContent, 0, 1) === PHP_EOL) {
             $htaccessNewContent = substr($htaccessNewContent, 1);
@@ -164,7 +164,7 @@ class SG_CachePress_SSL
         $filename = self::get_htaccess_filename();
         $htaccessContent = file_get_contents($filename);
 
-        $forceSSL = '# HTTPS forced by SG-CachePress' . PHP_EOL;
+        $forceSSL = '# HTTPS forced by SG-Optimizer' . PHP_EOL;
         $forceSSL .= '<IfModule mod_rewrite.c>' . PHP_EOL;
         $forceSSL .= 'RewriteEngine On' . PHP_EOL;
         $forceSSL .= 'RewriteCond %{HTTPS} off' . PHP_EOL;
