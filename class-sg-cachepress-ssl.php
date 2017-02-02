@@ -36,8 +36,9 @@ class SG_CachePress_SSL
         
 	$siteurl = get_option('siteurl').'?sgCacheCheck=022870ae06716782ce17e4f6e7f69cc2';
         $siteurlHTTPS = SG_CachePress_SSL::switchProtocol('http', 'https', $siteurl);
-        
-        $stream = stream_context_create (array("ssl" => array("capture_peer_cert" => true)));
+
+        ini_set('user_agent','SG-Optimizer 3.0.2;');
+        $stream = stream_context_create (array("ssl" => array("capture_peer_cert" => true)));                
         $read = @fopen($siteurlHTTPS, "rb", false, $stream);
         $cont = @stream_context_get_params($read);
         $var = ($cont["options"]["ssl"]["peer_certificate"]);

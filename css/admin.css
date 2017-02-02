@@ -21,7 +21,7 @@ input[type="name"] {box-shadow: none !important; height: 10px}
 
 #sg-cachepress-purge, #caching-link, #ssl-link, #php-link {background: #3e4b68; color: #FFF; border: none; box-shadow: none;}
 
-#sg-cachepress-logout, #sg-cachepress-ssl-error {
+#sg-cachepress-party, #sg-cachepress-logout, #sg-cachepress-ssl-error {
 	clear: both;
 }
 .ssl-ul {

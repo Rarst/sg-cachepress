@@ -271,10 +271,10 @@ class SG_CachePress_Admin {
 			return;
 
 		$screen = get_current_screen();
-		if ( $screen->id == $this->page_hook )
-			wp_enqueue_style( SG_CachePress::PLUGIN_SLUG . '-admin', plugins_url( 'css/admin.css', __FILE__ ), array(), SG_CachePress::VERSION );
-			wp_enqueue_style( 'ssl', plugins_url( 'css/admin.css', __FILE__ ), array(), SG_CachePress::VERSION );
-			wp_enqueue_style( 'caching', plugins_url( 'css/admin.css', __FILE__ ), array(), SG_CachePress::VERSION );
+		if ( in_array($screen->id, array('sg-optimizer_page_ssl','sg-optimizer_page_caching','toplevel_page_sg-cachepress','sg-optimizer_page_php-check') ) )
+		{
+			wp_enqueue_style( 'SGOptimizer', plugins_url( 'css/admin.css', __FILE__ ), array(), SG_CachePress::VERSION );	
+		}
 	}
 
 	/**
@@ -290,7 +290,7 @@ class SG_CachePress_Admin {
 			return;
 		$screen = get_current_screen();
 
-		if ( in_array($screen->id, ['sg-optimizer_page_ssl','sg-optimizer_page_caching','toplevel_page_sg-cachepress', 'sg-optimizer_page_php-check'] ) )
+		if ( in_array($screen->id, array('sg-optimizer_page_ssl','sg-optimizer_page_caching','toplevel_page_sg-cachepress','sg-optimizer_page_php-check') ) )
 		
 		{
 			wp_enqueue_script( SG_CachePress::PLUGIN_SLUG . '-admin', plugins_url( 'js/admin.js', __FILE__ ), array( 'jquery' ), SG_CachePress::VERSION, true );

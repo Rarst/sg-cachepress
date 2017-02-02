@@ -42,7 +42,10 @@ $siteurlHTTPS = SG_CachePress_SSL::switchProtocol('http', 'https', $siteurl)
             </p>
             <?php } ?> 
             
-            <p id="sg-cachepress-logout"><strong><?php _e( 'Important:',  'sg-cachepress') ?></strong> <?php _e( 'You may have to login again if you decide to disable the force HTTPS functionality!', 'sg-cachepress' ) ?></p>
+            <p id="sg-cachepress-party"><strong><?php _e( 'Important:',  'sg-cachepress') ?></strong> <?php _e( 'You may have to login again if you decide to disable the force HTTPS functionality!', 'sg-cachepress' ) ?></p>
+            
+            <p id="sg-cachepress-logout"><strong><?php _e( 'Warning:',  'sg-cachepress') ?></strong> <?php _e( 'Once you switch your site to go through HTTPS, please check all third-party services that you\'re using on your site like Gogle Analytics, social networks sharing icons, etc.', 'sg-cachepress' ) ?></p>
+            
 	</div>
 </div>
 

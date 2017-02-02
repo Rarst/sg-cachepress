@@ -1,4 +1,4 @@
-=== SG CachePress ===
+=== SG Optimizer ===
 Contributors: Hristo Sg, danielkanchev, ivanyordanov, siteground
 Tags: nginx, caching, speed, memcache, memcached, performance, siteground, nginx, supercacher
 Requires at least: 3.0.1
@@ -7,13 +7,13 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The SG CachePress is a plugin that allows you to use the SiteGround dynamic cache and Memcached to optimize the performance of your WordPress.
+The SG Optimizer is designed to link WordPress with all SiteGround Performance services.
 
 == Description ==
 
-This plugin is designed to link WordPress with the SiteGround Performance services. It 'will not work' on another hosting provider hosting provider. The SG Connector plugin has few different parts handling speciffic performance optimizations:
+This plugin is designed to link WordPress with the SiteGround Performance services. It WILL NOT WORK on another hosting provider. The SG Optimizer plugin has few different parts handling speciffic performance optimizations:
 
-= SuperCacher =
+= SuperCacher Config =
 
 The main functionality of SuperCacher part of the plugin is to purge your dynamic cache whenever your content updates. For example, when you create a new post, someone comments your articles, etc. In addition to that, if you have a working Memcached service on your server, the plugin will allow you to easily configure and enable WordPress to use it.
 
@@ -23,9 +23,9 @@ if (function_exists('sg_cachepress_purge_cache')) {
 sg_cachepress_purge_cache();
 }
 
-= HTTPS =
+= HTTPS Config =
 
-We have created it easier than ever to enable HTTPS for your website, reconfigure WordPress to use it and force all requests to your site to go through encrypted connection. Simply press the Force HTTPS button and your WordPress site will start working through HTTPS. There's a functionality to fix insecure content too, so you should not worry about manually fixing loaded resources.
+The HTTPS Config allows you to force SSL usage on your site. It will redirect your entire traffic over secure connections and will fix mixed content issues. A side benefit of switching on the HTTPS is the automatic use of the HTTP2 protocol and its performance benefits. 
 
 = Requirements =
 
@@ -67,7 +67,19 @@ This field allows you to exclude URLs from the cache. This means that if you nee
 = Memcached Settings =
 * Enable Memcached - Store in the server's memory (using Memcached) frequently executed queries to the database for a faster access on a later use.
 
+= HTTPS Configuration =
+Force HTTPS on/off -- enable or disable the the https redirect for your whole site and the rewriting of the resource links from http to https.
+
 == Changelog ==
+
+= Version 3.0.3 =
+* Fixed bug in adding CSS files
+
+= Version 3.0.2 =
+* User-agent added to the SSL availability check
+
+= Version 3.0.1 =
+* PHP Compatibility fixes
 
 = Version 3.0.0 =
 
