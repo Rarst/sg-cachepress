@@ -16,7 +16,7 @@ $siteurlHTTPS = SG_CachePress_SSL::switchProtocol('http', 'https', $siteurl)
      
             <div class="greybox">
                                     
-                    <a <?php if (SG_CachePress_SSL::is_certificate_enabled()) {?>href=""<?php } ?> id="sg-cachepress-ssl-toggle<?php if (!SG_CachePress_SSL::is_certificate_enabled()) {?>disabled<?php } ?>" 
+                    <a <?php if (SG_CachePress_SSL::is_certificate_enabled() && SG_CachePress_SSL::get_htaccess_filename() !== false) {?>href=""<?php } ?> id="sg-cachepress-ssl-toggle<?php if (!SG_CachePress_SSL::is_certificate_enabled() || SG_CachePress_SSL::get_htaccess_filename() === false) {?>disabled<?php } ?>" 
                        class="<?php  if ( 
                                SG_CachePress_SSL::is_fully_enabled()
                                ) echo 'toggleon'; else echo 'toggleoff'; ?>"></a>                    
@@ -28,7 +28,7 @@ $siteurlHTTPS = SG_CachePress_SSL::switchProtocol('http', 'https', $siteurl)
             
             <?php if (!SG_CachePress_SSL::is_certificate_enabled()) {?>
             <p class="notcached" id="sg-cachepress-ssl-error">
-                <?php _e( 'Warning: You don’t have a certificate issued for '. $siteurlHTTPS .'. '
+                <?php _e( '<strong>Warning:</strong> You don’t have a certificate issued for '. $siteurlHTTPS .'. '
                         . 'Please, install an SSL certificate before you force a HTTPS connection. '
                         . 'Check out <a href="https://www.siteground.com/tutorials/cpanel/lets-encrypt.htm" target="_blank">this tutorial</a> '
                         . 'for more information on that matter.', 'sg-cachepress' ); 
@@ -36,15 +36,21 @@ $siteurlHTTPS = SG_CachePress_SSL::switchProtocol('http', 'https', $siteurl)
             </p>
             <?php } ?> 
             
-            <?php  if ( SG_CachePress_SSL::is_partially_enabled()) {?>
-            <p id="sg-cachepress-ssl-error">
-                <?php _e( 'Warning: It seems you’ve been using another plugin or manually configured your WordPress application to work over HTTPS. Please, disable all SSL forcing plugins and remove all .htaccess rules regarding SSL before you enable the option in order to avoid potential issues.', 'sg-cachepress' ) ?>
+            <?php  if ( SG_CachePress_SSL::get_htaccess_filename() === false) {?>
+            <p id="sg-cachepress-htaccess-error">
+                <?php _e( '<strong>Warning:</strong> your .htaccess is not writable! Make sure it has its permissions set to 644!', 'sg-cachepress' ) ?>
+            </p>
+            <?php } ?> 
+            
+            <?php  if ( ( SG_CachePress_SSL::is_partially_enabled() ) && ( SG_CachePress_SSL::get_htaccess_filename() !== false) ) {?>
+            <p id="sg-cachepress-partial-error">
+                <?php _e( '<strong>Warning:</strong> It seems you’ve been using another plugin or manually configured your WordPress application to work over HTTPS. Please, disable all SSL forcing plugins and remove all .htaccess rules regarding SSL before you enable the option in order to avoid potential issues.', 'sg-cachepress' ) ?>
             </p>
             <?php } ?> 
             
             <p id="sg-cachepress-party"><strong><?php _e( 'Important:',  'sg-cachepress') ?></strong> <?php _e( 'You may have to login again if you decide to disable the force HTTPS functionality!', 'sg-cachepress' ) ?></p>
             
-            <p id="sg-cachepress-logout"><strong><?php _e( 'Warning:',  'sg-cachepress') ?></strong> <?php _e( 'Once you switch your site to go through HTTPS, please check all third-party services that you\'re using on your site like Gogle Analytics, social networks sharing icons, etc.', 'sg-cachepress' ) ?></p>
+            <p id="sg-cachepress-logout"><strong><?php _e( 'Important:',  'sg-cachepress') ?></strong> <?php _e( 'Once you switch your site to go through HTTPS, please check all third-party services that you\'re using on your site like Gogle Analytics, social networks sharing icons, etc.', 'sg-cachepress' ) ?></p>
             
 	</div>
 </div>

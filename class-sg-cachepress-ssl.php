@@ -159,6 +159,11 @@ class SG_CachePress_SSL
     public static function is_enabled_from_htaccess()
     {                
         $filename = self::get_htaccess_filename();
+        
+        if ($filename === false) {
+        	return false;
+        }
+        
         $htaccessContent = file_get_contents($filename);
 
         if (preg_match('/HTTPS forced by SG-Optimizer/s', $htaccessContent, $m)) {
@@ -175,6 +180,10 @@ class SG_CachePress_SSL
     public static function disable_from_htaccess()
     {
         $filename = self::get_htaccess_filename(false);
+        if ($filename === false) {
+        	return false;
+        }
+        
         $htaccessContent = file_get_contents($filename);
 
         $htaccessNewContent = preg_replace("/\#\s+HTTPS\s+forced\s+by\s+SG-Optimizer(.+?)\#\s+END\s+HTTPS/ims", '', $htaccessContent);
@@ -200,6 +209,11 @@ class SG_CachePress_SSL
     public static function enable_from_htaccess()
     {
         $filename = self::get_htaccess_filename();
+        
+        if ($filename === false) {
+        	return false;
+        }
+        
         $htaccessContent = file_get_contents($filename);
 
         $forceSSL = '# HTTPS forced by SG-Optimizer' . PHP_EOL;

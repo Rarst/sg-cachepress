@@ -24,6 +24,11 @@ input[type="name"] {box-shadow: none !important; height: 10px}
 #sg-cachepress-party, #sg-cachepress-logout, #sg-cachepress-ssl-error {
 	clear: both;
 }
+
+p#sg-cachepress-partial-error strong, p#sg-cachepress-htaccess-error strong, p#sg-cachepress-ssl-error strong {
+	color: red !important;	
+}
+
 .ssl-ul {
 	padding-left: 20px;
 	list-style: inside;
