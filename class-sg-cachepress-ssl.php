@@ -96,7 +96,14 @@ class SG_CachePress_SSL
      */
     private static function disable()
     {
-        return self::disable_from_wordpress_options() && self::disable_from_htaccess();
+              
+        if (self::disable_from_wordpress_options() && self::disable_from_htaccess()) {
+          update_option('sg_cachepress_ssl_enabled', 0);
+          return true;
+        } else {
+          return false;
+        }
+
     }
 
     /**
@@ -112,6 +119,8 @@ class SG_CachePress_SSL
         if (!self::is_enabled_from_wordpress_options()) {
             self::enable_from_wordpress_options();
         }
+        
+        update_option('sg_cachepress_ssl_enabled', 1);
 
         return true;        
     }
@@ -137,14 +146,14 @@ class SG_CachePress_SSL
      */
     //
     
-    public static function is_fully_enabled($admin_request=true) 
+    public static function is_fully_enabled() 
     {  
     	if (self::$is_fully_enabled !== null) {
     	    return self::$is_fully_enabled;
     	}
     
     	$res = false;
-        if ($admin_request && !self::is_certificate_enabled()) {
+        if (!self::is_certificate_enabled()) {
             $res = false;
         }
         $res = self::is_enabled_from_htaccess() && self::is_enabled_from_wordpress_options();
