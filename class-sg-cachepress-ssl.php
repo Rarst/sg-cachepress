@@ -137,14 +137,14 @@ class SG_CachePress_SSL
      */
     //
     
-    public static function is_fully_enabled() 
+    public static function is_fully_enabled($admin_request=true) 
     {  
     	if (self::$is_fully_enabled !== null) {
     	    return self::$is_fully_enabled;
     	}
     
     	$res = false;
-        if (!self::is_certificate_enabled()) {
+        if ($admin_request && !self::is_certificate_enabled()) {
             $res = false;
         }
         $res = self::is_enabled_from_htaccess() && self::is_enabled_from_wordpress_options();
