@@ -105,7 +105,7 @@ function checkStatus() {
         var $ = jQuery; 
         $( '#phpVersionCheckerContainer' ).show();
         // show default message
-        $( '#phpVersionCheckerText' ).html(window.sg_wpephpcompat.check_your_php_version); 
+        //$( '#phpVersionCheckerText' ).html(window.sg_wpephpcompat.check_your_php_version); 
         
 	var data = {
 		'action': 'sg_wpephpcompat_check_status'
@@ -293,7 +293,7 @@ function displayReport( response ) {
 	}
 
 	// Display global compatibility status.
-	if ( compatible ) {                        
+	if ( compatible ) {
             var recommendedVersionNumber = parseInt(test_version.replace(/\./, ''));   
             var current_version = $( '#current_php_version' ).val();
             
