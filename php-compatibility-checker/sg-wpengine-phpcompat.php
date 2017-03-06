@@ -198,6 +198,8 @@ class SG_WPEngine_PHPCompat {
 		 *
 		 * These translated strings can be access in jquery with window.sg_wpephpcompat object.
 		 */
+                
+                $recommended = self::get_recommended_php_versions();
 		$strings = array(
 			'name'       => __( 'Name', 'sg-cachepress' ),
 			'compatible' => __( 'compatible', 'sg-cachepress' ),
@@ -207,7 +209,7 @@ class SG_WPEngine_PHPCompat {
 			//'are_not'    => __( 'plugins/themes are possibly not compatible', 'sg-cachepress' ),
 			//'is_not'     => __( 'Your WordPress site is possibly not PHP', 'sg-cachepress' ),
 			//'out_of'     => __( 'out of', 'sg-cachepress' ),
-			'run'        => __( 'Check PHP Compatibility', 'sg-cachepress' ),
+			'run'        => __( 'Check PHP ' . $recommended [0] . ' Compatibility', 'sg-cachepress' ),
 			'rerun'      => __( 'Check Again', 'sg-cachepress' ),
 			'your_wp'    => __( 'Your WordPress site is', 'sg-cachepress' ),
                         'check_your_php_version' => __( 'Checks the PHP version your WordPress site is running and whether you\'re on the fastest possible PHP version.', 'sg-cachepress' ),

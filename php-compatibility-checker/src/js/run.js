@@ -124,7 +124,8 @@ function checkStatus() {
 		if ( false === obj.results ) {                        
 			jQuery( '#runButton' ).val( window.sg_wpephpcompat.run );
 		} else {
-			jQuery( '#runButton' ).val( window.sg_wpephpcompat.rerun );
+			//jQuery( '#runButton' ).val( window.sg_wpephpcompat.rerun );
+                        jQuery( '#runButton' ).hide();
 		}
                 
                 jQuery('#runButton').removeAttr('disabled');
@@ -298,12 +299,11 @@ function displayReport( response ) {
             var current_version = $( '#current_php_version' ).val();
             
             var currentVersionNumber = parseInt(current_version.replace(/\./, ''));
-            if (currentVersionNumber < recommendedVersionNumber) {
-                $( '#phpVersionCheckerTextBelow' ).html(window.sg_wpephpcompat.your_wp + 
-                    ' PHP ' + test_version + ' ' +
-                    window.sg_wpephpcompat.compatible + '. ' +
-                    window.sg_wpephpcompat.click_upgrade_version);
-            
+            if (currentVersionNumber < recommendedVersionNumber) {              
+              $( '#phpVersionCheckerHeaderMsg' ).html( '<font color="green">' + window.sg_wpephpcompat.your_wp + 
+                  ' PHP ' + test_version + ' ' +
+                  window.sg_wpephpcompat.compatible + '. </font>');
+                    
                 $( '#upgradeButton' ).show();
                 $( '#upgradeButton' ).val(window.sg_wpephpcompat.upgrade_to + ' PHP ' + test_version);                
                 
