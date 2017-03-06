@@ -2,10 +2,7 @@
 var test_version, only_active, timer;
 
 jQuery( document ).ready(function($) {
-        cleanupAction();
-
-	// Check the status immediately to reflect if tests are running.
-	checkStatus();
+        runAction();
 
 	$( '#developermode' ).change(function() {
 		if ( $(this).is( ':checked' ) ) {
@@ -78,7 +75,7 @@ jQuery( document ).ready(function($) {
 	});   
 
         //$( '#cleanupButton' ).on( 'click', function() {
-	function cleanupAction() {
+	function runAction() {
 		clearTimeout( timer );
 		jQuery.get( ajaxurl,  { 'action': 'sg_wpephpcompat_clean_up' }, function() {
 			resetDisplay();
@@ -110,6 +107,7 @@ function upgradeTo(version) {
  * onDocumentReady
  */
 function checkStatus() {
+          console.log(3);
         var $ = jQuery; 
         $( '#phpVersionCheckerContainer' ).show();
         // show default message
