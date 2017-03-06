@@ -31,7 +31,8 @@ The HTTPS Config allows you to force SSL usage on your site. It will redirect yo
 
 In order to work correctly, this plugin requires that your server meets the following criteria:
 
-* Your SiteGround SuperCacher enabled
+* PHP 5.5
+* SiteGround account
 * If you're not hosted with SiteGround this plugin WILL NOT WORK  because it relies on a specific server configuration
 
 == Installation ==
@@ -71,6 +72,12 @@ This field allows you to exclude URLs from the cache. This means that if you nee
 Force HTTPS on/off -- enable or disable the the https redirect for your whole site and the rewriting of the resource links from http to https.
 
 == Changelog ==
+
+= Version 3.0.5 =
+* Improved Certficiate check
+
+= Version 3.0.4 =
+* Fixed bug with unwrittable .htaccess
 
 = Version 3.0.3 =
 * Fixed bug in adding CSS files
