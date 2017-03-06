@@ -217,7 +217,7 @@ class SG_WPEPHPCompat {
 			//Add plugins and themes.
 			$this->generate_directory_list();
 
-			$count_jobs = wp_count_posts( 'sg_wpephpcompat_jobs' );
+			$count_jobs = wp_count_posts( 'sg_optimizer_jobs' );
 			update_option( 'sg_wpephpcompat.numdirs', $count_jobs->publish, false );
 		} else {
 			// Get scan settings from database.
@@ -227,7 +227,7 @@ class SG_WPEPHPCompat {
 
 		$args = array(
 			'posts_per_page' => -1,
-			'post_type'      => 'sg_wpephpcompat_jobs',
+			'post_type'      => 'sg_optimizer_jobs',
 			'orderby'        => 'title',
 			'order'          => 'ASC',
 		);
@@ -553,7 +553,7 @@ class SG_WPEPHPCompat {
 		//Make sure all directories are removed from the queue.
 		$args = array(
 			'posts_per_page' => -1,
-			'post_type'      => 'sg_wpephpcompat_jobs',
+			'post_type'      => 'sg_optimizer_jobs',
 		);
 		$directories = get_posts( $args );
 
@@ -563,7 +563,7 @@ class SG_WPEPHPCompat {
 	}
 
 	/**
-	 * Add a path to the sg_wpephpcompat_jobs custom post type.
+	 * Add a path to the sg_optimizer_jobs custom post type.
 	 *
 	 * @param string $name Plugin or theme name.
 	 * @param string $path Full path to the plugin or theme directory.
@@ -576,7 +576,7 @@ class SG_WPEPHPCompat {
                         'post_excerpt'  => json_encode($data),
 			'post_status'   => 'publish',
 			'post_author'   => 1,
-			'post_type'     => 'sg_wpephpcompat_jobs',
+			'post_type'     => 'sg_optimizer_jobs',
 		);
 
 		return wp_insert_post( $dir );

@@ -13,7 +13,7 @@
 /** SG CachePress purge cache admin class */
 
 class SG_CachePress_Admin {    
-	public static $enable_php_version_checker = false;
+	public static $enable_php_version_checker = true;
 
 	/**
 	 * Slug of the plugin screen.

@@ -92,7 +92,7 @@ class SG_WPEngine_PHPCompat {
 	function check_status() {            
             if ( current_user_can( 'manage_options' ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
                     $scan_status = get_option( 'sg_wpephpcompat.status' );
-                    $count_jobs = wp_count_posts( 'sg_wpephpcompat_jobs' );
+                    $count_jobs = wp_count_posts( 'sg_optimizer_jobs' );
                     $total_jobs = get_option( 'sg_wpephpcompat.numdirs' );
                     $test_version = get_option( 'sg_wpephpcompat.test_version' );
                     $only_active = get_option( 'sg_wpephpcompat.only_active' );
@@ -100,7 +100,7 @@ class SG_WPEngine_PHPCompat {
                     $active_job = false;
                     $jobs = get_posts( array(
                             'posts_per_page' => -1,
-                            'post_type'      => 'sg_wpephpcompat_jobs',
+                            'post_type'      => 'sg_optimizer_jobs',
                             'orderby'        => 'title',
                             'order'          => 'ASC',
                     ) );
@@ -157,7 +157,7 @@ class SG_WPEngine_PHPCompat {
 	 * @return  null
 	 */
 	function create_job_queue() {
-		register_post_type( 'sg_wpephpcompat_jobs',
+		register_post_type( 'sg_optimizer_jobs',
 			array(
 				'labels' => array(
 					'name' => __( 'Jobs' ),
