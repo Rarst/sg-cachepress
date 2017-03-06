@@ -107,7 +107,6 @@ function upgradeTo(version) {
  * onDocumentReady
  */
 function checkStatus() {
-          console.log(3);
         var $ = jQuery; 
         $( '#phpVersionCheckerContainer' ).show();
         // show default message
