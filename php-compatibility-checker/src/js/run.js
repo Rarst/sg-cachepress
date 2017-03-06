@@ -60,20 +60,7 @@ jQuery( document ).ready(function($) {
             $( '#upgradeButton' ).val(window.sg_wpephpcompat.loading);
             //$( '.spinner' ).show();
 
-            var data = {
-                    'action': 'sg_wpephpcompat_change_version',
-                    'version': test_version
-            };
-
-            // Start the upgrade!
-            jQuery.post( ajaxurl, data ).always(function(res) {
-                if (res === '1') {
-                    window.location.reload();
-                } else if (res === '2') {
-                    // should never happen
-                    window.location.reload();
-                }
-            });
+            upgradeTo(test_version);
 	});
         
         $( '#changeVersionButton' ).on( 'click', function() {
@@ -101,6 +88,23 @@ jQuery( document ).ready(function($) {
         //});
 
 });
+
+function upgradeTo(version) {
+  var data = {
+          'action': 'sg_wpephpcompat_change_version',
+          'version': version
+  };
+
+  // Start the upgrade!
+  jQuery.post( ajaxurl, data ).always(function(res) {
+      if (res === '1') {
+          window.location.reload();
+      } else if (res === '2') {
+          // should never happen
+          window.location.reload();
+      }
+  });
+}
 /**
  * Check the scan status and display results if scan is done.
  * onDocumentReady
@@ -296,14 +300,13 @@ function displayReport( response ) {
                 }
 
 	}
-
+        
+        var recommendedVersionNumber = parseInt(test_version.replace(/\./, ''));   
+        var current_version = $( '#current_php_version' ).val();
+        var currentVersionNumber = parseInt(current_version.replace(/\./, ''));
 	// Display global compatibility status.
-	if ( compatible ) {
-            var recommendedVersionNumber = parseInt(test_version.replace(/\./, ''));   
-            var current_version = $( '#current_php_version' ).val();
-            
-            var currentVersionNumber = parseInt(current_version.replace(/\./, ''));
-            if (currentVersionNumber < recommendedVersionNumber) {              
+	if ( compatible ) {            
+            if (currentVersionNumber < recommendedVersionNumber) {
               $( '#phpVersionCheckerHeaderMsg' ).html( '<font color="green">' + window.sg_wpephpcompat.your_wp + 
                   ' PHP ' + test_version + ' ' +
                   window.sg_wpephpcompat.compatible + '. </font>');
@@ -313,15 +316,25 @@ function displayReport( response ) {
                 
             // Up to Date
             } else {
-                $( '#phpVersionCheckerTextBelow' ).html(window.sg_wpephpcompat.you_running_running_on + ' ' +
+                $( '#phpVersionCheckerHeaderMsg' ).html(window.sg_wpephpcompat.you_running_running_on + ' ' +
                     current_version + ' ' +
                     window.sg_wpephpcompat.recommended_or_higher);
+                
             }
             
-	} else {
-            $( '#phpVersionCheckerTextBelow' ).html(
-                    window.sg_wpephpcompat.not_compatible + 
-                    ' PHP ' + test_version + '. ' + 
-                    window.sg_wpephpcompat.see_details_below);
+	} else {        
+          $( '#phpVersionCheckerHeaderMsg' ).html(
+            window.sg_wpephpcompat.not_compatible + 
+            test_version + '. ' + 
+            window.sg_wpephpcompat.see_details_below);
+    
+            var message = '';
+            message = window.sg_wpephpcompat.if_you_fixed_retry;
+            
+            if (currentVersionNumber < 56) { 
+              message = message + window.sg_wpephpcompat.recommend_to_switch;
+            }
+          
+          $( '#phpVersionCheckerFooterMsg' ).html(message);
 	}
 }

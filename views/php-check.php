@@ -120,6 +120,8 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
         <div style="position:absolute; top:5px; right:5px;float:right;">{{#if updateAvailable}}<div class="badge wpe-update"><a href="<?php echo esc_url($update_url); ?>"><?php _e('Update Available', 'sg-cachepress'); ?></a></div>{{/if}}{{#if warnings}}<div class="badge warnings">{{warnings}} <?php _e('Warnings', 'sg-cachepress'); ?></div>{{/if}}{{#if errors}}{{/if}}</div>
         </div>
       </script>   
+      
+      <p id="phpVersionCheckerFooterMsg"></p>
 
     </div>                         
   </div>     
