@@ -57,7 +57,8 @@ jQuery( document ).ready(function($) {
             $( '#upgradeButton' ).blur();
 
             // Show the ajax spinner.
-            $( '.spinner' ).show();
+            $( '#upgradeButton' ).val(window.sg_wpephpcompat.loading);
+            //$( '.spinner' ).show();
 
             var data = {
                     'action': 'sg_wpephpcompat_change_version',
@@ -67,6 +68,9 @@ jQuery( document ).ready(function($) {
             // Start the upgrade!
             jQuery.post( ajaxurl, data ).always(function(res) {
                 if (res === '1') {
+                    window.location.reload();
+                } else if (res === '2') {
+                    // should never happen
                     window.location.reload();
                 }
             });

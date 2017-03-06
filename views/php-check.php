@@ -86,7 +86,7 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
                id="runButton" 
                type="button" 
                class="button-primary" />   
-        <div style="display:none; visibility: visible; float: left;" class="spinner"></div>
+
         <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;"
                name="upgradeButton"
                id="upgradeButton"
