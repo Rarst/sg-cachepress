@@ -319,7 +319,7 @@ function displayReport( response ) {
             }
             
 	} else {
-          $( '#phpVersionCheckerHeaderMsg' ).html('');          
+          //$( '#phpVersionCheckerHeaderMsg' ).html('');          
           $( '#phpVersionCheckerTextBelow' ).html(
             window.sg_wpephpcompat.not_compatible + 
             test_version + '. ' + 
