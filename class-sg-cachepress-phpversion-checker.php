@@ -80,7 +80,7 @@ class SG_CachePress_PHPVersionChecker
             $html = '<div id="ajax-' . $id . '" class="updated sg-cachepress-notification-by-id">';
             $html .= '<p>';
             $html .= __('<strong>SG CachePress PHP Version:</strong>'
-                    . $msg . ' Click <a href="http://www.siteground.com/tutorials/supercacher/" target="_blank">here</a> for mode details. '
+                    . $msg . ' Click <a href="./admin.php?page=php-check" target="_blank">here</a> for mode details. '
                     . '<a href="javascript:;" id="' . $id . '" class="dismiss-sg-cahepress-notification-by-id">Click here to hide this notice</a>.', 'ajax-notification');
             $html .= '</p>';
             $html .= '<span id="ajax-notification-nonce" class="hidden">' . wp_create_nonce('ajax-notification-nonce') . '</span>';
