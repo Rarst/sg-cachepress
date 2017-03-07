@@ -65,15 +65,18 @@ jQuery( document ).ready(function($) {
             upgradeTo($( '#manualVersionValue' ).val());
 	});   
 
-        //$( '#cleanupButton' ).on( 'click', function() {
-	function runAction() {
+        $( '#cleanupButton' ).on( 'click', function() {
+          cleanupAction();
+        });
+
+	function cleanupAction() {
 		clearTimeout( timer );
 		jQuery.get( ajaxurl,  { 'action': 'sg_wpephpcompat_clean_up' }, function() {
 			resetDisplay();
 			checkStatus();
 		});
 	};
-        //});
+        //
 
 });
 
@@ -118,8 +121,8 @@ function checkStatus() {
 		if ( false === obj.results ) {                        
 			jQuery( '#runButton' ).val( window.sg_wpephpcompat.run );
 		} else {
-			//jQuery( '#runButton' ).val( window.sg_wpephpcompat.rerun );
-                        jQuery( '#runButton' ).hide();
+			jQuery( '#runButton' ).val( window.sg_wpephpcompat.run );
+                        //jQuery( '#runButton' ).hide();
 		}
                 
                 jQuery('#runButton').removeAttr('disabled');
