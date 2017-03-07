@@ -80,6 +80,11 @@ jQuery( document ).ready(function($) {
 
 });
 
+function cleanupReport() {
+  jQuery.get( ajaxurl,  { 'action': 'sg_wpephpcompat_clean_up' }, function() {
+  });
+}
+
 function upgradeTo(version) {
   var data = {
           'action': 'sg_wpephpcompat_change_version',
@@ -119,9 +124,9 @@ function checkStatus() {
 		 */
                 jQuery( '#runButton' ).show();
 		if ( false === obj.results ) {                        
-			jQuery( '#runButton' ).val( window.sg_wpephpcompat.run );
+		  jQuery( '#runButton' ).val( window.sg_wpephpcompat.run );
 		} else {
-			jQuery( '#runButton' ).val( window.sg_wpephpcompat.rerun );
+		  jQuery( '#runButton' ).val( window.sg_wpephpcompat.rerun );
                         //jQuery( '#runButton' ).hide();
 		}
                 
@@ -295,7 +300,10 @@ function displayReport( response ) {
         var currentVersionNumber = parseInt(current_version.replace(/\./, ''));
 	// Display global compatibility status.
 	if ( compatible ) {            
-            if (currentVersionNumber < recommendedVersionNumber) {
+            // is compatible and ready to upgrade
+            if (currentVersionNumber < recommendedVersionNumber) {  
+              jQuery( '#runButton' ).hide();
+              cleanupReport();
               $( '#phpVersionCheckerHeaderMsg' ).html( '<font color="green">' + window.sg_wpephpcompat.your_wp + 
                   ' PHP ' + test_version + ' ' +
                   window.sg_wpephpcompat.compatible + '. </font>');
@@ -307,12 +315,12 @@ function displayReport( response ) {
             } else {
                 $( '#phpVersionCheckerHeaderMsg' ).html(window.sg_wpephpcompat.you_running_running_on + ' ' +
                     current_version + ' ' +
-                    window.sg_wpephpcompat.recommended_or_higher);
-                
+                    window.sg_wpephpcompat.recommended_or_higher);             
             }
             
-	} else {        
-          $( '#phpVersionCheckerHeaderMsg' ).html(
+	} else {
+          $( '#phpVersionCheckerHeaderMsg' ).html('');          
+          $( '#phpVersionCheckerTextBelow' ).html(
             window.sg_wpephpcompat.not_compatible + 
             test_version + '. ' + 
             window.sg_wpephpcompat.see_details_below);

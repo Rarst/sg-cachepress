@@ -96,10 +96,10 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
                class="button-primary" />
         <?php } ?>
 
-      <!-- <input style="float: left; margin-left: 5px;" name="run" id="cleanupButton" type="button" value="<?php esc_attr_e('Clean up', 'php-compatibility-checker'); ?>" class="button" /> -->
+<!--      <input style="float: left; margin-left: 5px;" name="run" id="cleanupButton" type="button" value="<?php esc_attr_e('Clean up', 'php-compatibility-checker'); ?>" class="button" />-->
 
       <div class="clr"></div>
-      <h2 id="phpVersionCheckerTextBelow"></h2>
+      <p id="phpVersionCheckerTextBelow"></p>
       <div class="clr"></div>
 
       <div id="standardMode"></div>
