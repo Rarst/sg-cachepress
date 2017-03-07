@@ -302,6 +302,7 @@ function displayReport( response ) {
 	if ( compatible ) {            
             // is compatible and ready to upgrade
             if (currentVersionNumber < recommendedVersionNumber) {  
+              $( '#phpVersionCheckerFooterMsg' ).html('');
               jQuery( '#runButton' ).hide();
               cleanupReport();
               $( '#phpVersionCheckerHeaderMsg' ).html( '<font color="green">' + window.sg_wpephpcompat.your_wp + 
