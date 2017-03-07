@@ -109,7 +109,7 @@ class SG_WPEPHPCompat {
 
           // https://wordpress.org/support/topic/false-positive-showing-query-monitor-as-not-php-7-compatible/
           "*/query-monitor/*" => array( "Query Monitor" , "2.13.2", "7.0",),
-          "*/sg-cachepress/*" => array( ["SG CachePress", "SG Optimizer"] , "3.0.0", "7.0",),
+          "*/sg-cachepress/*" => array( array("SG CachePress", "SG Optimizer") , "3.0.0", "7.0",),
             // https://wordpress.org/plugins/social-networks-auto-poster-facebook-twitter-g/
           "*/social-networks-auto-poster-facebook-twitter-g/*"  => array( "NextScripts: Social Networks Auto-Poster" , "3.7.14", "7.0",),    
           "*/tablepress/*" => array( "TablePress" , "1.7", "7.0",),
