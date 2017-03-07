@@ -84,7 +84,11 @@ function upgradeTo(version) {
 
   // Start the upgrade!
   jQuery.post( ajaxurl, data, function(res) {
-          window.location.reload();
+    console.log(res);
+    //setTimeout(function() {
+      window.location.reload();
+    //}, 1000);
+          
   });
 }
 /**
