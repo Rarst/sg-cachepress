@@ -75,7 +75,14 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
 
       </p>
 
-      <?php if (!$is_up_to_date) { ?>                      
+      <?php if (!$is_up_to_date) { ?>
+        <p id="phpVersionCheckerHeaderMsg"><?php echo __('Your site is using ', 'sg-cachepress') . 
+                ' PHP ' . $current_version . ' '
+                . __('which is below the recommended PHP ', 'sg-cachepress') . $recommended_php_version . '.'
+                ?>
+        </p>              
+        <br />
+      
         <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" 
                name="run" 
                id="runButton" 
@@ -87,12 +94,6 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
                id="upgradeButton"
                type="button"
                class="button-primary" />
-        <br />
-        <p id="phpVersionCheckerHeaderMsg"><?php echo __('Your site is using ', 'sg-cachepress') . 
-        ' PHP ' . $current_version . ' '
-        . __('which is below the recommended PHP ', 'sg-cachepress') . $recommended_php_version . '.'
-        ?>
-        </p>      
         <?php } ?>
 
       <!-- <input style="float: left; margin-left: 5px;" name="run" id="cleanupButton" type="button" value="<?php esc_attr_e('Clean up', 'php-compatibility-checker'); ?>" class="button" /> -->
