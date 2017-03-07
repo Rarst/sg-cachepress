@@ -121,7 +121,7 @@ function checkStatus() {
 		if ( false === obj.results ) {                        
 			jQuery( '#runButton' ).val( window.sg_wpephpcompat.run );
 		} else {
-			jQuery( '#runButton' ).val( window.sg_wpephpcompat.run );
+			jQuery( '#runButton' ).val( window.sg_wpephpcompat.rerun );
                         //jQuery( '#runButton' ).hide();
 		}
                 
