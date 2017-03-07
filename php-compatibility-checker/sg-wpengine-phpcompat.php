@@ -371,7 +371,7 @@ class SG_WPEngine_PHPCompat {
      * @param type $newVersionOrig
      * @return bool
      */
-    public function isUpToDate($newVersionOrig=false) {
+    public static function isUpToDate($newVersionOrig=false) {
         if ($newVersionOrig !== false) {
             $currentVersion = $newVersionOrig;
         } else {

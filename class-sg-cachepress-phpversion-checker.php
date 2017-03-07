@@ -46,7 +46,7 @@ class SG_CachePress_PHPVersionChecker
     }
     
     public function activate()
-    {
+    {      
         if (SG_CachePress_Admin::$enable_php_version_checker &&  !SG_WPEngine_PHPCompat::isUpToDate()) {
             // @Todo to enable this message also onPluginUpdate
             $this->options_handler->enable_option('show_notice_notification-1');
