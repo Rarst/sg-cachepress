@@ -57,7 +57,7 @@ jQuery( document ).ready(function($) {
             $( '#upgradeButton' ).val(window.sg_wpephpcompat.loading);
             //$( '.spinner' ).show();
 
-            upgradeTo($( '#manualVersionValue' ).val());
+            upgradeTo($( '#recommended_php_version' ).val());
 	});
         
         $( '#changeVersionButton' ).on( 'click', function() {
@@ -77,6 +77,7 @@ jQuery( document ).ready(function($) {
 });
 
 function upgradeTo(version) {
+  console.log(version);
   var data = {
           'action': 'sg_wpephpcompat_change_version',
           'version': version

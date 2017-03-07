@@ -30,6 +30,8 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
       </p>
 
       <input type="hidden" id="current_php_version" value="<?php echo htmlentities($current_version) ?>" />
+      <input type="hidden" id="recommended_php_version" value="<?php echo htmlentities($recommended_php_version) ?>" />
+      
       <table class="form-table" style="display:none;">
         <tbody>
           <tr>
