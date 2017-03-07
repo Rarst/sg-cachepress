@@ -27,6 +27,7 @@ jQuery( document ).ready(function($) {
 		}
 	});
 	$( '#runButton' ).on( 'click', function() {   
+                $( '#phpVersionCheckerFooterMsg' ).html('');
                 jQuery('#runButton').attr('disabled', true).attr('value', sgCachePressL10n.phpversion_checking);
 		// Unselect button so it's not highlighted.
 		$( '#runButton' ).blur();
