@@ -16,7 +16,7 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
   <!-- START phpVersionChecker -->
   <div class="box sgclr" id="phpVersionCheckerContainer" style="display: none;">
     <h2><?php _e('PHP Config', 'sg-cachepress') ?></h2>
-    <p><?php _e('This tool will allow you to check if your website is compatible with the recommended by SiteGround PHP version and switch to it. In addition to that, you can manually change the active PHP version for your site.', 'sg-cachepress') ?></p>
+    <p><?php _e('This tool will allow you to check if your website is compatible with the recommended by SiteGround PHP version and switch to it with a click. It is highly advisable to keep your WordPress running on the recommended PHP for best security and performance.', 'sg-cachepress') ?></p>
 
     <div class="greybox" >
       <p id="phpVersionCheckerText">        
@@ -133,6 +133,7 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
   <?php if ($is_up_to_date) { ?>
     <div class="box">
       <h2><?php _e('Manual PHP Version Change', 'sg-cachepress') ?></h2>
+      <p>In case you want to experiment with another PHP version you can use the switch below. Please note, that your site will NOT be checked for compatibility before the change is made. Please be advised that in some rare cases,  if you choose a version that is not compatible with your WordPress your admin may become inaccessible and you may need to roll back to a proper PHP version by editing your .htaccess file.</p>
       <div class="greybox">											
         <div class="clr"></div>
         <p>

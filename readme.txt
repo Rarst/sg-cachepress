@@ -73,6 +73,9 @@ Force HTTPS on/off -- enable or disable the the https redirect for your whole si
 
 == Changelog ==
 
+= Version 3.2.0 =
+* Adding PHP 7.0 Compatibility check & PHP Version switch
+
 = Version 3.0.5 =
 * Improved Certficiate check
 
