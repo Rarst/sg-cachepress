@@ -15,7 +15,7 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
 
   <!-- START phpVersionChecker -->
   <div class="box sgclr" id="phpVersionCheckerContainer" style="display: none;">
-    <h2><?php _e('PHP Version', 'sg-cachepress') ?></h2>
+    <h2><?php _e('PHP Config', 'sg-cachepress') ?></h2>
     <p><?php _e('This tool will allow you to check if your website is compatible with the recommended by SiteGround PHP version and switch to it. In addition to that, you can manually change the active PHP version for your site.', 'sg-cachepress') ?></p>
 
     <div class="greybox" >
@@ -37,7 +37,7 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
           <tr>
             <th scope="row">
               <label for="phptest_version">
-                <?php _e('PHP Version', 'sg-cachepress'); ?>
+                <?php _e('PHP Config', 'sg-cachepress'); ?>
               </label>
             </th>
             <td>
@@ -108,8 +108,8 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
         <div style="border-left-color: {{#if skipped}}#999999{{else if passed}}#49587c{{else}}#e74c3c{{/if}};" class="wpe-results-card">
 
         <div class="inner-right">
-        <h3 style="margin: 0px;font-weight:400">{{plugin_name}}</h3>
-        {{#if skipped}}<?php _e('Unknown', 'sg-cachepress'); ?>{{else if passed}}PHP {{test_version}} <?php _e('compatible', 'sg-cachepress'); ?>.{{else}}<b><?php _e('Possibly not', 'sg-cachepress'); ?></b> PHP {{test_version}} <?php _e('compatible', 'sg-cachepress'); ?>.{{/if}}
+        <h3 style="margin: 0px;font-weight:400;float:left">{{plugin_name}}</h3>
+        {{#if skipped}}<?php _e('Unknown', 'sg-cachepress'); ?>{{else if passed}}PHP {{test_version}} <?php _e('compatible', 'sg-cachepress'); ?>.{{else}}{{/if}}
         {{update}}
 
 
