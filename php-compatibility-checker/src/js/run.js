@@ -77,7 +77,6 @@ jQuery( document ).ready(function($) {
 });
 
 function upgradeTo(version) {
-  console.log(version);
   var data = {
           'action': 'sg_wpephpcompat_change_version',
           'version': version
@@ -85,7 +84,6 @@ function upgradeTo(version) {
 
   // Start the upgrade!
   jQuery.post( ajaxurl, data, function(res) {
-    console.log(res);
     //setTimeout(function() {
       window.location.reload();
     //}, 1000);
