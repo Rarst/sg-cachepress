@@ -2,7 +2,8 @@
 var test_version, only_active, timer;
 
 jQuery( document ).ready(function($) {
-        runAction();
+        //runAction();
+        checkStatus();
 
 	$( '#developermode' ).change(function() {
 		if ( $(this).is( ':checked' ) ) {
