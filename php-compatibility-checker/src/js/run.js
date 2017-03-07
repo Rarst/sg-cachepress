@@ -57,21 +57,11 @@ jQuery( document ).ready(function($) {
             $( '#upgradeButton' ).val(window.sg_wpephpcompat.loading);
             //$( '.spinner' ).show();
 
-            upgradeTo(test_version);
+            upgradeTo($( '#manualVersionValue' ).val());
 	});
         
         $( '#changeVersionButton' ).on( 'click', function() {
-            var data = {
-                    'action': 'sg_wpephpcompat_change_version',
-                    'version': $( '#manualVersionValue' ).val()
-            };
-
-            // Start the upgrade!
-            jQuery.post( ajaxurl, data ).always(function(res) {
-                //if (res === '1') {
-                    window.location.reload();
-                //}
-            });
+            upgradeTo($( '#manualVersionValue' ).val());
 	});   
 
         //$( '#cleanupButton' ).on( 'click', function() {
@@ -93,13 +83,8 @@ function upgradeTo(version) {
   };
 
   // Start the upgrade!
-  jQuery.post( ajaxurl, data ).always(function(res) {
-//      if (res === '1') {
+  jQuery.post( ajaxurl, data, function(res) {
           window.location.reload();
-//      } else if (res === '2') {
-//          // should never happen
-//          window.location.reload();
-//      }
   });
 }
 /**
