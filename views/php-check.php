@@ -81,8 +81,6 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
                 . __('which is below the recommended <strong>PHP ', 'sg-cachepress') . $recommended_php_version . '</strong>.'
                 ?>
         </p>              
-        <br />
-      
         <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" 
                name="run" 
                id="runButton" 
