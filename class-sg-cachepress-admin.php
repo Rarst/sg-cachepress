@@ -308,7 +308,7 @@ class SG_CachePress_Admin {
 			    'testurl' => __( 'Test URL', 'sg-cachepress' ),
 			    'showstat' => __( 'Test URL', 'sg-cachepress' ),
                             'phpversion_check' => __( 'Check PHP Version', 'sg-cachepress' ),
-                            'phpversion_checking' => __( 'Checking please wait...', 'sg-cachepress' ),
+                            'phpversion_checking' => __( 'Checking, please wait...', 'sg-cachepress' ),
                             'phpversion_change' => __( 'Change PHP Version', 'sg-cachepress' ),    
                             'ssl_toggle_failed' => __( 'SSL toggle failed', 'sg-cachepress' ),                            
 			);

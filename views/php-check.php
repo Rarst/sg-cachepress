@@ -22,9 +22,9 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
       <p id="phpVersionCheckerText">        
         <?php
         if ($is_up_to_date) {
-          echo __('Site is compatible and running on', 'sg-cachepress') . ' PHP ' .
+          echo __('Site is running on', 'sg-cachepress') . ' <strong>PHP ' .
           $current_version . ' ' .
-          __('which is our recommended PHP version or higher.', 'sg-cachepress');
+          __('</strong> which is our recommended PHP version or higher.', 'sg-cachepress');
         }
         ?>
       </p>
@@ -77,8 +77,8 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
 
       <?php if (!$is_up_to_date) { ?>
         <p id="phpVersionCheckerHeaderMsg"><?php echo __('Your site is using ', 'sg-cachepress') . 
-                ' PHP ' . $current_version . ' '
-                . __('which is below the recommended PHP ', 'sg-cachepress') . $recommended_php_version . '.'
+                ' <strong>PHP ' . $current_version . '</strong> '
+                . __('which is below the recommended <strong>PHP ', 'sg-cachepress') . $recommended_php_version . '</strong>.'
                 ?>
         </p>              
         <br />
@@ -99,7 +99,7 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
 <!--      <input style="float: left; margin-left: 5px;" name="run" id="cleanupButton" type="button" value="<?php esc_attr_e('Clean up', 'php-compatibility-checker'); ?>" class="button" />-->
 
       <div class="clr"></div>
-      <p id="phpVersionCheckerTextBelow"></p>
+      <h3 id="phpVersionCheckerTextBelow"></h3>
       <div class="clr"></div>
 
       <div id="standardMode"></div>
@@ -117,10 +117,6 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
         <textarea style="display: none; white-space: pre;">{{logs}}</textarea>
 
         </div>
-
-        <?php $update_url = site_url('wp-admin/update-core.php', 'admin'); ?>
-        <div style="position:absolute; top:5px; right:5px;float:right;">{{#if updateAvailable}}<div class="badge wpe-update"><a href="<?php echo esc_url($update_url); ?>"><?php _e('Update Available', 'sg-cachepress'); ?></a></div>{{/if}}{{#if warnings}}<div class="badge warnings">{{warnings}} <?php _e('Warnings', 'sg-cachepress'); ?></div>{{/if}}{{#if errors}}{{/if}}</div>
-        </div>
       </script>   
       
       <p id="phpVersionCheckerFooterMsg"></p>
@@ -135,19 +131,10 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
       <h2><?php _e('Manual PHP Version Change', 'sg-cachepress') ?></h2>
       <p>In case you want to experiment with another PHP version you can use the switch below. Please note, that your site will NOT be checked for compatibility before the change is made. Please be advised that in some rare cases,  if you choose a version that is not compatible with your WordPress your admin may become inaccessible and you may need to roll back to a proper PHP version by editing your .htaccess file.</p>
       <div class="greybox">											
-        <div class="clr"></div>
-        <p>
-          <?php
-          _e('Active PHP Version: ' .
-                  '<b>PHP ' . $current_version . '</b>'
-                  , 'sg-cachepress')
-          ?>
-        </p>
         <div class="clr"></div>		
         <input type="button" 
           id="changeVersionButton"
           name="sg-cachepress-purge" 
-          style="background: #3e4b68; color: #FFF; border: none; box-shadow: none;" 
           class="button"
           value="<?php _e('Switch to', 'sg-cachepress'); ?>"
           >

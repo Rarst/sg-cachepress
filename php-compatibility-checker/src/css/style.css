@@ -3,7 +3,6 @@
 	width: 100%;
 	margin-bottom: 10px;
 	position: relative;
-	min-height: 40px;
 	display: inline-block;
 }
 
@@ -48,32 +47,6 @@
 	float: right;
 }
 
-.wpe-results-card .badge
-{
-	display: inline-block;
-	color: #fff;
-	text-align: center;
-	padding: 2px 10px;
-}
-
-.wpe-update a:link, .wpe-update a:visited, .wpe-update a:hover, .wpe-update a:active { color:#ffffff; cursor: pointer; text-decoration: none; }
-
-.wpe-results-card .wpe-update
-{
-	background-color: #0085ba;
-}
-
-.wpe-results-card .warnings
-{
-	margin-left: 5px;
-	background-color: #f1c40f;
-}
-
-.wpe-results-card .errors
-{
-	margin-left: 5px;
-	background-color: #e74c3c;
-}
 
 #developerMode textarea
 {

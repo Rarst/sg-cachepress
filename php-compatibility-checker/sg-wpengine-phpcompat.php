@@ -210,7 +210,7 @@ class SG_WPEngine_PHPCompat {
 			//'is_not'     => __( 'Your WordPress site is possibly not PHP', 'sg-cachepress' ),
 			//'out_of'     => __( 'out of', 'sg-cachepress' ),
 			'run'        => __( 'Check PHP ' . $recommended [0] . ' Compatibility', 'sg-cachepress' ),
-                        'loading'      => __( 'Loading ...', 'sg-cachepress' ),
+                        'loading'      => __( 'Updating PHP Version', 'sg-cachepress' ),
                         'rerun'        => __( 'Check PHP ' . $recommended [0] . ' Compatibility Again', 'sg-cachepress' ),
 			'your_wp'    => __( 'Your WordPress site is', 'sg-cachepress' ),
                         'check_your_php_version' => __( 'Checks the PHP version your WordPress site is running and whether you\'re on the fastest possible PHP version.', 'sg-cachepress' ),

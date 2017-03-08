@@ -85,10 +85,16 @@ p#sg-cachepress-partial-error strong, p#sg-cachepress-htaccess-error strong, p#s
 	padding-left: 9px !important;
 }
 
-input#testurl {
-	width: 50%;
-	height: 38px;
-	margin-right: 20px;
-	border: 1px solid #dbdbdb;
+input#testurl {width: 50%; height: 38px; margin-right: 20px; border: 1px solid #dbdbdb;}
+
+
+input#runButton.button-primary.sgloading {
+	padding-left: 35px !important;
+	background: #3D4A69 url(loader.gif) 5px center no-repeat !important;
+}
+
+h3#phpVersionCheckerTextBelow {
+	color: #444;
+	font-size: 1.2em;
 }
 

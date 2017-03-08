@@ -29,6 +29,7 @@ jQuery( document ).ready(function($) {
 	$( '#runButton' ).on( 'click', function() {   
                 $( '#phpVersionCheckerFooterMsg' ).html('');
                 jQuery('#runButton').attr('disabled', true).attr('value', sgCachePressL10n.phpversion_checking);
+		jQuery('#runButton').addClass( "sgloading" );
 		// Unselect button so it's not highlighted.
 		$( '#runButton' ).blur();
 
@@ -57,6 +58,7 @@ jQuery( document ).ready(function($) {
 
             // Show the ajax spinner.
             $( '#upgradeButton' ).val(window.sg_wpephpcompat.loading);
+            jQuery('#runButton').addClass( "sgloading" );
             //$( '.spinner' ).show();
 
             upgradeTo($( '#recommended_php_version' ).val());
@@ -128,6 +130,7 @@ function checkStatus() {
 		  jQuery( '#runButton' ).val( window.sg_wpephpcompat.run );
 		} else {
 		  jQuery( '#runButton' ).val( window.sg_wpephpcompat.rerun );
+		  jQuery('#runButton').removeClass( "sgloading" );
                         //jQuery( '#runButton' ).hide();
 		}
                 
