@@ -1,5 +1,5 @@
 // Global variables.
-var test_version, only_active, timer;
+var test_version, only_active, timer, runAction;
 
 jQuery( document ).ready(function($) {
         //runAction();
@@ -26,32 +26,14 @@ jQuery( document ).ready(function($) {
 			textarea.css( 'display', 'none' );
 		}
 	});
+        
+
+        
 	$( '#runButton' ).on( 'click', function() {   
-                $( '#phpVersionCheckerFooterMsg' ).html('');
-                jQuery('#runButton').attr('disabled', true).attr('value', sgCachePressL10n.phpversion_checking);
-		jQuery('#runButton').addClass( "sgloading" );
-		// Unselect button so it's not highlighted.
-		$( '#runButton' ).blur();
-
-		// Empty the results textarea.
-		resetDisplay();
-		test_version = $( 'input[name=phptest_version]:checked' ).val();
-		only_active = $( 'input[name=active_plugins]:checked' ).val();
-		var data = {
-			'action': 'sg_wpephpcompat_start_test',
-			'test_version': test_version,
-			'only_active': only_active,
-			'startScan': 1
-		};
-		// Init and show the Progress Bar
-		jQuery( '#wpe-progress' ).show();
-
-		// Start the test!
-		jQuery.post( ajaxurl, data ).always(function() {
-			// Start timer to check scan status.
-			checkStatus();
-		});
+          runAction();
 	});
+        
+
         
         $( '#upgradeButton' ).on( 'click', function() {
             $( '#upgradeButton' ).blur();
@@ -80,8 +62,37 @@ jQuery( document ).ready(function($) {
 		});
 	};
         //
+        
+        runAction = function runAction() {
+          $( '#phpVersionCheckerFooterMsg' ).html('');
+          jQuery('#runButton').show().attr('disabled', true).attr('value', sgCachePressL10n.phpversion_checking);
+          jQuery('#runButton').addClass( "sgloading" );
+          // Unselect button so it's not highlighted.
+          $( '#runButton' ).blur();
 
+          // Empty the results textarea.
+          resetDisplay();
+          test_version = $( 'input[name=phptest_version]:checked' ).val();
+          only_active = $( 'input[name=active_plugins]:checked' ).val();
+          var data = {
+                  'action': 'sg_wpephpcompat_start_test',
+                  'test_version': test_version,
+                  'only_active': only_active,
+                  'startScan': 1
+          };
+          // Init and show the Progress Bar
+          jQuery( '#wpe-progress' ).show();
+
+          // Start the test!
+          jQuery.post( ajaxurl, data ).always(function() {
+                  // Start timer to check scan status.
+                  checkStatus();
+          });
+        };        
 });
+
+
+
 
 function cleanupReport() {
   jQuery.get( ajaxurl,  { 'action': 'sg_wpephpcompat_clean_up' }, function() {
@@ -129,7 +140,10 @@ function checkStatus() {
 		if ( false === obj.results ) {                        
 		  jQuery( '#runButton' ).val( window.sg_wpephpcompat.run );
 		} else {
-		  jQuery( '#runButton' ).val( window.sg_wpephpcompat.rerun );
+		  //jQuery( '#runButton' ).val( window.sg_wpephpcompat.rerun );
+                  jQuery( '#runButton' ).hide();
+                  jQuery( '#phpVersionCheckerHeaderMsg' ).hide();
+                  
 		  jQuery('#runButton').removeClass( "sgloading" );
                         //jQuery( '#runButton' ).hide();
 		}
