@@ -142,7 +142,9 @@ function checkStatus() {
 		} else {
 		  //jQuery( '#runButton' ).val( window.sg_wpephpcompat.rerun );
                   jQuery( '#runButton' ).hide();
-                  jQuery( '#phpVersionCheckerHeaderMsg' ).hide();
+                  jQuery( '#phpVersionCheckerHeaderMsgNotUpToDate' ).hide();
+                  
+                  
                   
 		  jQuery('#runButton').removeClass( "sgloading" );
                         //jQuery( '#runButton' ).hide();
@@ -323,7 +325,7 @@ function displayReport( response ) {
               $( '#phpVersionCheckerFooterMsg' ).html('');
               jQuery( '#runButton' ).hide();
               cleanupReport();
-              $( '#phpVersionCheckerHeaderMsg' ).html( '<font color="green">' + window.sg_wpephpcompat.your_wp + 
+              $( '#phpVersionCheckerHeaderMsgCompatible' ).html( '<font color="green">' + window.sg_wpephpcompat.your_wp + 
                   ' PHP ' + test_version + ' ' +
                   window.sg_wpephpcompat.compatible + '. </font>');
                     
@@ -332,13 +334,12 @@ function displayReport( response ) {
                 
             // Up to Date
             } else {
-                $( '#phpVersionCheckerHeaderMsg' ).html(window.sg_wpephpcompat.you_running_running_on + ' ' +
-                    current_version + ' ' +
-                    window.sg_wpephpcompat.recommended_or_higher);             
+//                $( '#phpVersionCheckerHeaderMsgUpToDate' ).html(window.sg_wpephpcompat.you_running_running_on + ' ' +
+//                    current_version + ' ' +
+//                    window.sg_wpephpcompat.recommended_or_higher);             
             }
             
-	} else {
-          //$( '#phpVersionCheckerHeaderMsg' ).html('');          
+	} else {     
           $( '#phpVersionCheckerTextBelow' ).html(
             window.sg_wpephpcompat.not_compatible + 
             test_version + '. ' + 

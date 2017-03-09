@@ -19,15 +19,13 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
     <p><?php _e('This tool will allow you to check if your website is compatible with the recommended by SiteGround PHP version and switch to it with a click. It is highly advisable to keep your WordPress running on the recommended PHP for best security and performance.', 'sg-cachepress') ?></p>
 
     <div class="greybox" >
-      <p id="phpVersionCheckerText">        
-        <?php
+      <p id="phpVersionCheckerText"><?php
         if ($is_up_to_date) {
           echo __('Site is running on', 'sg-cachepress') . ' <strong>PHP ' .
           $current_version . ' ' .
           __('</strong> which is our recommended PHP version or higher.', 'sg-cachepress');
         }
-        ?>
-      </p>
+        ?></p>
 
       <input type="hidden" id="current_php_version" value="<?php echo htmlentities($current_version) ?>" />
       <input type="hidden" id="recommended_php_version" value="<?php echo htmlentities($recommended_php_version) ?>" />
@@ -74,13 +72,15 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
       </div>
 
       </p>
-
+      
+      <p id="phpVersionCheckerHeaderMsgCompatible"></p>
+      <p id="phpVersionCheckerHeaderMsgUpToDate"></p>
+      
       <?php if (!$is_up_to_date) { ?>
-        <p id="phpVersionCheckerHeaderMsg"><?php echo __('Your site is using ', 'sg-cachepress') . 
+        <p id="phpVersionCheckerHeaderMsgNotUpToDate"><?php echo __('Your site is using ', 'sg-cachepress') . 
                 ' <strong>PHP ' . $current_version . '</strong> '
                 . __('which is below the recommended <strong>PHP ', 'sg-cachepress') . $recommended_php_version . '</strong>.'
-                ?>
-        </p>              
+                ?></p>              
         <br />
       
         <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" 
