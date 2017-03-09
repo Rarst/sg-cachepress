@@ -72,7 +72,6 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
         <b><?php //_e('Test Results:', 'sg-cachepress');    ?></b>
         <textarea readonly="readonly" id="testResults"></textarea>
       </div>
-
       </p>
 
       <?php if (!$is_up_to_date) { ?>
