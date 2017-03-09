@@ -65,10 +65,12 @@ jQuery( document ).ready(function($) {
         
         runAction = function runAction() {
           $( '#phpVersionCheckerFooterMsg' ).html('');
-          jQuery('#runButton').show().attr('disabled', true).attr('value', sgCachePressL10n.phpversion_checking);
-          jQuery('#runButton').addClass( "sgloading" );
-          // Unselect button so it's not highlighted.
-          $( '#runButton' ).blur();
+          jQuery('#runButton')
+                  .show()
+                  .attr('disabled', true)
+                  .attr('value', sgCachePressL10n.phpversion_checking)
+                  .addClass( "sgloading" )
+                  .blur();          
 
           // Empty the results textarea.
           resetDisplay();
@@ -165,8 +167,17 @@ function checkStatus() {
 				test_version = obj.version;
 				displayReport( obj.results );
 			}
-			jQuery( '#wpe-progress' ).hide();
+			jQuery( '#wpe-progress' ).hide();                        
+                        // cron finished
 		} else {
+                        // cron in progress
+                        jQuery('#runButton')
+                          .show()
+                          .attr('disabled', true)
+                          .attr('value', sgCachePressL10n.phpversion_checking)
+                          .addClass( "sgloading" )
+                          .blur();     
+                  
 			jQuery( '#progressbar' ).progressbar({
 				value: obj.progress
 			});
