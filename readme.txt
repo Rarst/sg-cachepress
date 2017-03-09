@@ -27,6 +27,10 @@ sg_cachepress_purge_cache();
 
 The HTTPS Config allows you to force SSL usage on your site. It will redirect your entire traffic over secure connections and will fix mixed content issues. A side benefit of switching on the HTTPS is the automatic use of the HTTP2 protocol and its performance benefits. 
 
+= PHP Config =
+
+This tool will allow you to check if your website is compatible with the recommended by SiteGround PHP version(7.0) and switch to it with a click. It is highly advisable to keep your WordPress running on the recommended PHP for best security and performance.
+
 = Requirements =
 
 In order to work correctly, this plugin requires that your server meets the following criteria:
