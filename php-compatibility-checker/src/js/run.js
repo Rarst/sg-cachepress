@@ -82,8 +82,6 @@ jQuery( document ).ready(function($) {
                   'only_active': only_active,
                   'startScan': 1
           };
-          // Init and show the Progress Bar
-          jQuery( '#wpe-progress' ).show();
 
           // Start the test!
           jQuery.post( ajaxurl, data ).always(function() {
@@ -167,7 +165,6 @@ function checkStatus() {
 				test_version = obj.version;
 				displayReport( obj.results );
 			}
-			jQuery( '#wpe-progress' ).hide();                        
                         // cron finished
 		} else {
                         // cron in progress
@@ -181,7 +178,6 @@ function checkStatus() {
 			jQuery( '#progressbar' ).progressbar({
 				value: obj.progress
 			});
-			jQuery( '#wpe-progress' ).show();
 
 			// Display the current plugin count.
 			jQuery( '#wpe-progress-count' ).text( ( obj.total - obj.count + 1 ) + '/' + obj.total );
