@@ -77,24 +77,30 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
       
       <p id="phpVersionCheckerHeaderMsgCompatible"></p>
       <p id="phpVersionCheckerHeaderMsgUpToDate"></p>
-      
+            
       <?php if (!$is_up_to_date) { ?>
-        <p id="phpVersionCheckerHeaderMsgNotUpToDate"><?php echo __('Your site is using ', 'sg-cachepress') . 
+        <?php if (defined('DISABLE_WP_CRON') && DISABLE_WP_CRON) { ?>      
+        <strong>Error:</strong> <?php echo __('Compatibility checker relies on the WordPress Cron '
+                . 'functionality to operate which is disabled for this site. '
+                . 'Please, enable the WordPress Cron and refresh this page.'); ?> 
+        <?php } else { ?>
+          <p id="phpVersionCheckerHeaderMsgNotUpToDate"><?php echo __('Your site is using ', 'sg-cachepress') . 
                 ' <strong>PHP ' . $current_version . '</strong> '
                 . __('which is below the recommended <strong>PHP ', 'sg-cachepress') . $recommended_php_version . '</strong>.'
                 ?></p>
       
-        <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" 
-               name="run" 
-               id="runButton" 
-               type="button" 
-               class="button-primary" />   
+          <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;" 
+                 name="run" 
+                 id="runButton" 
+                 type="button" 
+                 class="button-primary" />   
 
-        <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;"
-               name="upgradeButton"
-               id="upgradeButton"
-               type="button"
-               class="button-primary" />
+          <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;"
+                 name="upgradeButton"
+                 id="upgradeButton"
+                 type="button"
+                 class="button-primary" />
+        <?php } ?>
         <?php } ?>
 
 <!--      <input style="float: left; margin-left: 5px;" name="run" id="cleanupButton" type="button" value="<?php esc_attr_e('Clean up', 'php-compatibility-checker'); ?>" class="button" />-->
