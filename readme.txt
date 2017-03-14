@@ -77,6 +77,9 @@ Force HTTPS on/off -- enable or disable the the https redirect for your whole si
 
 == Changelog ==
 
+= Version 3.2.1 =
+* Improved cron fallback, added error message if the WP CRON is disabled
+
 = Version 3.2.0 =
 * Adding PHP 7.0 Compatibility check & PHP Version switch
 
@@ -227,3 +230,4 @@ Force HTTPS on/off -- enable or disable the the https redirect for your whole si
 
 = 1.0 =
 * Plugin created.
+
