@@ -173,7 +173,7 @@ class SG_WPEPHPCompat {
 		*
 		* @param int $timeout The timeout in seconds.
 		*/
-		$timeout = apply_filters( 'sg_wpephpcompat_scan_timeout', 50 );
+		$timeout = apply_filters( 'sg_wpephpcompat_scan_timeout', 29 );
 		$this->debug_log( 'timeout: ' . $timeout );
 
 		// No reason to lock if there's no timeout.
