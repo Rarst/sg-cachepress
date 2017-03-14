@@ -82,7 +82,7 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
         <?php if (defined('DISABLE_WP_CRON') && DISABLE_WP_CRON) { ?>      
         <strong>Error:</strong> <?php echo __('Compatibility checker relies on the WordPress Cron '
                 . 'functionality to operate which is disabled for this site. '
-                . 'Please, enable the WordPress Cron and refresh this page.'); ?> 
+                . 'Please, enable the WordPress Cron and refresh this page. Check out <a href="https://www.siteground.com/kb/disable-wordpress-cron/#enable" target="_blank">this article</a> for more information on that matter.'); ?> 
         <?php } else { ?>
           <p id="phpVersionCheckerHeaderMsgNotUpToDate"><?php echo __('Your site is using ', 'sg-cachepress') . 
                 ' <strong>PHP ' . $current_version . '</strong> '
