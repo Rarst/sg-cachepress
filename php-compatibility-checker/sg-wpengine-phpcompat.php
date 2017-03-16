@@ -403,22 +403,26 @@ class SG_WPEngine_PHPCompat {
           $recommended = self::get_recommended_php_versions();
           $phpversion = $recommended[0];
         }
+        
         self::delete_tmp_phpversion_script();
+        $version = explode('.', $phpversion);
+
+        return $version[0] .'.'. $version[1];
       } else {
         $phpversion = PHP_VERSION;
       }      
       
-      if (php_sapi_name() == "cli" || !defined('PHP_VERSION_ID')) {
-          $version = explode('.', $phpversion);
-          define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+      if (!defined('PHP_VERSION_ID')) {
+        $version = explode('.', $phpversion);
+        define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
       }
 
-      if (php_sapi_name() == "cli" || PHP_VERSION_ID < 50207) {
+      if (PHP_VERSION_ID < 50207) {
           define('PHP_MAJOR_VERSION',   $version[0]);
           define('PHP_MINOR_VERSION',   $version[1]);
           define('PHP_RELEASE_VERSION', $version[2]);
       }
-      
+
       return PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
     }
     
