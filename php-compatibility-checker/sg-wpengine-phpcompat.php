@@ -371,11 +371,16 @@ class SG_WPEngine_PHPCompat {
      * @since 2.3.11
      */
     public static function get_current_php_version() {
-      
       if (php_sapi_name() == "cli") {
         // md5( 'showmeversion' )
         $url = get_option('siteurl') . '?sgphpCheck=819483ed1511baac6c92a176da3bcfca';
         $phpversion = self::curl_get_content($url);
+        
+        // when wunning via cli if unable to get current version
+        if (!preg_match("/^\d+\.\d+/", $phpversion)) {
+          $recommended = self::get_recommended_php_versions();
+          $phpversion = $recommended[0];
+        }
       } else {
         $phpversion = PHP_VERSION;
       }      
