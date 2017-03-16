@@ -392,8 +392,8 @@ class SG_WPEngine_PHPCompat {
      * @since 2.3.11
      */
     public static function get_current_php_version() {
-      self::create_tmp_phpversion_script();
       if (php_sapi_name() == "cli") {
+        self::create_tmp_phpversion_script();
         // md5( 'showmeversion ')
         $url = get_option('siteurl') . '/sgtestphpver.php';
         $phpversion = self::curl_get_content($url);
@@ -403,11 +403,12 @@ class SG_WPEngine_PHPCompat {
           $recommended = self::get_recommended_php_versions();
           $phpversion = $recommended[0];
         }
+        self::delete_tmp_phpversion_script();
       } else {
         $phpversion = PHP_VERSION;
       }      
       
-      if (!defined('PHP_VERSION_ID')) {
+      if (php_sapi_name() == "cli" || !defined('PHP_VERSION_ID')) {
           $version = explode('.', $phpversion);
           define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
       }
@@ -418,8 +419,6 @@ class SG_WPEngine_PHPCompat {
           define('PHP_RELEASE_VERSION', $version[2]);
       }
       
-      self::delete_tmp_phpversion_script();
-
       return PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
     }
     
