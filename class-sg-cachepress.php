@@ -78,10 +78,10 @@ class SG_CachePress {
                 }
                 
                 // Check PHP version
-		// curl -s http://domain.com/?sgphpCheck=819483ed1511baac6c92a176da3bcfca
-                if ( isset( $_GET['sgphpCheck'] ) && md5( 'showmeversion' ) === $_GET['sgphpCheck'] ) {
-                  die( PHP_VERSION );
-                }
+//		// curl -s http://domain.com/?sgphpCheck=819483ed1511baac6c92a176da3bcfca
+//                if ( isset( $_GET['sgphpCheck'] ) && md5( 'showmeversion' ) === $_GET['sgphpCheck'] ) {
+//                  die( PHP_VERSION );
+//                }
 		$this->options_handler->upgrade();
 
 		$this->set_headers_cookies();

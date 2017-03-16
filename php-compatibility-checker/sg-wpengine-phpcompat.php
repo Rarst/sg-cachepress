@@ -333,7 +333,11 @@ class SG_WPEngine_PHPCompat {
         return get_option('sg_wpephpcompat.prev_php_version');
     }
     
-    
+    /**
+     * 
+     * @param type $url
+     * @return type
+     */
     public static function curl_get_content($url) {       
         $options = array(
             CURLOPT_RETURNTRANSFER => true,   // return web page
@@ -362,6 +366,23 @@ class SG_WPEngine_PHPCompat {
 
         return $content;
     }
+    
+    public static function create_tmp_phpversion_script() {   
+      $basedir = dirname(dirname(dirname(dirname(__DIR__))));
+      $filename = $basedir. '/sgtestphpver.php';
+        
+      $myfile = fopen($filename, "w") or die("Unable to open file!");
+      $txt = "<?php die( PHP_VERSION );?>";
+      fwrite($myfile, $txt);
+      fclose($myfile);
+    }
+    
+    public static function delete_tmp_phpversion_script() {   
+      $basedir = dirname(dirname(dirname(dirname(__DIR__))));
+      $filename = $basedir. '/sgtestphpver.php';
+      unlink($filename);
+    }
+
         
     /**
      * 
@@ -371,9 +392,10 @@ class SG_WPEngine_PHPCompat {
      * @since 2.3.11
      */
     public static function get_current_php_version() {
+      self::create_tmp_phpversion_script();
       if (php_sapi_name() == "cli") {
-        // md5( 'showmeversion' )
-        $url = get_option('siteurl') . '?sgphpCheck=819483ed1511baac6c92a176da3bcfca';
+        // md5( 'showmeversion ')
+        $url = get_option('siteurl') . '/sgtestphpver.php';
         $phpversion = self::curl_get_content($url);
         
         // when wunning via cli if unable to get current version
@@ -395,6 +417,8 @@ class SG_WPEngine_PHPCompat {
           define('PHP_MINOR_VERSION',   $version[1]);
           define('PHP_RELEASE_VERSION', $version[2]);
       }
+      
+      self::delete_tmp_phpversion_script();
 
       return PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
     }
