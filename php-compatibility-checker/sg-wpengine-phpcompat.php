@@ -332,6 +332,36 @@ class SG_WPEngine_PHPCompat {
     public static function get_prev_php_version() {
         return get_option('sg_wpephpcompat.prev_php_version');
     }
+    
+    
+    public static function curl_get_content($url) {       
+        $options = array(
+            CURLOPT_RETURNTRANSFER => true,   // return web page
+            CURLOPT_HEADER         => false,  // don't return headers
+            CURLOPT_FOLLOWLOCATION => true,   // follow redirects
+            CURLOPT_MAXREDIRS      => 10,     // stop after 10 redirects
+            CURLOPT_ENCODING       => "",     // handle compressed
+            CURLOPT_USERAGENT      => "test", // name of client
+            CURLOPT_AUTOREFERER    => true,   // set referrer on redirect
+            CURLOPT_CONNECTTIMEOUT => 120,    // time-out on connect
+            CURLOPT_TIMEOUT        => 120,    // time-out on response
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
+        );
+
+        $ch = curl_init($url);        
+        curl_setopt_array($ch, $options);       
+        $content  = curl_exec($ch);
+       
+//        if (false === $content) {
+//          var_dump(curl_error($ch));
+//          throw new Exception(curl_error($ch), curl_errno($ch));
+//        }
+        
+        curl_close($ch);
+
+        return $content;
+    }
         
     /**
      * 
@@ -341,18 +371,27 @@ class SG_WPEngine_PHPCompat {
      * @since 2.3.11
      */
     public static function get_current_php_version() {
-        if (!defined('PHP_VERSION_ID')) {
-            $version = explode('.', PHP_VERSION);
-            define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
-        }
+      
+      if (php_sapi_name() == "cli") {
+        // md5( 'showmeversion' )
+        $url = get_option('siteurl') . '?sgphpCheck=819483ed1511baac6c92a176da3bcfca';
+        $phpversion = self::curl_get_content($url);
+      } else {
+        $phpversion = PHP_VERSION;
+      }      
+      
+      if (!defined('PHP_VERSION_ID')) {
+          $version = explode('.', $phpversion);
+          define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+      }
 
-        if (PHP_VERSION_ID < 50207) {
-            define('PHP_MAJOR_VERSION',   $version[0]);
-            define('PHP_MINOR_VERSION',   $version[1]);
-            define('PHP_RELEASE_VERSION', $version[2]);
-        }
+      if (PHP_VERSION_ID < 50207) {
+          define('PHP_MAJOR_VERSION',   $version[0]);
+          define('PHP_MINOR_VERSION',   $version[1]);
+          define('PHP_RELEASE_VERSION', $version[2]);
+      }
 
-        return PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+      return PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
     }
     
     /**
