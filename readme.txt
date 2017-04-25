@@ -77,6 +77,13 @@ Force HTTPS on/off -- enable or disable the the https redirect for your whole si
 
 == Changelog ==
 
+= Version 3.2.4 =
+* Updated Memcache.tpl
+* Fixed a link in the PHP Check interface
+
+= Version 3.2.3 =
+* Improved WP-CLI compatibility
+
 = Version 3.2.1 =
 * Improved cron fallback, added error message if the WP CRON is disabled
 

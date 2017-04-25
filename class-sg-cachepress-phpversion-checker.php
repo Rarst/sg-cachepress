@@ -79,8 +79,8 @@ class SG_CachePress_PHPVersionChecker
         if ($this->options_handler->is_enabled('show_notice_' . $id)) {
             $html = '<div id="ajax-' . $id . '" class="updated sg-cachepress-notification-by-id">';
             $html .= '<p>';
-            $html .= __('<strong>SG CachePress PHP Version:</strong>'
-                    . $msg . ' Click <a href="./admin.php?page=php-check" target="_self">here</a> for mode details. '
+            $html .= __('<strong>SG Optimizer:</strong>'
+                    . $msg . ' Click <a href="./admin.php?page=php-check" target="_self">here</a> for more details. '
                     . '<a href="javascript:;" id="' . $id . '" class="dismiss-sg-cahepress-notification-by-id">Click here to hide this notice</a>.', 'ajax-notification');
             $html .= '</p>';
             $html .= '<span id="ajax-notification-nonce" class="hidden">' . wp_create_nonce('ajax-notification-nonce') . '</span>';
