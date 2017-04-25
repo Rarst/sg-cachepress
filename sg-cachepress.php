@@ -9,7 +9,7 @@
  * @wordpress-plugin
  * Plugin Name:       SG Optimizer
  * Description:       This plugin will link your WordPress application with all the performance optimizations provided by SiteGround
- * Version:           3.2.0
+ * Version:           3.2.4
  * Author:            SiteGround
  * Text Domain:       sg-cachepress
  * Domain Path:       /languages
@@ -37,6 +37,17 @@ require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-admin.php';
 require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-phpversion-checker.php';
 require plugin_dir_path( __FILE__ ) . 'php-compatibility-checker/sg-wpengine-phpcompat.php';
 require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-ssl.php';
+require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-cli.php';
+
+
+//Register WP-CLI command
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+	$sgpurge = function() {
+		sg_cachepress_purge_cache();
+	    WP_CLI::success( 'Purge Successful' );
+	};
+	WP_CLI::add_command( 'sgpurge', $sgpurge );
+}
 
 
 // Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
@@ -103,3 +114,5 @@ function sg_cachepress_purge_cache()
     
     return $sg_cachepress_supercacher->purge_cache();
 }
+
+
