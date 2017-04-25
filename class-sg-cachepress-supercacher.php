@@ -99,7 +99,8 @@ class SG_CachePress_Supercacher {
         
 		// Check if caching server is varnish or nginx.
 		$sgcache_ip = '/etc/sgcache_ip';
-		$hostname = preg_replace("(^https?://)", "", get_home_url() );
+		
+		$hostname = parse_url(get_home_url(), PHP_URL_HOST);
 
 		$purge_method = "PURGE";
 
