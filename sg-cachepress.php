@@ -45,7 +45,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		sg_cachepress_purge_cache();
 	    WP_CLI::success( 'Purge Successful' );
 	};
-	WP_CLI::add_command( 'sgpurge', $sgpurge );
+	WP_CLI::add_command( 'sg purge', $sgpurge );
 }
 
 // Register hooks that are fired when the plugin is activated, deactivated, and uninstalled, respectively.
