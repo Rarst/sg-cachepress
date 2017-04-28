@@ -79,6 +79,9 @@ Force HTTPS on/off -- enable or disable the the https redirect for your whole si
 
 == Changelog ==
 
+= Version 3.3.1 =
+* Added logging of failed attempts in XMLRPC API.
+
 = Version 3.3.0 =
 * Improved public purge function for theme and plugin developers
 * Added WP-CLI command for cache purge - wp sg purge

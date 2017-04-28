@@ -57,6 +57,13 @@ add_action( 'admin_init', array('SG_CachePress','admin_init_cachepress') );
 
 add_action( 'init', 'disable_other_caching_plugins' );
 
+function filter_xmlrpc_login_error( $this_error, $user ) {
+	if (function_exists('c74ce9b9ffdebe0331d8e43e97206424_notify')) {
+		c74ce9b9ffdebe0331d8e43e97206424_notify("wpxmlrpc", getcwd(), "UNKNOWN");
+	}
+	return $this_error;
+}
+add_filter( 'xmlrpc_login_error', 'filter_xmlrpc_login_error', 10, 2 );
 
 /**
  * Disables Other Caching Plugins if SG SuperCacher is enabled
