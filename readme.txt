@@ -23,6 +23,8 @@ if (function_exists('sg_cachepress_purge_cache')) {
 sg_cachepress_purge_cache();
 }
 
+WP-CLI command is now available: "wp sg purge" to clear the cache.
+
 = HTTPS Config =
 
 The HTTPS Config allows you to force SSL usage on your site. It will redirect your entire traffic over secure connections and will fix mixed content issues. A side benefit of switching on the HTTPS is the automatic use of the HTTP2 protocol and its performance benefits. 
@@ -76,6 +78,10 @@ This field allows you to exclude URLs from the cache. This means that if you nee
 Force HTTPS on/off -- enable or disable the the https redirect for your whole site and the rewriting of the resource links from http to https.
 
 == Changelog ==
+
+= Version 3.3.0 =
+* Improved public purge function for theme and plugin developers
+* Added WP-CLI command for cache purge - wp sg purge
 
 = Version 3.2.4 =
 * Updated Memcache.tpl
