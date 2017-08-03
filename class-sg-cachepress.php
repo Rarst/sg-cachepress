@@ -102,8 +102,7 @@ class SG_CachePress {
 
 		if ( $network_wide && is_multisite() ) {
 
-			/**@var SG_CachePress_Multisite $sg_cachepress_multisite */
-			global $sg_cachepress_multisite;
+			$sg_cachepress_multisite = new SG_CachePress_Multisite();
 			$sg_cachepress_multisite->toggle_network_activation( true );
 		} else {
 			self::single_activate();
