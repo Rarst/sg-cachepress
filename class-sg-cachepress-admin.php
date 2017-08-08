@@ -84,10 +84,10 @@ class SG_CachePress_Admin {
 
 		// Add the admin bar purge button handler
 		add_action( 'admin_post_sg-cachepress-purge',  array( 'SG_CachePress_Supercacher', 'purge_cache_admin_bar' ) );
-  
-                if (!is_admin() && get_option('sg_cachepress_ssl_enabled') === '1') {
-                    SG_CachePress_SSL::fix_mixed_content();
-                }
+                
+		if (!is_admin() && get_option('sg_cachepress_ssl_enabled') == '1') {
+		    SG_CachePress_SSL::fix_mixed_content();
+		} 
                 
                 
 	}        
