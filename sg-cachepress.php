@@ -38,6 +38,7 @@ require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-phpversion-checker.ph
 require plugin_dir_path( __FILE__ ) . 'php-compatibility-checker/sg-wpengine-phpcompat.php';
 require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-ssl.php';
 require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-multisite.php';
+require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-log.php';
 
 
 //Register WP-CLI command

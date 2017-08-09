@@ -34,7 +34,8 @@
 			"tests/"
 		],
 		"files"   : [
-			"class-sg-cachepress-multisite.php"
+			"class-sg-cachepress-multisite.php",
+			"class-sg-cachepress-log.php"
 		]
 	}
 }
