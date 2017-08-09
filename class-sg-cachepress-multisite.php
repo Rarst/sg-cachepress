@@ -9,7 +9,7 @@ class SG_CachePress_Multisite {
 	 */
 	public function toggle_network_activation( $active ) {
 
-		$blog_ids = self::get_blog_ids();
+		$blog_ids = $this->get_blog_ids();
 
 		foreach ( $blog_ids as $blog_id ) {
 			switch_to_blog( $blog_id );
