@@ -1,6 +1,128 @@
 <?php
 
+/**
+ * Implements functionality specific to multisite context.
+ */
 class SG_CachePress_Multisite {
+
+	/** @var array $bulk_actions Set of bulk actions for network admin. */
+	protected $bulk_actions = [];
+
+	/**
+	 * SG_CachePress_Multisite constructor.
+	 */
+	public function __construct() {
+
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		if ( is_network_admin() ) {
+
+			$this->bulk_actions = [
+				'sg-enable-cache'            => esc_html__( 'Enable Dynamic Cache', 'sg-cachepress' ),
+				'sg-disable-cache'           => esc_html__( 'Disable Dynamic Cache', 'sg-cachepress' ),
+				'sg-enable-autoflush-cache'  => esc_html__( 'Enable AutoFlush Cache', 'sg-cachepress' ),
+				'sg-disable-autoflush-cache' => esc_html__( 'Disable AutoFlush Cache', 'sg-cachepress' ),
+				'sg-purge-cache'             => esc_html__( 'Purge Cache', 'sg-cachepress' ),
+			];
+
+			add_filter( 'bulk_actions-sites-network', [ $this, 'bulk_actions' ] );
+			add_filter( 'handle_network_bulk_actions-sites-network', [ $this, 'handle_network_bulk_actions' ], 10, 3 );
+			add_action( 'network_admin_notices', array( $this, 'network_admin_notices' ) );
+		}
+	}
+
+	/**
+	 * Appends bulk actions to network admin sites table.
+	 *
+	 * @param array $actions List of actions passed by filter.
+	 *
+	 * @return array
+	 */
+	public function bulk_actions( $actions ) {
+
+		return array_merge( $actions, $this->bulk_actions );
+	}
+
+	/**
+	 * Handles network admin bulk actions of the plugin.
+	 *
+	 * @param string $redirect_to URL destination.
+	 * @param string $doaction    Bulk action slug.
+	 * @param array  $blogs       Set of site IDs to act on.
+	 *
+	 * @return string
+	 */
+	public function handle_network_bulk_actions( $redirect_to, $doaction, $blogs ) {
+
+		$redirect_to = remove_query_arg( 'sg-settings-updated', $redirect_to );
+		$redirect_to = remove_query_arg( 'sg-cache-purged', $redirect_to );
+
+		if ( ! array_key_exists( $doaction, $this->bulk_actions ) ) {
+			return $redirect_to;
+		}
+
+		/** @var SG_CachePress_Options $sg_cachepress_options */
+		global $sg_cachepress_options;
+
+		foreach ( $blogs as $site_id ) {
+
+			switch_to_blog( $site_id );
+
+			switch ( $doaction ) {
+				case 'sg-enable-cache':
+					$sg_cachepress_options->enable_option( 'enable_cache' );
+					break;
+				case 'sg-disable-cache':
+					$sg_cachepress_options->disable_option( 'enable_cache' );
+					break;
+				case 'sg-enable-autoflush-cache':
+					$sg_cachepress_options->enable_option( 'autoflush_cache' );
+					break;
+				case 'sg-disable-autoflush-cache':
+					$sg_cachepress_options->disable_option( 'autoflush_cache' );
+					break;
+				case 'sg-purge-cache':
+					sg_cachepress_purge_cache();
+					break;
+			}
+
+			restore_current_blog();
+		}
+
+		$argument = 'sg-settings-updated';
+
+		if ( 'sg-purge-cache' === $doaction ) {
+			$argument = 'sg-cache-purged';
+		}
+
+		$redirect_to = add_query_arg( $argument, count( $blogs ), $redirect_to );
+
+		return $redirect_to;
+	}
+
+	/**
+	 * Outputs notices on completed bulk actions.
+	 */
+	public function network_admin_notices() {
+
+		if ( ! empty( $_REQUEST['sg-settings-updated'] ) ) {
+			$count = (int) $_REQUEST['sg-settings-updated'];
+			echo '<div class="updated sg-cachepress-notification"><p>';
+			// translators: Count of sites.
+			printf( esc_html__( 'SG Optimizer settings updated on %d sites.', 'sg-cachepress' ), $count );
+			echo '</p></div>';
+		}
+
+		if ( ! empty( $_REQUEST['sg-cache-purged'] ) ) {
+			$count = (int) $_REQUEST['sg-cache-purged'];
+			echo '<div class="updated sg-cachepress-notification"><p>';
+			// translators: Count of sites.
+			printf( esc_html__( 'SG Optimizer cache purged on %d sites.', 'sg-cachepress' ), $count );
+			echo '</p></div>';
+		}
+	}
 
 	/**
 	 * Run (de)activation logic for all blogs on the network;
