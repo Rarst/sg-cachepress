@@ -19,8 +19,9 @@ class SG_CachePress_Multisite {
 			} else {
 				SG_CachePress::single_deactivate();
 			}
+
+			restore_current_blog();
 		}
-		restore_current_blog();
 	}
 
 	/**
