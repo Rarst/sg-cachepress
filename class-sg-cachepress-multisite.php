@@ -8,6 +8,9 @@ class SG_CachePress_Multisite {
 	/** @var array $bulk_actions Set of bulk actions for network admin. */
 	protected $bulk_actions = [];
 
+	/** @var array Set of options editable from site settings in network admin. */
+	protected $options = [];
+
 	/**
 	 * SG_CachePress_Multisite constructor.
 	 */
@@ -19,6 +22,11 @@ class SG_CachePress_Multisite {
 
 		if ( is_network_admin() ) {
 
+			$this->options = [
+				'enable_cache'          => esc_html__( 'Enable Cache', 'sg-cachepress' ),
+				'autoflush_cache'       => esc_html__( 'AutoFlush Cache', 'sg-cachepress' ),
+			];
+
 			$this->bulk_actions = [
 				'sg-enable-cache'            => esc_html__( 'Enable Dynamic Cache', 'sg-cachepress' ),
 				'sg-disable-cache'           => esc_html__( 'Disable Dynamic Cache', 'sg-cachepress' ),
@@ -27,10 +35,75 @@ class SG_CachePress_Multisite {
 				'sg-purge-cache'             => esc_html__( 'Purge Cache', 'sg-cachepress' ),
 			];
 
+			add_action( 'wpmueditblogaction', array( $this, 'wpmueditblogaction' ) );
+			add_action( 'wpmu_update_blog_options', array( $this, 'wpmu_update_blog_options' ) );
 			add_filter( 'bulk_actions-sites-network', [ $this, 'bulk_actions' ] );
 			add_filter( 'handle_network_bulk_actions-sites-network', [ $this, 'handle_network_bulk_actions' ], 10, 3 );
 			add_action( 'network_admin_notices', array( $this, 'network_admin_notices' ) );
 		}
+	}
+
+	/**
+	 * Adds plugin’s options to the site settings form.
+	 *
+	 * @param int $id Site ID to switch to.
+	 */
+	public function wpmueditblogaction( $id ) {
+
+		/** @var SG_CachePress_Options $sg_cachepress_options */
+		global $sg_cachepress_options;
+
+		switch_to_blog( $id );
+
+		foreach ( $this->options as $key => $name ) {
+			?>
+			<tr>
+				<th>
+					<label for="sg-optimizer-option-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $name ); ?></label>
+				</th>
+				<td>
+					<input type="checkbox"
+						   name="sg-options[<?php echo esc_attr( $key ); ?>]"
+						   id="sg-optimizer-option-<?php echo esc_attr( $key ); ?>"
+						<?php checked( $sg_cachepress_options->is_enabled( $key ) ); ?>
+					/>
+				</td>
+			</tr>
+			<?php
+		}
+
+		restore_current_blog();
+	}
+
+	/**
+	 * Saves plugin’s options from the site settings form submit.
+	 *
+	 * @param int $id Site ID to switch to.
+	 */
+	public function wpmu_update_blog_options( $id ) {
+
+		/** @var SG_CachePress_Options $sg_cachepress_options */
+		global $sg_cachepress_options;
+
+		if ( empty( $_POST['sg-options'] ) ) {
+			return;
+		}
+
+		$options = $_POST['sg-options'];
+
+		switch_to_blog( $id );
+
+		foreach ( array_keys( $this->options ) as $key ) {
+
+			if ( isset( $options[ $key ] ) && 'on' === $options[ $key ] ) {
+				$sg_cachepress_options->enable_option( $key );
+				continue;
+			}
+
+			$sg_cachepress_options->disable_option( $key );
+		}
+
+		restore_current_blog();
 	}
 
 	/**

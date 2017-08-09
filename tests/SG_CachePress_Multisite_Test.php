@@ -25,6 +25,16 @@ class SG_CachePress_Multisite_Test extends SG_CachePress_TestCase {
 
 		$object = new SG_CachePress_Multisite();
 
+		$this->assertTrue( has_action(
+			'wpmueditblogaction',
+			'SG_CachePress_Multisite->wpmueditblogaction()'
+		) );
+
+		$this->assertTrue( has_action(
+			'wpmu_update_blog_options',
+			'SG_CachePress_Multisite->wpmu_update_blog_options()'
+		) );
+
 		$this->assertTrue( has_filter(
 			'bulk_actions-sites-network',
 			'SG_CachePress_Multisite->bulk_actions()'
