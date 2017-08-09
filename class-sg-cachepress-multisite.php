@@ -23,6 +23,8 @@ class SG_CachePress_Multisite {
 		if ( is_network_admin() ) {
 
 			$this->options = [
+				'disallow_cache_config' => esc_html__( 'Disallow Cache Configuration', 'sg-cachepress' ),
+				'disallow_https_config' => esc_html__( 'Disallow HTTPS Configuration', 'sg-cachepress' ),
 				'enable_cache'          => esc_html__( 'Enable Cache', 'sg-cachepress' ),
 				'autoflush_cache'       => esc_html__( 'AutoFlush Cache', 'sg-cachepress' ),
 			];
