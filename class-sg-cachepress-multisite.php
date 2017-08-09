@@ -5,11 +5,14 @@
  */
 class SG_CachePress_Multisite {
 
-	/** @var array $bulk_actions Set of bulk actions for network admin. */
-	protected $bulk_actions = [];
-
 	/** @var array Set of options editable from site settings in network admin. */
 	protected $options = [];
+
+	/** @var array Set of actions executable from site settings in network admin. */
+	protected $actions = [];
+
+	/** @var array $bulk_actions Set of bulk actions for network admin. */
+	protected $bulk_actions = [];
 
 	/**
 	 * SG_CachePress_Multisite constructor.
@@ -27,6 +30,11 @@ class SG_CachePress_Multisite {
 				'disallow_https_config' => esc_html__( 'Disallow HTTPS Configuration', 'sg-cachepress' ),
 				'enable_cache'          => esc_html__( 'Enable Cache', 'sg-cachepress' ),
 				'autoflush_cache'       => esc_html__( 'AutoFlush Cache', 'sg-cachepress' ),
+			];
+
+			$this->actions = [
+				'purge_cache' => esc_html__( 'Purge Cache', 'sg-cachepress' ),
+				// TODO SSL enable with check.
 			];
 
 			$this->bulk_actions = [
@@ -74,6 +82,22 @@ class SG_CachePress_Multisite {
 			<?php
 		}
 
+		foreach ( $this->actions as $key => $name ) {
+			?>
+			<tr>
+				<th>
+					<label for="sg-optimizer-action-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $name ); ?></label>
+				</th>
+				<td>
+					<input type="checkbox"
+						   name="sg-actions[<?php echo esc_attr( $key ); ?>]"
+						   id="sg-optimizer-action-<?php echo esc_attr( $key ); ?>"
+					/>
+				</td>
+			</tr>
+			<?php
+		}
+
 		restore_current_blog();
 	}
 
@@ -87,7 +111,7 @@ class SG_CachePress_Multisite {
 		/** @var SG_CachePress_Options $sg_cachepress_options */
 		global $sg_cachepress_options;
 
-		if ( empty( $_POST['sg-options'] ) ) {
+		if ( empty( $_POST['sg-options'] ) && empty( $_POST['sg-actions'] ) ) {
 			return;
 		}
 
@@ -103,6 +127,20 @@ class SG_CachePress_Multisite {
 			}
 
 			$sg_cachepress_options->disable_option( $key );
+		}
+
+		$actions = $_POST['sg-actions'];
+
+		foreach ( array_keys( $this->actions ) as $key ) {
+
+			if ( isset( $actions[ $key ] ) && 'on' === $actions[ $key ] ) {
+
+				switch ( $key ) {
+					case 'purge_cache':
+						sg_cachepress_purge_cache();
+						break;
+				}
+			}
 		}
 
 		restore_current_blog();
