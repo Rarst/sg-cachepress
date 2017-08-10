@@ -50,12 +50,26 @@ class SG_CachePress_Admin {
 	 * @since 1.1.0
 	 */
 	public function run() {
+
+		$disallow_cache_config = $this->options_handler->is_enabled( 'disallow_cache_config' );
+		$disallow_https_config = $this->options_handler->is_enabled( 'disallow_https_config' );
+
+		if ( $disallow_cache_config && $disallow_https_config ) {
+			return;
+		}
+
 		// Add the admin page and menu item.
 		add_action( 'admin_menu', array( $this, 'add_plugin_admin_menu' ));
 		
 		// Add the submenu pages and menu items
-		add_action( 'admin_menu', array( $this, 'add_plugin_caching_menu' ));
-		add_action( 'admin_menu', array( $this, 'add_plugin_ssl_menu' ));
+		if ( ! $disallow_cache_config ) {
+			add_action( 'admin_menu', array( $this, 'add_plugin_caching_menu' ) );
+		}
+
+		if ( ! $disallow_https_config ) {
+			add_action( 'admin_menu', array( $this, 'add_plugin_ssl_menu' ) );
+		}
+
 		if (self::$enable_php_version_checker) {
                     add_action( 'admin_menu', array( $this, 'add_plugin_php_menu' ));
                 }
@@ -68,7 +82,12 @@ class SG_CachePress_Admin {
 		add_action( 'admin_notices', array( $this, 'plugin_admin_notices'));
 
 		// Add the admin bar purge button
-		add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_purge' ), PHP_INT_MAX );
+		if ( ! $disallow_cache_config ) {
+			add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_purge' ), PHP_INT_MAX );
+
+			// Add the admin bar purge button handler
+			add_action( 'admin_post_sg-cachepress-purge',  array( 'SG_CachePress_Supercacher', 'purge_cache_admin_bar' ) );
+		}
 
 		// Load admin assets.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
@@ -82,9 +101,6 @@ class SG_CachePress_Admin {
 		add_action( 'wp_ajax_sg-cachepress-cache-test-message-hide', array( $this, 'cache_test_message_hide' ) );
                 add_action( 'wp_ajax_sg-cachepress-ssl-toggle', array( 'SG_CachePress_SSL', 'toggle' ) );
 
-		// Add the admin bar purge button handler
-		add_action( 'admin_post_sg-cachepress-purge',  array( 'SG_CachePress_Supercacher', 'purge_cache_admin_bar' ) );
-  
                 if (!is_admin() && get_option('sg_cachepress_ssl_enabled') === '1') {
                     SG_CachePress_SSL::fix_mixed_content();
                 }
