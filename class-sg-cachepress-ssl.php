@@ -188,6 +188,10 @@ class SG_CachePress_SSL
      */
     public static function disable_from_htaccess()
     {
+	    if ( is_multisite() ) {
+		    return false;
+	    }
+
         $filename = self::get_htaccess_filename(false);
         if ($filename === false) {
         	return false;
@@ -217,6 +221,10 @@ class SG_CachePress_SSL
      */
     public static function enable_from_htaccess()
     {
+	    if ( is_multisite() ) {
+		    return false;
+	    }
+
         $filename = self::get_htaccess_filename();
         
         if ($filename === false) {
@@ -327,11 +335,15 @@ class SG_CachePress_SSL
 
     /**
      * @since 3.0.0
-     * @param type $create
+     * @param boolean $create
      * @return string | false
      */
     public static function get_htaccess_filename($create = true)
     {
+	    if ( is_multisite() ) {
+		    return false;
+	    }
+
         $basedir = dirname(dirname(dirname(__DIR__)));
         $filename = $basedir . '/.htaccess';
 

@@ -15,18 +15,22 @@ $siteurlHTTPS = SG_CachePress_SSL::switchProtocol('http', 'https', $siteurl)
             </ul>', 'sg-cachepress' ) ?></p>
      
             <div class="greybox">
-                                    
-                    <a <?php if (SG_CachePress_SSL::is_certificate_enabled() && SG_CachePress_SSL::get_htaccess_filename() !== false) {?>href=""<?php } ?> id="sg-cachepress-ssl-toggle<?php if (!SG_CachePress_SSL::is_certificate_enabled() || SG_CachePress_SSL::get_htaccess_filename() === false) {?>disabled<?php } ?>" 
-                       class="<?php  if ( 
-                               SG_CachePress_SSL::is_fully_enabled()
-                               ) echo 'toggleon'; else echo 'toggleoff'; ?>"></a>                    
+				<?php
+				$certificate = SG_CachePress_SSL::is_certificate_enabled();
+				$htaccess    = SG_CachePress_SSL::get_htaccess_filename();
+
+				$href  = ( $certificate && $htaccess !== false ) ? 'href=""' : '';
+				$id    = ( ! $certificate || $htaccess === false ) ? 'sg-cachepress-ssl-toggledisabled' : 'sg-cachepress-ssl-toggle';
+				$class = SG_CachePress_SSL::is_fully_enabled() ? 'toggleon' : 'toggleoff';
+				?>
+                    <a <?php echo $href; ?> id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr($class); ?>"></a>
 
                     <p id="sg-cachepress-ssl-text"><?php _e( 'Force HTTPS', 'sg-cachepress' ) ?></p>                    
       
              <div class="clr"></div>		
             </div>
             
-            <?php if (!SG_CachePress_SSL::is_certificate_enabled()) {?>
+            <?php if (! $certificate ) {?>
             <p class="notcached" id="sg-cachepress-ssl-error">
                 <?php _e( '<strong>Warning:</strong> You don’t have a certificate issued for '. $siteurlHTTPS .'. '
                         . 'Please, install an SSL certificate before you force a HTTPS connection. '
@@ -34,15 +38,15 @@ $siteurlHTTPS = SG_CachePress_SSL::switchProtocol('http', 'https', $siteurl)
                         . 'for more information on that matter.', 'sg-cachepress' ); 
                 ?>
             </p>
-            <?php } ?> 
-            
-            <?php  if ( SG_CachePress_SSL::get_htaccess_filename() === false) {?>
+            <?php } ?>
+
+            <?php if ( ! is_multisite() && ( $htaccess === false ) ) {?>
             <p id="sg-cachepress-htaccess-error">
                 <?php _e( '<strong>Warning:</strong> your .htaccess is not writable! Make sure it has its permissions set to 644!', 'sg-cachepress' ) ?>
             </p>
             <?php } ?> 
             
-            <?php  if ( ( SG_CachePress_SSL::is_partially_enabled() ) && ( SG_CachePress_SSL::get_htaccess_filename() !== false) ) {?>
+            <?php  if ( ( SG_CachePress_SSL::is_partially_enabled() ) && ( $htaccess !== false) ) {?>
             <p id="sg-cachepress-partial-error">
                 <?php _e( '<strong>Warning:</strong> It seems you’ve been using another plugin or manually configured your WordPress application to work over HTTPS. Please, disable all SSL forcing plugins and remove all .htaccess rules regarding SSL before you enable the option in order to avoid potential issues.', 'sg-cachepress' ) ?>
             </p>

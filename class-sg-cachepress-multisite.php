@@ -142,6 +142,28 @@ class SG_CachePress_Multisite {
 			<?php
 		}
 
+		$disabled = SG_CachePress_SSL::is_certificate_enabled() ? '' : 'disabled';
+		?>
+		<tr>
+			<th>
+				<label for="sg-optimizer-action-force_https"><?php echo esc_html__( 'Force HTTPS' ); ?></label>
+			</th>
+			<td>
+				<input type="checkbox"
+					   name="sg-actions[force_https]"
+					   id="sg-optimizer-action-force_https"
+					<?php echo esc_attr( ' ' . $disabled ); ?>
+					<?php checked( SG_CachePress_SSL::is_enabled_from_wordpress_options() ); ?>
+				/>
+				<?php
+				if ( $disabled ) {
+					esc_html_e( 'You do not have a certificate issued for this site.', 'sg-cachepress' );
+				}
+				?>
+			</td>
+		</tr>
+		<?php
+
 		restore_current_blog();
 	}
 
@@ -185,6 +207,12 @@ class SG_CachePress_Multisite {
 						break;
 				}
 			}
+		}
+
+		if ( isset( $actions['force_https'] ) && 'on' === $actions['force_https'] ) {
+			SG_CachePress_SSL::enable_from_wordpress_options();
+		} else {
+			SG_CachePress_SSL::disable_from_wordpress_options();
 		}
 
 		restore_current_blog();
