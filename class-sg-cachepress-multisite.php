@@ -51,8 +51,16 @@ class SG_CachePress_Multisite {
 			];
 
 			add_action( 'network_admin_menu', array( $this, 'network_admin_menu' ) );
+
+			// Edit Site > Settings tab.
 			add_action( 'wpmueditblogaction', array( $this, 'wpmueditblogaction' ) );
 			add_action( 'wpmu_update_blog_options', array( $this, 'wpmu_update_blog_options' ) );
+
+			// Sites > Dynamic Cache column.
+			add_filter( 'wpmu_blogs_columns', array( $this, 'wpmu_blogs_columns' ) );
+			add_action( 'manage_sites_custom_column', array( $this, 'manage_sites_custom_column' ), 10, 2 );
+
+			// Sites > Bulk Actions.
 			add_filter( 'bulk_actions-sites-network', [ $this, 'bulk_actions' ] );
 			add_filter( 'handle_network_bulk_actions-sites-network', [ $this, 'handle_network_bulk_actions' ], 10, 3 );
 			add_action( 'network_admin_notices', array( $this, 'network_admin_notices' ) );
@@ -183,6 +191,51 @@ class SG_CachePress_Multisite {
 
 		// translators: Site's URL.
 		$this->log->add_message( sprintf( __( 'updated settings on %s', 'sg-cachepress' ), get_home_url( $id ) ) );
+	}
+
+	/**
+	 * Adds dynamic cache status column to sites list.
+	 *
+	 * @param array $sites_columns Set of columns passed by filter.
+	 *
+	 * @return array
+	 */
+	public function wpmu_blogs_columns( $sites_columns ) {
+
+		$sites_columns['sg-dynamic-cache'] = esc_html__( 'Dynamic Cache', 'sg-cachepress' );
+
+		return $sites_columns;
+	}
+
+	/**
+	 * Outputs status in dynamic cache column.
+	 *
+	 * @param string $column_name Sites list column table name.
+	 * @param int    $blog_id     Current row site ID.
+	 */
+	public function manage_sites_custom_column( $column_name, $blog_id ) {
+
+		if ( 'sg-dynamic-cache' !== $column_name ) {
+			return;
+		}
+
+		/** @var SG_CachePress_Options $sg_cachepress_options */
+		global $sg_cachepress_options;
+
+		switch_to_blog( $blog_id );
+
+		$cache     = $sg_cachepress_options->is_enabled( 'enable_cache' );
+		$autoflush = $sg_cachepress_options->is_enabled( 'autoflush_cache' );
+
+		if ( $cache && $autoflush ) {
+			esc_html_e( 'Enabled (AutoFlush)', 'sg-cachepress' );
+		} elseif ( $cache ) {
+			esc_html_e( 'Enabled', 'sg-cachepress' );
+		} else {
+			esc_html_e( 'Disabled', 'sg-cachepress' );
+		}
+
+		restore_current_blog();
 	}
 
 	/**
