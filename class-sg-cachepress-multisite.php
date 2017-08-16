@@ -11,9 +11,6 @@ class SG_CachePress_Multisite {
 	/** @var array Set of options editable from site settings in network admin. */
 	protected $options = [];
 
-	/** @var array Set of actions executable from site settings in network admin. */
-	protected $actions = [];
-
 	/** @var array $bulk_actions Set of bulk actions for network admin. */
 	protected $bulk_actions = [];
 
@@ -37,11 +34,6 @@ class SG_CachePress_Multisite {
 				'autoflush_cache'       => esc_html__( 'AutoFlush Cache', 'sg-cachepress' ),
 			];
 
-			$this->actions = [
-				'purge_cache' => esc_html__( 'Purge Cache', 'sg-cachepress' ),
-				// TODO SSL enable with check.
-			];
-
 			$this->bulk_actions = [
 				'sg-enable-cache'            => esc_html__( 'Enable Dynamic Cache', 'sg-cachepress' ),
 				'sg-disable-cache'           => esc_html__( 'Disable Dynamic Cache', 'sg-cachepress' ),
@@ -63,7 +55,15 @@ class SG_CachePress_Multisite {
 			// Sites > Bulk Actions.
 			add_filter( 'bulk_actions-sites-network', [ $this, 'bulk_actions' ] );
 			add_filter( 'handle_network_bulk_actions-sites-network', [ $this, 'handle_network_bulk_actions' ], 10, 3 );
+
+			// Sites > Quick Actions.
+			add_filter( 'manage_sites_action_links', [ $this, 'manage_sites_action_links' ], 10, 2 );
+
 			add_action( 'network_admin_notices', array( $this, 'network_admin_notices' ) );
+		}
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			add_action( 'wp_ajax_sg-purge-cache', [ $this, 'wp_ajax' ] );
 		}
 	}
 
@@ -126,22 +126,6 @@ class SG_CachePress_Multisite {
 			<?php
 		}
 
-		foreach ( $this->actions as $key => $name ) {
-			?>
-			<tr>
-				<th>
-					<label for="sg-optimizer-action-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $name ); ?></label>
-				</th>
-				<td>
-					<input type="checkbox"
-						   name="sg-actions[<?php echo esc_attr( $key ); ?>]"
-						   id="sg-optimizer-action-<?php echo esc_attr( $key ); ?>"
-					/>
-				</td>
-			</tr>
-			<?php
-		}
-
 		$disabled = SG_CachePress_SSL::is_certificate_enabled() ? '' : 'disabled';
 		?>
 		<tr>
@@ -195,19 +179,7 @@ class SG_CachePress_Multisite {
 			$sg_cachepress_options->disable_option( $key );
 		}
 
-		$actions = $_POST['sg-actions'];
-
-		foreach ( array_keys( $this->actions ) as $key ) {
-
-			if ( isset( $actions[ $key ] ) && 'on' === $actions[ $key ] ) {
-
-				switch ( $key ) {
-					case 'purge_cache':
-						sg_cachepress_purge_cache();
-						break;
-				}
-			}
-		}
+		$actions = filter_input( INPUT_POST, 'sg-actions' );
 
 		if ( isset( $actions['force_https'] ) && 'on' === $actions['force_https'] ) {
 			SG_CachePress_SSL::enable_from_wordpress_options();
@@ -339,6 +311,59 @@ class SG_CachePress_Multisite {
 		$redirect_to = add_query_arg( $argument, count( $blogs ), $redirect_to );
 
 		return $redirect_to;
+	}
+
+	/**
+	 * Adds Purge Cache to quick actions in sites list.
+	 *
+	 * @param array $actions Set of actions passed by filter.
+	 * @param int   $blog_id Site ID to act on.
+	 *
+	 * @return array
+	 */
+	public function manage_sites_action_links( $actions, $blog_id ) {
+
+		$url = add_query_arg( [
+			'action'  => 'sg-purge-cache',
+			'site_id' => $blog_id,
+		], admin_url( 'admin-ajax.php' ) );
+
+		$link    = sprintf(
+			'<a href="%1$s" style="color:#a00">%2$s</a>',
+			$url,
+			esc_html__( 'Purge Cache', 'sg-cachepress' )
+		);
+
+		$actions = array_merge(
+			array_slice( $actions, 0, 1 ),
+			[ 'sg-purge-cache' => $link ],
+			array_slice( $actions, 1 )
+		);
+
+		return $actions;
+	}
+
+	/**
+	 * Handles ajax request.
+	 */
+	public function wp_ajax() {
+
+		if ( ! current_user_can( 'manage_sites' ) ) {
+			return;
+		}
+
+		$site_id = filter_input( INPUT_GET, 'site_id' );
+
+		if ( empty( $site_id ) ) {
+			return;
+		}
+
+		switch_to_blog( $site_id );
+		sg_cachepress_purge_cache();
+		restore_current_blog();
+
+		wp_safe_redirect( add_query_arg( 'sg-cache-purged', 1, wp_get_referer() ) );
+		die();
 	}
 
 	/**
