@@ -301,6 +301,7 @@ class SG_CachePress_Multisite {
 					break;
 				case 'sg-disable-cache':
 					$sg_cachepress_options->disable_option( 'enable_cache' );
+					sg_cachepress_purge_cache();
 					break;
 				case 'sg-enable-autoflush-cache':
 					$sg_cachepress_options->enable_option( 'autoflush_cache' );
