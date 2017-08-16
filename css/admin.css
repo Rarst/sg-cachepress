@@ -38,7 +38,7 @@ p#sg-cachepress-partial-error strong, p#sg-cachepress-htaccess-error strong, p#s
 .wp-core-ui .button-primary:active,
 .wp-core-ui .button-primary:focus,
 .wp-core-ui .button-primary[disabled],
-.wp-core-ui .button-primary:disabled { background: #49587c !important; border-color: !important; box-shadow: none !important; color: #fff !important; }
+.wp-core-ui .button-primary:disabled { background: #49587c !important; box-shadow: none !important; color: #fff !important; }
 
 /* LAYOUT */
 .sgwrap { max-width: 800px; margin: 20px 20px 20px 15px; }
@@ -50,7 +50,7 @@ p#sg-cachepress-partial-error strong, p#sg-cachepress-htaccess-error strong, p#s
 /* BOX 2 */
 .box:nth-of-type(1) .greybox > div:nth-of-type(1) { float: left; width: 70%; margin: 0 2% 0 0; }
 .box:nth-of-type(1) .greybox > div:nth-of-type(2) { float: left; width: 28%; }
-.box:nth-of-type(1) .greybox > div input { height: 40px; padding: 0 10px; margin: 0; }
+.box:nth-of-type(1) .greybox > div input { padding: 0 10px; margin: 0; }
 .box:nth-of-type(1) .three { margin: 10px 0 0; }
 .box:nth-of-type(1) .three > .greybox { float: left; width: 32%; min-height: 90px; margin: 0 0 0 2%; text-align: center; }
 .box:nth-of-type(1) .three > .greybox:first-of-type { margin: 0; }
@@ -129,7 +129,7 @@ h3#phpVersionCheckerTextBelow {
 	float: left;
 	border: 1px solid #dbdbdb;
 	padding: 0 10px;
-	width: 45% !important;
+	width: 49% !important;
 }
 
 .performance-tool .whitebox p {

@@ -110,7 +110,8 @@
 						</div>
 					<?php endif; ?>
 
-					<input class="sgclr" type="submit" value="<?php esc_attr_e( 'Repeat Test', 'sg-cachepress' ); ?>" />
+					<div class="clr"></div>
+					<input type="submit" value="<?php esc_attr_e( 'Repeat Test', 'sg-cachepress' ); ?>" />
 				</div>
 
 
