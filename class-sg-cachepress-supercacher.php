@@ -85,55 +85,37 @@ class SG_CachePress_Supercacher {
      *
      * @since Unknown
      *
-     * @return null
+     * @return void
      */
 	public static function purge_cache($dontDie = false) {
 		global $sg_cachepress_supercacher;
-		if ( $sg_cachepress_supercacher->environment->is_using_cli() )
-			return;
 
-		if ( self::$_flushed )
-			return;
-
-		$purge_request = $sg_cachepress_supercacher->environment->get_application_path() . '(.*)';
-        
-		// Check if caching server is varnish or nginx.
-		$sgcache_ip = '/etc/sgcache_ip';
-		
-		$hostname = parse_url(get_home_url(), PHP_URL_HOST);
-
-		if ( isset($_SERVER['SERVER_ADDR']) ) {
-			$hostname = $_SERVER['SERVER_ADDR'];
-		}
-
-		$purge_method = "PURGE";
-
-		if (file_exists($sgcache_ip) && !self::is_nginx_server()) {
-	        $hostname = trim( file_get_contents( $sgcache_ip, true ) );
-	        $purge_method = "BAN";
-		}
-
-		$cache_server_socket = fsockopen( $hostname, 80, $errno, $errstr, 2 );
-		if( ! $cache_server_socket ) {
+		if ( $sg_cachepress_supercacher->environment->is_using_cli() ) {
 			return;
 		}
-		
-		$realhost= $hostname;
 
-		if ( isset($_SERVER['HTTP_REFERER']) ) {
-			$realhost= parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST );
+		if ( self::$_flushed ) {
+			return;
 		}
 
+		$purge_request       = $sg_cachepress_supercacher->environment->get_application_path() . '(.*)';
+		$hostname            = parse_url( home_url(), PHP_URL_HOST );
+		$ip                  = isset( $_SERVER['SERVER_ADDR'] ) ? $_SERVER['SERVER_ADDR'] : $hostname;
+		$cache_server_socket = fsockopen( $ip, 80, $errno, $errstr, 2 );
 
-		$request = "$purge_method {$purge_request} HTTP/1.0\r\n";
-      	$request .= "Host: {$realhost}\r\n";
-      	$request .= "Connection: Close\r\n\r\n";
-      	
-      	fwrite( $cache_server_socket, $request );
+		if ( ! $cache_server_socket ) {
+			return;
+		}
+
+		$request = "PURGE {$purge_request} HTTP/1.0\r\n"
+		           . "Host: {$hostname}\r\n"
+		           . "Connection: Close\r\n\r\n";
+
+		fwrite( $cache_server_socket, $request );
       	$response = fgets( $cache_server_socket );
 
       	fclose( $cache_server_socket );
-      	
+
       	self::flush_memcache();
 
       	// Only die (or notify) if doing an Ajax request
