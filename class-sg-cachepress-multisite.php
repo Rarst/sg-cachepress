@@ -8,6 +8,9 @@ class SG_CachePress_Multisite {
 	/** @var SG_CachePress_Log $log */
 	protected $log;
 
+	/** @var array $columns Set of sites list table columns in network admin. */
+	protected $columns = [];
+
 	/** @var array Set of options editable from site settings in network admin. */
 	protected $options = [];
 
@@ -26,6 +29,11 @@ class SG_CachePress_Multisite {
 		if ( is_network_admin() ) {
 
 			$this->log = new SG_CachePress_Log();
+
+			$this->columns = [
+				'sg-dynamic-cache' => esc_html__( 'Dynamic Cache', 'sg-cachepress' ),
+				'sg-force-https'   => esc_html__( 'Force HTTPS', 'sg-cachepress' ),
+			];
 
 			$this->options = [
 				'disallow_cache_config' => esc_html__( 'Disallow Cache Configuration', 'sg-cachepress' ),
@@ -48,7 +56,7 @@ class SG_CachePress_Multisite {
 			add_action( 'wpmueditblogaction', array( $this, 'wpmueditblogaction' ) );
 			add_action( 'wpmu_update_blog_options', array( $this, 'wpmu_update_blog_options' ) );
 
-			// Sites > Dynamic Cache column.
+			// Sites > Sites list columns.
 			add_filter( 'wpmu_blogs_columns', array( $this, 'wpmu_blogs_columns' ) );
 			add_action( 'manage_sites_custom_column', array( $this, 'manage_sites_custom_column' ), 10, 2 );
 
@@ -202,9 +210,7 @@ class SG_CachePress_Multisite {
 	 */
 	public function wpmu_blogs_columns( $sites_columns ) {
 
-		$sites_columns['sg-dynamic-cache'] = esc_html__( 'Dynamic Cache', 'sg-cachepress' );
-
-		return $sites_columns;
+		return array_merge( $sites_columns, $this->columns );
 	}
 
 	/**
@@ -215,7 +221,7 @@ class SG_CachePress_Multisite {
 	 */
 	public function manage_sites_custom_column( $column_name, $blog_id ) {
 
-		if ( 'sg-dynamic-cache' !== $column_name ) {
+		if ( ! array_key_exists( $column_name, $this->columns ) ) {
 			return;
 		}
 
@@ -224,15 +230,29 @@ class SG_CachePress_Multisite {
 
 		switch_to_blog( $blog_id );
 
-		$cache     = $sg_cachepress_options->is_enabled( 'enable_cache' );
-		$autoflush = $sg_cachepress_options->is_enabled( 'autoflush_cache' );
+		switch ( $column_name ) {
+			case 'sg-dynamic-cache':
+				$cache     = $sg_cachepress_options->is_enabled( 'enable_cache' );
+				$autoflush = $sg_cachepress_options->is_enabled( 'autoflush_cache' );
 
-		if ( $cache && $autoflush ) {
-			esc_html_e( 'Enabled (AutoFlush)', 'sg-cachepress' );
-		} elseif ( $cache ) {
-			esc_html_e( 'Enabled', 'sg-cachepress' );
-		} else {
-			esc_html_e( 'Disabled', 'sg-cachepress' );
+				if ( $cache && $autoflush ) {
+					esc_html_e( 'Enabled (AutoFlush)', 'sg-cachepress' );
+				} elseif ( $cache ) {
+					esc_html_e( 'Enabled', 'sg-cachepress' );
+				} else {
+					esc_html_e( 'Disabled', 'sg-cachepress' );
+				}
+
+				break;
+
+			case 'sg-force-https':
+				if ( SG_CachePress_SSL::is_enabled_from_wordpress_options() ) {
+					esc_html_e( 'Enabled', 'sg-cachepress' );
+				} else {
+					esc_html_e( 'Disabled', 'sg-cachepress' );
+				}
+
+				break;
 		}
 
 		restore_current_blog();
