@@ -3,8 +3,8 @@
 		<?php
 		/** @var SG_CachePress_Performance_Tool $sg_cachepress_performance_tool */
 		global $sg_cachepress_performance_tool;
-		$is_default    = empty( $_POST ) || ( 'advanced' !== filter_input( INPUT_POST, 'scan-type' ) );
-		$is_logged_out = empty( $_POST ) || ( 'logged-in' !== filter_input( INPUT_POST, 'login' ) );
+		$is_default    = 'advanced' !== filter_input( INPUT_POST, 'scan-type' );
+		$is_logged_out = 'logged-in' !== filter_input( INPUT_POST, 'login' );
 		$hide_advanced = $is_default ? 'display:none' : '';
 		$urls          = $sg_cachepress_performance_tool->get_urls();
 		$summary       = $sg_cachepress_performance_tool->get_summary_results();
