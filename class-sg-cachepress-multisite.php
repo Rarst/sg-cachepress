@@ -134,7 +134,7 @@ class SG_CachePress_Multisite {
 			<?php
 		}
 
-		$disabled = SG_CachePress_SSL::is_certificate_enabled() ? '' : 'disabled';
+		$disabled = ! SG_CachePress_SSL::is_certificate_enabled();
 		?>
 		<tr>
 			<th>
@@ -144,8 +144,8 @@ class SG_CachePress_Multisite {
 				<input type="checkbox"
 					   name="sg-actions[force_https]"
 					   id="sg-optimizer-action-force_https"
-					<?php echo esc_attr( ' ' . $disabled ); ?>
 					<?php checked( SG_CachePress_SSL::is_enabled_from_wordpress_options() ); ?>
+					<?php if ( $disabled ) : ?> disabled<?php endif; ?>
 				/>
 				<?php
 				if ( $disabled ) {
@@ -169,11 +169,14 @@ class SG_CachePress_Multisite {
 		/** @var SG_CachePress_Options $sg_cachepress_options */
 		global $sg_cachepress_options;
 
-		if ( empty( $_POST['sg-options'] ) && empty( $_POST['sg-actions'] ) ) {
+		if (
+			! filter_has_var( INPUT_POST, 'sg-options' )
+			&& ! filter_has_var( INPUT_POST, 'sg-actions' )
+		) {
 			return;
 		}
 
-		$options = $_POST['sg-options'];
+		$options = filter_input( INPUT_POST, 'sg-options', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 
 		switch_to_blog( $id );
 
@@ -187,7 +190,7 @@ class SG_CachePress_Multisite {
 			$sg_cachepress_options->disable_option( $key );
 		}
 
-		$actions = filter_input( INPUT_POST, 'sg-actions' );
+		$actions = filter_input( INPUT_POST, 'sg-actions', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 
 		if ( isset( $actions['force_https'] ) && 'on' === $actions['force_https'] ) {
 			SG_CachePress_SSL::enable_from_wordpress_options();
@@ -392,16 +395,16 @@ class SG_CachePress_Multisite {
 	 */
 	public function network_admin_notices() {
 
-		if ( ! empty( $_REQUEST['sg-settings-updated'] ) ) {
-			$count = (int) $_REQUEST['sg-settings-updated'];
+		if ( filter_has_var( INPUT_GET, 'sg-settings-updated' ) ) {
+			$count = filter_input( INPUT_GET, 'sg-settings-updated', FILTER_VALIDATE_INT );
 			echo '<div class="updated sg-cachepress-notification"><p>';
 			// translators: Count of sites.
 			printf( esc_html__( 'SG Optimizer settings updated on %d sites.', 'sg-cachepress' ), $count );
 			echo '</p></div>';
 		}
 
-		if ( ! empty( $_REQUEST['sg-cache-purged'] ) ) {
-			$count = (int) $_REQUEST['sg-cache-purged'];
+		if ( filter_has_var( INPUT_GET, 'sg-cache-purged' ) ) {
+			$count = filter_input( INPUT_GET, 'sg-cache-purged', FILTER_VALIDATE_INT );
 			echo '<div class="updated sg-cachepress-notification"><p>';
 			// translators: Count of sites.
 			printf( esc_html__( 'SG Optimizer cache purged on %d sites.', 'sg-cachepress' ), $count );
