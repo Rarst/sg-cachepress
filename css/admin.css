@@ -136,3 +136,26 @@ h3#phpVersionCheckerTextBelow {
 	color: black;
 	font-style: normal;
 }
+
+.performance-tool #optimization-checks .check-enabled,
+.performance-tool #optimization-checks .check-disabled {
+	color:            white;
+	background-color: #3D4A69;
+	font-weight:      bold;
+	padding:          3px 20px;
+	margin:           10px 15px 0 0;
+	border:           none;
+	border-radius:    3px;
+}
+
+.performance-tool #optimization-checks .check-disabled {
+	background-color: grey;
+}
+
+#optimization-checks li {
+	margin-bottom: 20px;
+}
+
+#optimization-checks strong {
+	text-transform: uppercase;
+}

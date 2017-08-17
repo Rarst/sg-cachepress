@@ -58,10 +58,12 @@ class SG_CachePress_Performance_Tool {
 
 			$start     = microtime( true );
 			$response  = wp_remote_get( $url );
+
 			$results[] = [
-				'url'           => $url,
-				'time'          => microtime( true ) - $start,
-				'response_code' => wp_remote_retrieve_response_code( $response ),
+				'url'              => $url,
+				'time'             => microtime( true ) - $start,
+				'response_code'    => wp_remote_retrieve_response_code( $response ),
+				'content-encoding' => wp_remote_retrieve_header( $response, 'content-encoding' ),
 			];
 		}
 
@@ -217,6 +219,7 @@ class SG_CachePress_Performance_Tool {
 				'time' => $max,
 				'url'  => array_search( $max, $results, true ),
 			],
+			'gzip'    => in_array( 'gzip', array_column( $this->results, 'content-encoding' ), true ),
 		];
 
 		return $results;

@@ -113,7 +113,74 @@
 					<input type="submit" value="<?php esc_attr_e( 'Repeat Test', 'sg-cachepress' ); ?>" />
 				</div>
 
+				<div class="greybox">
+					<h3><?php esc_html_e( 'Optimization Checks', 'sg-cachepress' ); ?></h3>
 
+					<?php
+					/** @var SG_CachePress_Options $sg_cachepress_options */
+					global $sg_cachepress_options;
+					?>
+					<ul id="optimization-checks">
+						<li>
+							<?php if ( $sg_cachepress_options->is_enabled( 'enable_cache' ) ) : ?>
+								<span class="check-enabled"><?php esc_html_e( 'Enabled', 'sg-cachepress' ); ?></span>
+								<strong><?php esc_html_e( 'Dynamic Cache', 'sg-cachepress' ); ?></strong>
+							<?php else : ?>
+								<span class="check-disabled"><?php esc_html_e( 'Disabled', 'sg-cachepress' ); ?></span>
+								<strong><?php esc_html_e( 'Dynamic Cache', 'sg-cachepress' ); ?></strong>
+								<?php
+								printf(
+									// translators: URL to the configuration page.
+									__( 'Enable Dynamic Caching from the <a href="%s">SuperCacher Config page</a> to improve your site performance.' ),
+									add_query_arg( 'page', 'caching', admin_url( 'page.php' ) )
+								);
+								?>
+							<?php endif; ?>
+						</li>
+						<li>
+							<?php if ( SG_WPEngine_PHPCompat::isUpToDate() ) : ?>
+								<span class="check-enabled"><?php esc_html_e( 'Enabled', 'sg-cachepress' ); ?></span>
+								<strong><?php esc_html_e( 'Latest PHP version', 'sg-cachepress' ); ?></strong>
+							<?php else : ?>
+								<span class="check-disabled"><?php esc_html_e( 'Disabled', 'sg-cachepress' ); ?></span>
+								<strong><?php esc_html_e( 'Latest PHP version', 'sg-cachepress' ); ?></strong>
+								<?php
+								printf(
+									// translators: URL to the configuration page.
+									__( 'Switch to the <a href="%s">latest PHP version</a> to get the best out of your site’s performance.' ),
+									add_query_arg( 'page', 'php-check', admin_url( 'page.php' ) )
+								);
+								?>
+							<?php endif; ?>
+						</li>
+						<li>
+							<?php if ( SG_CachePress_SSL::is_enabled_from_wordpress_options() ) : ?>
+								<span class="check-enabled"><?php esc_html_e( 'Enabled', 'sg-cachepress' ); ?></span>
+								<strong><?php esc_html_e( 'HTTP2 &amp; SSL', 'sg-cachepress' ); ?></strong>
+							<?php else : ?>
+								<span class="check-disabled"><?php esc_html_e( 'Disabled', 'sg-cachepress' ); ?></span>
+								<strong><?php esc_html_e( 'HTTP2 &amp; SSL', 'sg-cachepress' ); ?></strong>
+								<?php
+								printf(
+									// translators: URL to the configuration page.
+									__( 'Enable SSL from the <a href="%s">HTTPS Config page</a> in order to start benefiting from the HTTP2 protocol improvements!' ),
+									add_query_arg( 'page', 'ssl', admin_url( 'page.php' ) )
+								);
+								?>
+							<?php endif; ?>
+						</li>
+						<li>
+							<?php if ( $summary['gzip'] ) : ?>
+								<span class="check-enabled"><?php esc_html_e( 'Enabled', 'sg-cachepress' ); ?></span>
+								<strong><?php esc_html_e( 'GZIP Compression', 'sg-cachepress' ); ?></strong>
+								<?php esc_html_e( 'Congratulations, gZIP is enabled and working on your site saving you precious seconds in loading times.', 'sg-cachepress' ); ?>
+							<?php else : ?>
+								<span class="check-disabled"><?php esc_html_e( 'Disabled', 'sg-cachepress' ); ?></span>
+								<strong><?php esc_html_e( 'gZIP Compression', 'sg-cachepress' ); ?></strong>
+							<?php endif; ?>
+						</li>
+					</ul>
+				</div>
 			<?php endif; ?>
 		</form>
 	</div>
