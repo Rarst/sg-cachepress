@@ -5,8 +5,7 @@
 		global $sg_cachepress_performance_tool;
 		$is_default    = 'advanced' !== filter_input( INPUT_POST, 'scan-type' );
 		$is_logged_out = 'logged-in' !== filter_input( INPUT_POST, 'login' );
-		$hide_advanced = $is_default ? 'display:none' : '';
-		$urls          = $sg_cachepress_performance_tool->get_urls();
+		$urls          = implode( "\n", $sg_cachepress_performance_tool->get_urls() );
 		$summary       = $sg_cachepress_performance_tool->get_summary_results();
 		$last_scan     = get_option( 'sg_cachepress_last_scan' );
 		?>
@@ -29,21 +28,21 @@
 					<input type="radio" name="scan-type" value="advanced" <?php checked( ! $is_default ); ?> /> <?php esc_html_e( 'Advanced Scan', 'sg-cachepress' ); ?>
 				</label>
 
-				<div id="advanced-options" style="<?php echo esc_attr( $hide_advanced ); ?>">
+				<div id="advanced-options" <?php if ( $is_default ) : ?>style="display:none"<?php endif; ?>>
 					<h4><?php esc_html_e( 'Advanced Options', 'sg-cachepress' ); ?></h4>
 
 					<label>
-						<input type="radio" name="login" value="logged-out" <?php checked( $is_logged_out ); ?> <?php disabled( (bool) $hide_advanced ); ?> /> <?php esc_html_e( 'Test as non–logged user', 'sg-cachepress' ); ?>
+						<input type="radio" name="login" value="logged-out" <?php checked( $is_logged_out ); ?> <?php disabled( $is_default ); ?> /> <?php esc_html_e( 'Test as non–logged user', 'sg-cachepress' ); ?>
 					</label>
 					<label>
-						<input type="radio" name="login" value="logged-in" <?php checked( ! $is_logged_out ); ?> <?php disabled( (bool) $hide_advanced ); ?> /> <?php esc_html_e( 'Test as logged user', 'sg-cachepress' ); ?>
+						<input type="radio" name="login" value="logged-in" <?php checked( ! $is_logged_out ); ?> <?php disabled( $is_default ); ?> /> <?php esc_html_e( 'Test as logged user', 'sg-cachepress' ); ?>
 					</label>
 
 					<h4><?php esc_html_e( 'URLs To Test', 'sg-cachepress' ); ?></h4>
 
 					<label for="sg-performance-test-urls"><?php esc_html_e( 'Add the URLs you want to perform your tests on. Up to 10.', 'sg-cachepress' ); ?></label>
 
-					<br /><textarea name="urls" id="sg-performance-test-urls" cols="60" rows="10" <?php disabled( (bool) $hide_advanced ); ?>><?php echo esc_textarea( implode( "\n", $urls ) ); ?></textarea>
+					<br /><textarea name="urls" id="sg-performance-test-urls" cols="60" rows="10" <?php disabled( $is_default ); ?>><?php echo esc_textarea( $urls ); ?></textarea>
 				</div>
 
 				<br /><input type="submit" value="<?php esc_attr_e( 'Analyze Site', 'sg-cachepress' ); ?>" />
@@ -81,7 +80,7 @@
 						</p>
 					</div>
 
-					<?php if ( ! empty( $last_scan ) ): ?>
+					<?php if ( ! empty( $last_scan ) ) : ?>
 						<div class="whitebox">
 							<h4>
 								<?php

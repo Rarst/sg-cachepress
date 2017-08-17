@@ -30,7 +30,7 @@ class SG_CachePress_Performance_Tool {
 	 */
 	public function display() {
 
-		$submit = ! empty( $_POST );
+		$submit = filter_has_var( INPUT_POST, 'scan-type' );
 
 		if ( $submit ) {
 			$this->test_urls( $this->get_urls() );
