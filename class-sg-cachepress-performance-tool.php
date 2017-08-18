@@ -11,6 +11,17 @@ class SG_CachePress_Performance_Tool {
 	/** @var array $results Stored results of current benchmark run. */
 	protected $results = [];
 
+	/** @var  SG_CachePress_Time_Collector $time_collector Instance of performance info collector. */
+	protected $time_collector;
+
+	/**
+	 * SG_CachePress_Performance_Tool constructor.
+	 */
+	public function __construct() {
+
+		$this->time_collector = new SG_CachePress_Time_Collector();
+	}
+
 	/**
 	 * Adds Performance Test admin menu entry.
 	 *
@@ -37,6 +48,15 @@ class SG_CachePress_Performance_Tool {
 
 		if ( $submit ) {
 			$this->test_urls( $this->get_urls() );
+
+			if ( 'logged-in' === filter_input( INPUT_POST, 'login', FILTER_SANITIZE_STRING ) ) {
+
+				wp_localize_script(
+					SG_CachePress::PLUGIN_SLUG . '-chart',
+					'sgOptimizerLoadingTimes',
+					$this->get_chart_data()
+				);
+			}
 		}
 
 		require __DIR__ . '/views/performance-tool.php';
@@ -56,7 +76,9 @@ class SG_CachePress_Performance_Tool {
 		global $timestart; // WP core global.
 
 		$results      = [];
-		$args         = [];
+		$args         = [
+			'headers' => [ 'x-sg-optimizer-test' => 1 ],
+		];
 		$bypass_cache = ( 'logged-in' === filter_input( INPUT_POST, 'login', FILTER_SANITIZE_STRING ) );
 
 		if ( $bypass_cache ) {
@@ -84,6 +106,7 @@ class SG_CachePress_Performance_Tool {
 				'time'             => microtime( true ) - $request_start,
 				'response-code'    => wp_remote_retrieve_response_code( $response ),
 				'content-encoding' => wp_remote_retrieve_header( $response, 'content-encoding' ),
+				'time-data'        => $this->time_collector->extract_data( wp_remote_retrieve_body( $response ) ),
 			];
 		}
 
@@ -243,5 +266,31 @@ class SG_CachePress_Performance_Tool {
 		];
 
 		return $results;
+	}
+
+	/**
+	 * Compiles data for display in the loading times chart.
+	 *
+	 * @return array
+	 */
+	public function get_chart_data() {
+
+		$data = [];
+
+		$total_time = array_sum( array_column( $this->results, 'time' ) );
+		$time_data  = array_column( $this->results, 'time-data' );
+		$labels     = $this->time_collector->get_event_labels();
+
+		foreach ( $labels as $name => $label ) {
+
+			$event_total      = array_sum( array_column( $time_data, $name ) );
+			$data['labels'][] = $label;
+			$data['data'][]   = round( $event_total / $total_time * 100, 2 );
+		}
+
+		$data['labels'][] = esc_html__( 'Other', 'sg-cachepress' );
+		$data['data'][]   = round( 100 - array_sum( $data['data'] ), 2 );
+
+		return $data;
 	}
 }

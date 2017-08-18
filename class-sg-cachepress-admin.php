@@ -352,6 +352,14 @@ class SG_CachePress_Admin {
 				SG_CachePress::VERSION,
 				true
 			);
+
+			wp_enqueue_script(
+				SG_CachePress::PLUGIN_SLUG . '-chart',
+				plugins_url( 'js/chart.min.js', __FILE__ ),
+				[],
+				2.6,
+				true
+			);
 		}
 	}
 

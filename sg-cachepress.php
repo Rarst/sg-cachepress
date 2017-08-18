@@ -40,6 +40,7 @@ require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-ssl.php';
 require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-multisite.php';
 require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-log.php';
 require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-performance-tool.php';
+require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-time-collector.php';
 
 
 //Register WP-CLI command

@@ -53,6 +53,14 @@
 				<div class="greybox">
 					<h3><?php esc_html_e( 'Scan Results', 'sg-cachepress' ); ?></h3>
 
+					<?php if ( ! $is_logged_out ) : ?>
+
+						<h4><?php esc_html_e( 'Loading Times', 'sg-cachepress' ); ?></h4>
+
+						<canvas id="loadingTimes" width="300" height="300"></canvas>
+
+					<?php endif; ?>
+
 					<div class="whitebox">
 						<h4>
 							<?php
