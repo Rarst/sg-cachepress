@@ -53,16 +53,22 @@ class SG_CachePress_Performance_Tool {
 		$results = [];
 
 		// TODO sliding timeout on requests to fit within 30s web server timeout.
-		// TODO conditional header for cache bypass.
+		$args         = [];
+		$bypass_cache = ( 'logged-in' === filter_input( INPUT_POST, 'login', FILTER_SANITIZE_STRING ) );
+
+		if ( $bypass_cache ) {
+			$args['cookies'] = [ 'wpSGCacheBypass' => 1 ];
+		}
+
 		foreach ( $urls as $url ) {
 
 			$start     = microtime( true );
-			$response  = wp_remote_get( $url );
+			$response  = wp_remote_get( $url, $args );
 
 			$results[] = [
 				'url'              => $url,
 				'time'             => microtime( true ) - $start,
-				'response_code'    => wp_remote_retrieve_response_code( $response ),
+				'response-code'    => wp_remote_retrieve_response_code( $response ),
 				'content-encoding' => wp_remote_retrieve_header( $response, 'content-encoding' ),
 			];
 		}
