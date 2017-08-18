@@ -5,6 +5,9 @@
  */
 class SG_CachePress_Performance_Tool {
 
+	/** @var integer TIME_LIMIT Maximum time limit for a test to run in seconds. */
+	const TIME_LIMIT = 25;
+
 	/** @var array $results Stored results of current benchmark run. */
 	protected $results = [];
 
@@ -50,9 +53,9 @@ class SG_CachePress_Performance_Tool {
 	 */
 	public function test_urls( $urls ) {
 
-		$results = [];
+		global $timestart; // WP core global.
 
-		// TODO sliding timeout on requests to fit within 30s web server timeout.
+		$results      = [];
 		$args         = [];
 		$bypass_cache = ( 'logged-in' === filter_input( INPUT_POST, 'login', FILTER_SANITIZE_STRING ) );
 
@@ -62,12 +65,23 @@ class SG_CachePress_Performance_Tool {
 
 		foreach ( $urls as $url ) {
 
-			$start     = microtime( true );
-			$response  = wp_remote_get( $url, $args );
+			$request_start = microtime( true );
+			$elapsed       = $request_start - $timestart;
+
+			if ( $elapsed > self::TIME_LIMIT ) {
+				break;
+			}
+
+			$args['timeout'] = min( 5, (int) floor( self::TIME_LIMIT - $elapsed ) );
+			$response        = wp_remote_get( $url, $args );
+
+			if ( is_wp_error( $response ) ) {
+				continue;
+			}
 
 			$results[] = [
 				'url'              => $url,
-				'time'             => microtime( true ) - $start,
+				'time'             => microtime( true ) - $request_start,
 				'response-code'    => wp_remote_retrieve_response_code( $response ),
 				'content-encoding' => wp_remote_retrieve_header( $response, 'content-encoding' ),
 			];
