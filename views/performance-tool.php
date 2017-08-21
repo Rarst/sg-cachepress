@@ -57,11 +57,14 @@
 
 						<h4><?php esc_html_e( 'Loading Times', 'sg-cachepress' ); ?></h4>
 
-						<canvas id="loadingTimes" width="300" height="300"></canvas>
+						<div id="loadingTimesContainer">
+							<canvas id="loadingTimes" width="300" height="300"></canvas>
+						</div>
+						<div class="clr"></div>
 
 					<?php endif; ?>
 
-					<div class="whitebox">
+					<div class="whitebox scan-current">
 						<h4>
 							<?php
 							// translators: Formatted time of the scan.
@@ -89,7 +92,7 @@
 					</div>
 
 					<?php if ( ! empty( $last_scan ) ) : ?>
-						<div class="whitebox">
+						<div class="whitebox scan-last">
 							<h4>
 								<?php
 								// translators: Formatted time of the scan.

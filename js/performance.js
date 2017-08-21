@@ -28,10 +28,11 @@ jQuery( document ).ready( function ( $ ) {
 				]
 			},
 			options: {
-				'responsive'             : false,
+				'maintainAspectRatio'    : false,
 				'animation.animateRotate': false,
 				'legend'                 : {
-					'display': false
+					'display' : true,
+					'position': 'right'
 				}
 			}
 		} );

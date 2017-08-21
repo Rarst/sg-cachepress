@@ -132,9 +132,19 @@ h3#phpVersionCheckerTextBelow {
 	width: 49% !important;
 }
 
+.performance-tool .scan-current {
+	margin-right: 2%;
+}
+
 .performance-tool .whitebox p {
 	color: black;
 	font-style: normal;
+}
+
+.performance-tool #loadingTimesContainer {
+	width: 60%;
+	height: 200px;
+	margin-bottom: 20px;
 }
 
 .performance-tool #optimization-checks .check-enabled,
