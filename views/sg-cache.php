@@ -25,12 +25,13 @@
  					<a id="caching-link" class="button" href="./admin.php?page=ssl">Configure</a>
  			</div>
 			<?php endif; ?>
- 			
+
+			<?php if ( ! is_multisite() ) : ?>
  			<div class="greybox">
  					<h3><?php _e( 'PHP Config', 'sg-cachepress' ) ?></h3>
  					<a href="./admin.php?page=php-check"><img src="<?php echo plugin_dir_url( __FILE__ )?>../css/php.png" alt="PHP Config" title="PHP Config" /></a>
  					<a id="caching-link" class="button" href="./admin.php?page=php-check">Configure</a>
  			</div>
- 			
+ 			<?php endif; ?>
  		</div>
 </div>

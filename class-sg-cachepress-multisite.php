@@ -80,6 +80,9 @@ class SG_CachePress_Multisite {
 	 */
 	public function network_admin_menu() {
 
+		/** @var SG_CachePress_Admin $sg_cachepress_admin */
+		global $sg_cachepress_admin;
+
 		add_menu_page(
 			__( 'SG Optimizer', 'sg-cachepress' ),
 			__( 'SG Optimizer', 'sg-cachepress' ),
@@ -88,6 +91,8 @@ class SG_CachePress_Multisite {
 			[ $this, 'display_network_admin_page' ],
 			plugins_url( 'sg-cachepress/css/logo-white.svg' )
 		);
+
+		$sg_cachepress_admin->add_plugin_php_menu();
 	}
 
 	/**
