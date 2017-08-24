@@ -143,7 +143,7 @@
 								printf(
 									// translators: URL to the configuration page.
 									__( 'Enable Dynamic Caching from the <a href="%s">SuperCacher Config page</a> to improve your site performance.' ),
-									add_query_arg( 'page', 'caching', admin_url( 'page.php' ) )
+									add_query_arg( 'page', 'caching', admin_url( 'admin.php' ) )
 								);
 								?>
 							<?php endif; ?>
@@ -159,7 +159,7 @@
 								printf(
 									// translators: URL to the configuration page.
 									__( 'Switch to the <a href="%s">latest PHP version</a> to get the best out of your site’s performance.' ),
-									add_query_arg( 'page', 'php-check', admin_url( 'page.php' ) )
+									add_query_arg( 'page', 'php-check', admin_url( 'admin.php' ) )
 								);
 								?>
 							<?php endif; ?>
@@ -175,7 +175,7 @@
 								printf(
 									// translators: URL to the configuration page.
 									__( 'Enable SSL from the <a href="%s">HTTPS Config page</a> in order to start benefiting from the HTTP2 protocol improvements!' ),
-									add_query_arg( 'page', 'ssl', admin_url( 'page.php' ) )
+									add_query_arg( 'page', 'ssl', admin_url( 'admin.php' ) )
 								);
 								?>
 							<?php endif; ?>
