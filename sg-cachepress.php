@@ -39,6 +39,8 @@ require plugin_dir_path( __FILE__ ) . 'php-compatibility-checker/sg-wpengine-php
 require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-ssl.php';
 require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-multisite.php';
 require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-log.php';
+require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-performance-tool.php';
+require plugin_dir_path( __FILE__ ) . 'class-sg-cachepress-time-collector.php';
 
 
 //Register WP-CLI command
@@ -87,17 +89,18 @@ function disable_other_caching_plugins()
 function sg_cachepress_start() {
 
  	global $sg_cachepress, $sg_cachepress_options, $sg_cachepress_environment, $sg_cachepress_memcache,
- 	$sg_cachepress_admin, $sg_cachepress_supercacher, $sg_cachepress_multisite;
+ 	$sg_cachepress_admin, $sg_cachepress_supercacher, $sg_cachepress_multisite, $sg_cachepress_performance_tool;
 
 	$sg_cachepress_options        = new SG_CachePress_Options;
 	$sg_cachepress_environment    = new SG_CachePress_Environment( $sg_cachepress_options );
+	$sg_cachepress_performance_tool = new SG_CachePress_Performance_Tool();
 	$sg_cachepress_admin    		= new SG_CachePress_Admin( $sg_cachepress_options );
 	$sg_cachepress_memcache       = new SG_CachePress_Memcache( $sg_cachepress_options, $sg_cachepress_environment );
 	$sg_cachepress_supercacher    = new SG_CachePress_Supercacher( $sg_cachepress_options, $sg_cachepress_environment );
 	$sg_cachepress                = new SG_CachePress( $sg_cachepress_options);
-        $sg_cachepress_phpversion_checker    		= new SG_CachePress_PHPVersionChecker( $sg_cachepress_options );
+	$sg_cachepress_phpversion_checker    		= new SG_CachePress_PHPVersionChecker( $sg_cachepress_options );
 	$sg_cachepress_multisite = new SG_CachePress_Multisite();
-        
+
         $sg_cachepress_phpversion_checker->run();
 	$sg_cachepress->run();
 	$sg_cachepress_admin->run();

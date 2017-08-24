@@ -33,6 +33,9 @@ class SG_CachePress_Admin {
 	 */
 	protected $options_handler;
 
+	/** @var SG_CachePress_Performance_Tool $performance_tool */
+	protected $performance_tool;
+
 	/**
 	 * Assign dependencies.
 	 *
@@ -42,6 +45,9 @@ class SG_CachePress_Admin {
 	 */
 	public function __construct( $options_handler ) {
 		$this->options_handler = $options_handler;
+
+		global $sg_cachepress_performance_tool;
+		$this->performance_tool = $sg_cachepress_performance_tool;
 	}
 
 	/**
@@ -73,8 +79,8 @@ class SG_CachePress_Admin {
 		if ( self::$enable_php_version_checker && ! is_multisite() ) {
 			add_action( 'admin_menu', array( $this, 'add_plugin_php_menu' ) );
 		}
-                
-		
+
+		add_action( 'admin_menu', [ $this, 'add_plugin_performance_menu' ] );
 		// Admin Init
 		add_action( 'admin_init', array( $this, 'load_admin_global_js' ));
 		
@@ -293,9 +299,10 @@ class SG_CachePress_Admin {
 			'toplevel_page_sg-cachepress',
 			'sg-optimizer_page_php-check',
 			'sg-optimizer_page_php-check-network',
+			'sg-optimizer_page_performance-test'
 		), true ) )
 		{
-			wp_enqueue_style( 'SGOptimizer', plugins_url( 'css/admin.css', __FILE__ ), array(), SG_CachePress::VERSION );	
+			wp_enqueue_style( 'SGOptimizer', plugins_url( 'css/admin.css', __FILE__ ), array(), SG_CachePress::VERSION );
 		}
 	}
 
@@ -341,8 +348,26 @@ class SG_CachePress_Admin {
 			);
 			wp_localize_script( SG_CachePress::PLUGIN_SLUG . '-admin', 'sgCachePressL10n', $strings );
 		}
-	}        
-                        
+
+		if ( 'sg-optimizer_page_performance-test' === $screen->id ) {
+			wp_enqueue_script(
+				SG_CachePress::PLUGIN_SLUG . '-performance',
+				plugins_url( 'js/performance.js', __FILE__ ),
+				array( 'jquery' ),
+				SG_CachePress::VERSION,
+				true
+			);
+
+			wp_enqueue_script(
+				SG_CachePress::PLUGIN_SLUG . '-chart',
+				plugins_url( 'js/chart.min.js', __FILE__ ),
+				[],
+				2.6,
+				true
+			);
+		}
+	}
+
 	/**
 	 * Register the top level page into the WordPress admin menu.
 	 *
@@ -376,10 +401,10 @@ class SG_CachePress_Admin {
 			plugins_url('sg-cachepress/css/logo-white.svg')
 		);
 	}
-	
+
 	public function add_plugin_caching_menu() {
 		$this->page_hook = add_submenu_page(
-			SG_CachePress::PLUGIN_SLUG, 
+			SG_CachePress::PLUGIN_SLUG,
 			__( 'SuperCacher Config', 'sg-cachepress' ), // Page title
 			__( 'SuperCacher Config', 'sg-cachepress' ),    // Menu item title
 			'manage_options',
@@ -400,7 +425,11 @@ class SG_CachePress_Admin {
 			plugins_url('sg-cachepress/css/logo-white.svg')
 		);
 	}
-	
+
+	public function add_plugin_performance_menu() {
+
+		$this->page_hook = $this->performance_tool->admin_menu();
+	}
 
 	/**
 	 * Render the settings page for this plugin.
