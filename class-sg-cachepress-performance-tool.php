@@ -263,9 +263,20 @@ class SG_CachePress_Performance_Tool {
 				'url'  => array_search( $max, $results, true ),
 			],
 			'gzip'    => in_array( 'gzip', array_column( $this->results, 'content-encoding' ), true ),
+			'checksum' => $this->get_form_checksum(),
 		];
 
 		return $results;
+	}
+
+	/**
+	 * Calculates checksum of current POST data.
+	 *
+	 * @return string
+	 */
+	public function get_form_checksum() {
+
+		return md5( wp_json_encode( filter_input_array( INPUT_POST ) ) );
 	}
 
 	/**

@@ -8,6 +8,7 @@
 		$urls          = implode( "\n", $sg_cachepress_performance_tool->get_urls() );
 		$summary       = $sg_cachepress_performance_tool->get_summary_results();
 		$last_scan     = get_option( 'sg_cachepress_last_scan' );
+		$checksum      = $sg_cachepress_performance_tool->get_form_checksum();
 		?>
 
 		<h2><?php esc_html_e( 'Site Performance Test', 'sg-cachepress' ); ?></h2>
@@ -91,7 +92,7 @@
 						</p>
 					</div>
 
-					<?php if ( ! empty( $last_scan ) ) : ?>
+					<?php if ( ! empty( $last_scan ) && $checksum === $last_scan['checksum'] ) : ?>
 						<div class="whitebox scan-last">
 							<h4>
 								<?php
