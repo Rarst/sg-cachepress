@@ -66,11 +66,7 @@ class SG_CachePress_Environment {
 	 */
 	public function get_application_path() {
 
-		if ( ! isset( $this->data['application_path'] ) ) {
-			$this->data['application_path'] = parse_url( home_url( '/' ), PHP_URL_PATH );
-		}
-
-		return $this->data['application_path'];
+		return parse_url( home_url( '/' ), PHP_URL_PATH );
 	}
 
 	/**
