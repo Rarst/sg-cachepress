@@ -321,7 +321,6 @@ class SG_WPEngine_PHPCompat {
             'PHP 5.6' => '5.6',
             'PHP 5.5' => '5.5',
             'PHP 5.4' => '5.4',
-            'PHP 5.3' => '5.3',                                                                                
         ));
     }
     
