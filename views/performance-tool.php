@@ -9,6 +9,8 @@
 		$summary       = $sg_cachepress_performance_tool->get_summary_results();
 		$last_scan     = get_option( 'sg_cachepress_last_scan' );
 		$checksum      = $sg_cachepress_performance_tool->get_form_checksum();
+		$gzip_enabled  = $sg_cachepress_performance_tool->is_gzip_enabled();
+		$expires_enabled = $sg_cachepress_performance_tool->is_expires_enabled();
 		?>
 
 		<h2><?php esc_html_e( 'Site Performance Test', 'sg-cachepress' ); ?></h2>
@@ -182,13 +184,23 @@
 							<?php endif; ?>
 						</li>
 						<li>
-							<?php if ( $summary['gzip'] ) : ?>
+							<?php if ( $gzip_enabled ) : ?>
 								<span class="check-enabled"><?php esc_html_e( 'Enabled', 'sg-cachepress' ); ?></span>
-								<strong><?php esc_html_e( 'GZIP Compression', 'sg-cachepress' ); ?></strong>
+								<strong><?php esc_html_e( 'gZIP Compression', 'sg-cachepress' ); ?></strong>
 								<?php esc_html_e( 'Congratulations, gZIP is enabled and working on your site saving you precious seconds in loading times.', 'sg-cachepress' ); ?>
 							<?php else : ?>
 								<span class="check-disabled"><?php esc_html_e( 'Disabled', 'sg-cachepress' ); ?></span>
 								<strong><?php esc_html_e( 'gZIP Compression', 'sg-cachepress' ); ?></strong>
+							<?php endif; ?>
+						</li>
+						<li>
+							<?php if ( $expires_enabled ) : ?>
+								<span class="check-enabled"><?php esc_html_e( 'Enabled', 'sg-cachepress' ); ?></span>
+								<strong><?php esc_html_e( 'Leverage browser cache', 'sg-cachepress' ); ?></strong>
+								<?php esc_html_e( 'Congratulations, you’re caching static resources locally!', 'sg-cachepress' ); ?>
+							<?php else : ?>
+								<span class="check-disabled"><?php esc_html_e( 'Disabled', 'sg-cachepress' ); ?></span>
+								<strong><?php esc_html_e( 'Leverage browser cache', 'sg-cachepress' ); ?></strong>
 							<?php endif; ?>
 						</li>
 					</ul>

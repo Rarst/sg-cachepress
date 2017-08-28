@@ -14,12 +14,18 @@ class SG_CachePress_Performance_Tool {
 	/** @var  SG_CachePress_Time_Collector $time_collector Instance of performance info collector. */
 	protected $time_collector;
 
+	/** @var SG_CachePress_Htaccess_Editor $htaccess_editor Instance of .htaccess editor. */
+	protected $htaccess_editor;
+
 	/**
 	 * SG_CachePress_Performance_Tool constructor.
 	 */
 	public function __construct() {
 
 		$this->time_collector = new SG_CachePress_Time_Collector();
+
+		// Ideally should be smarter about path, but consistent with what PHP version edit does for now. R.
+		$this->htaccess_editor = new SG_CachePress_Htaccess_Editor( ABSPATH . '.htaccess' );
 	}
 
 	/**
@@ -303,5 +309,25 @@ class SG_CachePress_Performance_Tool {
 		$data['data'][]   = round( 100 - array_sum( $data['data'] ), 2 );
 
 		return $data;
+	}
+
+	/**
+	 * Checks for gzip compression directive in .htaccess.
+	 *
+	 * @return bool
+	 */
+	public function is_gzip_enabled() {
+
+		return false !== $this->htaccess_editor->has_directive( 'GZIP enabled by SG-Optimizer', 'END GZIP' );
+	}
+
+	/**
+	 * Checks for expires headers directive in .htaccess.
+	 *
+	 * @return bool
+	 */
+	public function is_expires_enabled() {
+
+		return false !== $this->htaccess_editor->has_directive( 'Leverage Browser Caching by SG-Optimizer', 'END LBC' );
 	}
 }
