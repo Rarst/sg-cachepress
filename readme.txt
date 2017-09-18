@@ -79,6 +79,9 @@ Force HTTPS on/off -- enable or disable the the https redirect for your whole si
 
 == Changelog ==
 
+= Version 3.3.3 =
+* Fixed minor interface issues
+
 = Version 3.3.2 =
 * Fixed bug with disabling the Force HTTPS option
 

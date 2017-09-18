@@ -9,7 +9,7 @@
  * @wordpress-plugin
  * Plugin Name:       SG Optimizer
  * Description:       This plugin will link your WordPress application with all the performance optimizations provided by SiteGround
- * Version:           3.3.2
+ * Version:           3.3.3
  * Author:            SiteGround
  * Text Domain:       sg-cachepress
  * Domain Path:       /languages
