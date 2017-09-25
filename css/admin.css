@@ -173,3 +173,13 @@ h3#phpVersionCheckerTextBelow {
 #optimization-checks strong {
 	text-transform: uppercase;
 }
+
+.performance-tool #optimization-checks .toggleon,
+.performance-tool #optimization-checks .toggleoff,
+.toplevel_page_sg-cachepress .toggleon,
+.toplevel_page_sg-cachepress .toggleoff
+{
+	display: block;
+	float:   left;
+	margin:  0 34px 10px 14px;
+}

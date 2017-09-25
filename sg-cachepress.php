@@ -95,9 +95,7 @@ function sg_cachepress_start() {
 	$sg_cachepress_options        = new SG_CachePress_Options;
 	$sg_cachepress_environment    = new SG_CachePress_Environment( $sg_cachepress_options );
 
-	if ( ! is_multisite() ) {
-		$sg_cachepress_performance_tool = new SG_CachePress_Performance_Tool();
-	}
+	$sg_cachepress_performance_tool = new SG_CachePress_Performance_Tool();
 
 	$sg_cachepress_admin    		= new SG_CachePress_Admin( $sg_cachepress_options );
 	$sg_cachepress_memcache       = new SG_CachePress_Memcache( $sg_cachepress_options, $sg_cachepress_environment );

@@ -26,6 +26,8 @@ class SG_CachePress_Performance_Tool {
 
 		// Ideally should be smarter about path, but consistent with what PHP version edit does for now. R.
 		$this->htaccess_editor = new SG_CachePress_Htaccess_Editor( ABSPATH . '.htaccess' );
+
+		add_action( 'wp_ajax_sg-cachepress-htaccess-update', array( $this, 'wp_ajax' ) );
 	}
 
 	/**
@@ -329,5 +331,49 @@ class SG_CachePress_Performance_Tool {
 	public function is_expires_enabled() {
 
 		return false !== $this->htaccess_editor->has_directive( 'Leverage Browser Caching by SG-Optimizer', 'END LBC' );
+	}
+
+	/**
+	 * Ajax handler for htaccess changes from UI.
+	 */
+	public function wp_ajax() {
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			die();
+		}
+
+		$name = filter_input( INPUT_POST, 'parameterName' );
+
+		if ( 'gzip' === $name ) {
+			$enabled = $this->is_gzip_enabled();
+
+			if ( $enabled ) {
+				$result = $this->htaccess_editor->remove_directive( 'GZIP enabled by SG-Optimizer', 'END GZIP' );
+				die( $result ? '0' : '1' );
+			}
+
+			$result = $this->htaccess_editor->add_directive(
+				'GZIP enabled by SG-Optimizer',
+				'END GZIP',
+				file_get_contents( __DIR__ . '/gzip.tpl' )
+			);
+			die( $result ? '1' : '0' );
+		}
+
+		if ( 'browser-cache' === $name ) {
+			$enabled = $this->is_expires_enabled();
+
+			if ( $enabled ) {
+				$result = $this->htaccess_editor->remove_directive( 'Leverage Browser Caching by SG-Optimizer', 'END LBC' );
+				die( $result ? '0' : '1' );
+			}
+
+			$result = $this->htaccess_editor->add_directive(
+				'Leverage Browser Caching by SG-Optimizer',
+				'END LBC',
+				file_get_contents( __DIR__ . '/expires.tpl' )
+			);
+			die( $result ? '1' : '0' );
+		}
 	}
 }

@@ -100,8 +100,27 @@ class SG_CachePress_Multisite {
 	 */
 	public function display_network_admin_page() {
 
+		/** @var SG_CachePress_Performance_Tool $sg_cachepress_performance_tool */
+		global $sg_cachepress_performance_tool;
+
+		$gzip_enabled    = $sg_cachepress_performance_tool->is_gzip_enabled();
+		$expires_enabled = $sg_cachepress_performance_tool->is_expires_enabled();
+
 		echo '<div class="wrap">';
 		echo '<h1>' . esc_html__( 'SG Optimizer', 'sg-cachepress' ) . '</h1>';
+
+		echo '<h2>' . esc_html__( '.htaccess Options', 'sg-cachepress' ) . '</h2>';
+		?>
+		<p>
+			<a id="sg-cachepress-gzip-toggle" class="<?php echo $gzip_enabled ? 'toggleon' : 'toggleoff'; ?>" href="#"></a>
+			<?php esc_html_e( 'gZip Compression', 'sg-cachepress' ); ?>
+		</p>
+		<br />
+		<p>
+			<a id="sg-cachepress-browser-cache-toggle" class="<?php echo $expires_enabled ? 'toggleon' : 'toggleoff'; ?>" href="#"></a>
+			<?php esc_html_e( 'Leverage Browser Cache', 'sg-cachepress' ); ?>
+		</p>
+		<?php
 		echo '<h2>' . esc_html__( 'Log', 'sg-cachepress' ) . '</h2>';
 
 		$log = esc_html( $this->log->get_log() );
