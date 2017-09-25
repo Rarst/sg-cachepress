@@ -52,7 +52,7 @@ class SG_CachePress_Time_Collector {
 			return;
 		}
 
-		if ( 1 !== filter_input( INPUT_SERVER, 'HTTP_X_SG_OPTIMIZER_TEST', FILTER_VALIDATE_INT ) ) {
+		if ( empty( $_SERVER['HTTP_X_SG_OPTIMIZER_TEST'] ) || '1' !== $_SERVER['HTTP_X_SG_OPTIMIZER_TEST'] ) {
 			return;
 		}
 
