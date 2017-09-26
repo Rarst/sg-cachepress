@@ -116,6 +116,10 @@ h3#phpVersionCheckerTextBelow {
 	border-radius: 3px;
 }
 
+.performance-tool input[value="Repeat Test"] {
+	float: left;
+}
+
 .performance-tool label {
 	margin-right: 20px;
 }
