@@ -349,6 +349,7 @@ class SG_CachePress_Performance_Tool {
 
 			if ( $enabled ) {
 				$result = $this->htaccess_editor->remove_directive( 'GZIP enabled by SG-Optimizer', 'END GZIP' );
+				sg_cachepress_purge_cache();
 				die( $result ? '0' : '1' );
 			}
 
@@ -357,6 +358,7 @@ class SG_CachePress_Performance_Tool {
 				'END GZIP',
 				file_get_contents( __DIR__ . '/gzip.tpl' )
 			);
+			sg_cachepress_purge_cache();
 			die( $result ? '1' : '0' );
 		}
 
@@ -365,6 +367,7 @@ class SG_CachePress_Performance_Tool {
 
 			if ( $enabled ) {
 				$result = $this->htaccess_editor->remove_directive( 'Leverage Browser Caching by SG-Optimizer', 'END LBC' );
+				sg_cachepress_purge_cache();
 				die( $result ? '0' : '1' );
 			}
 
@@ -373,6 +376,7 @@ class SG_CachePress_Performance_Tool {
 				'END LBC',
 				file_get_contents( __DIR__ . '/expires.tpl' )
 			);
+			sg_cachepress_purge_cache();
 			die( $result ? '1' : '0' );
 		}
 	}
