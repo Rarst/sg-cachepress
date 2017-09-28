@@ -18,9 +18,10 @@ $siteurlHTTPS = SG_CachePress_SSL::switchProtocol('http', 'https', $siteurl)
 				<?php
 				$certificate = SG_CachePress_SSL::is_certificate_enabled();
 				$htaccess    = SG_CachePress_SSL::get_htaccess_filename();
+				$enabled     = $certificate && ( is_multisite() || ( false !== $htaccess ) );
 
-				$href  = ( $certificate && $htaccess !== false ) ? 'href=""' : '';
-				$id    = ( ! $certificate || $htaccess === false ) ? 'sg-cachepress-ssl-toggledisabled' : 'sg-cachepress-ssl-toggle';
+				$href  = $enabled ? 'href=""' : '';
+				$id    = $enabled ? 'sg-cachepress-ssl-toggle' : 'sg-cachepress-ssl-toggledisabled';
 				$class = SG_CachePress_SSL::is_fully_enabled() ? 'toggleon' : 'toggleoff';
 				?>
                     <a <?php echo $href; ?> id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr($class); ?>"></a>
