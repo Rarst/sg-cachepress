@@ -141,25 +141,23 @@ class SG_CachePress_SSL
     }
 
     /**
-     * 
-     * @return type
+     * @return boolean
      */
-    //
-    
-    public static function is_fully_enabled() 
-    {  
-    	if (self::$is_fully_enabled !== null) {
-    	    return self::$is_fully_enabled;
-    	}
-    
-    	$res = false;
-        if (!self::is_certificate_enabled()) {
-            $res = false;
-        }
-        $res = self::is_enabled_from_htaccess() && self::is_enabled_from_wordpress_options();
-        self::$is_fully_enabled = $res;
-        return $res;
-    }
+	public static function is_fully_enabled() {
+		if ( self::$is_fully_enabled !== null ) {
+			return self::$is_fully_enabled;
+		}
+
+		if ( ! self::is_certificate_enabled() ) {
+			return false;
+		}
+
+		if ( is_multisite() && self::is_enabled_from_wordpress_options() ) {
+			return true;
+		}
+
+		return ( self::is_enabled_from_htaccess() && self::is_enabled_from_wordpress_options() );
+	}
 
     /**
      * 
