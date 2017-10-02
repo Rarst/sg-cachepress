@@ -193,13 +193,6 @@ class SG_CachePress_Multisite {
 		/** @var SG_CachePress_Options $sg_cachepress_options */
 		global $sg_cachepress_options;
 
-		if (
-			! filter_has_var( INPUT_POST, 'sg-options' )
-			&& ! filter_has_var( INPUT_POST, 'sg-actions' )
-		) {
-			return;
-		}
-
 		$options = filter_input( INPUT_POST, 'sg-options', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 
 		switch_to_blog( $id );
