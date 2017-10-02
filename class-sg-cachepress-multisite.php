@@ -205,6 +205,10 @@ class SG_CachePress_Multisite {
 			}
 
 			$sg_cachepress_options->disable_option( $key );
+
+			if ( 'enable_cache' === $key ) {
+				sg_cachepress_purge_cache();
+			}
 		}
 
 		$actions = filter_input( INPUT_POST, 'sg-actions', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
