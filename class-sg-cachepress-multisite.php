@@ -215,8 +215,10 @@ class SG_CachePress_Multisite {
 
 		if ( isset( $actions['force_https'] ) && 'on' === $actions['force_https'] ) {
 			SG_CachePress_SSL::enable_from_wordpress_options();
-		} else {
+			update_option( 'sg_cachepress_ssl_enabled', 1 );
+		} elseif ( 1 === get_option( 'sg_cachepress_ssl_enabled' ) ) {
 			SG_CachePress_SSL::disable_from_wordpress_options();
+			update_option( 'sg_cachepress_ssl_enabled', 0 );
 		}
 
 		restore_current_blog();
