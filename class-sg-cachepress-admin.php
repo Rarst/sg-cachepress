@@ -110,7 +110,7 @@ class SG_CachePress_Admin {
 		add_action( 'wp_ajax_sg-cachepress-cache-test-message-hide', array( $this, 'cache_test_message_hide' ) );
                 add_action( 'wp_ajax_sg-cachepress-ssl-toggle', array( 'SG_CachePress_SSL', 'toggle' ) );
 
-		$is_login = ( $GLOBALS['pagenow'] === 'wp-login.php' );
+		$is_login = ( isset( $GLOBALS['pagenow'] ) && 'wp-login.php' === $GLOBALS['pagenow'] );
 
 		if ( ! $is_login && ! is_admin() && get_option( 'sg_cachepress_ssl_enabled' ) === '1' ) {
 			SG_CachePress_SSL::fix_mixed_content();
