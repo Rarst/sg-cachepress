@@ -53,7 +53,7 @@ class SG_CachePress_Multisite {
 			add_action( 'network_admin_menu', array( $this, 'network_admin_menu' ) );
 
 			// Edit Site > Settings tab.
-			add_action( 'wpmueditblogaction', array( $this, 'wpmueditblogaction' ) );
+			add_action( 'wpmueditblogaction', array( $this, 'wpmueditblogaction' ), 11 );
 			add_action( 'wpmu_update_blog_options', array( $this, 'wpmu_update_blog_options' ) );
 
 			// Sites > Sites list columns.
@@ -158,6 +158,8 @@ class SG_CachePress_Multisite {
 		global $sg_cachepress_options;
 
 		switch_to_blog( $id );
+
+		echo '<tr><th><h2>' . esc_html__( 'SG Optimizer Options', 'sg-cachepress' ) . '</h2></th></tr>';
 
 		foreach ( $this->options as $key => $name ) {
 			?>
