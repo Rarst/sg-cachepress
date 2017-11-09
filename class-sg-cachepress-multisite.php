@@ -68,6 +68,8 @@ class SG_CachePress_Multisite {
 			add_filter( 'manage_sites_action_links', [ $this, 'manage_sites_action_links' ], 10, 2 );
 
 			add_action( 'network_admin_notices', array( $this, 'network_admin_notices' ) );
+
+			add_action( 'admin_print_footer_scripts', [ $this, 'admin_print_footer_scripts' ] );
 		}
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
@@ -504,5 +506,25 @@ class SG_CachePress_Multisite {
 		$sql = "SELECT blog_id FROM {$wpdb->blogs} WHERE archived = '0' AND spam = '0' AND deleted = '0'";
 
 		return $wpdb->get_col( $sql );
+	}
+
+	/**
+	 * Hide option rows related to PHP Compat.
+	 */
+	public function admin_print_footer_scripts() {
+
+		$screen = get_current_screen();
+
+		if ( empty( $screen ) || 'site-settings-network' !== $screen->id ) {
+			return;
+		}
+
+		?>
+		<script type="text/javascript">
+			jQuery(document).ready(function($){
+				$( "body.site-settings-php .form-table tr:has(label:contains('Sg Wpephpcompat'))" ).hide();
+			});
+		</script>
+		<?php
 	}
 }
