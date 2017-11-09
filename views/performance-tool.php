@@ -92,6 +92,39 @@
 							printf( esc_html__( 'Fastest Page: %1$s %2$.2fs', 'sg-cachepress' ), esc_url( $summary['min']['url'] ), $summary['min']['time'] );
 							?>
 						</p>
+						<p>
+							<?php
+							if ( $summary['dynamic-cache'] ) {
+								esc_html_e( 'Dynamic Cache: enabled', 'sg-cachepress' );
+							} else {
+								esc_html_e( 'Dynamic Cache: disabled', 'sg-cachepress' );
+							}
+							?>
+						</p>
+						<p>
+							<?php
+							// translators: PHP version.
+							printf( esc_html__( 'PHP version: %1$s', 'sg-cachepress' ), esc_html( $summary['php'] ) );
+							?>
+						</p>
+						<p>
+							<?php
+							if ( $summary['gzip'] ) {
+								esc_html_e( 'gZip: enabled', 'sg-cachepress' );
+							} else {
+								esc_html_e( 'gZip: disabled', 'sg-cachepress' );
+							}
+							?>
+						</p>
+						<p>
+							<?php
+							if ( $summary['expires'] ) {
+								esc_html_e( 'Browser Cache: enabled', 'sg-cachepress' );
+							} else {
+								esc_html_e( 'Browser Cache: disabled', 'sg-cachepress' );
+							}
+							?>
+						</p>
 					</div>
 
 					<?php if ( ! empty( $last_scan ) && $checksum === $last_scan['checksum'] ) : ?>
@@ -118,6 +151,39 @@
 								<?php
 								// translators: URL and formatted time.
 								printf( esc_html__( 'Fastest Page: %1$s %2$.2fs', 'sg-cachepress' ), esc_url( $last_scan['min']['url'] ), $last_scan['min']['time'] );
+								?>
+							</p>
+							<p>
+								<?php
+								if ( $last_scan['dynamic-cache'] ) {
+									esc_html_e( 'Dynamic Cache: enabled', 'sg-cachepress' );
+								} else {
+									esc_html_e( 'Dynamic Cache: disabled', 'sg-cachepress' );
+								}
+								?>
+							</p>
+							<p>
+								<?php
+								// translators: PHP version.
+								printf( esc_html__( 'PHP version: %1$s', 'sg-cachepress' ), esc_html( $last_scan['php'] ) );
+								?>
+							</p>
+							<p>
+								<?php
+								if ( $last_scan['gzip'] ) {
+									esc_html_e( 'gZip: enabled', 'sg-cachepress' );
+								} else {
+									esc_html_e( 'gZip: disabled', 'sg-cachepress' );
+								}
+								?>
+							</p>
+							<p>
+								<?php
+								if ( $last_scan['expires'] ) {
+									esc_html_e( 'Browser Cache: enabled', 'sg-cachepress' );
+								} else {
+									esc_html_e( 'Browser Cache: disabled', 'sg-cachepress' );
+								}
 								?>
 							</p>
 						</div>

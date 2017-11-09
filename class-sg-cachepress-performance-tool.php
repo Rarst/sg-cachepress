@@ -244,6 +244,9 @@ class SG_CachePress_Performance_Tool {
 	 */
 	public function get_summary_results() {
 
+		/** @var SG_CachePress_Options $sg_cachepress_options */
+		global $sg_cachepress_options;
+
 		static $results;
 
 		if ( isset( $results ) ) {
@@ -260,18 +263,21 @@ class SG_CachePress_Performance_Tool {
 		$max = max( $results );
 
 		$results = [
-			'time'    => time(),
-			'average' => array_sum( $results ) / count( $results ),
-			'min'     => [
+			'time'          => time(),
+			'average'       => array_sum( $results ) / count( $results ),
+			'min'           => [
 				'time' => $min,
 				'url'  => array_search( $min, $results, true ),
 			],
-			'max'     => [
+			'max'           => [
 				'time' => $max,
 				'url'  => array_search( $max, $results, true ),
 			],
-			'gzip'    => in_array( 'gzip', array_column( $this->results, 'content-encoding' ), true ),
-			'checksum' => $this->get_form_checksum(),
+			'dynamic-cache' => $sg_cachepress_options->is_enabled( 'enable_cache' ),
+			'php'           => PHP_VERSION,
+			'gzip'          => $this->is_gzip_enabled(),
+			'expires'       => $this->is_expires_enabled(),
+			'checksum'      => $this->get_form_checksum(),
 		];
 
 		return $results;
