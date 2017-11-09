@@ -180,7 +180,7 @@ class SG_CachePress_Multisite {
 		?>
 		<tr>
 			<th>
-				<label for="sg-optimizer-action-force_https"><?php echo esc_html__( 'Force HTTPS' ); ?></label>
+				<label for="sg-optimizer-action-force_https"><?php echo esc_html__( 'Force HTTPS', 'sg-cachepress' ); ?></label>
 			</th>
 			<td>
 				<input type="checkbox"
@@ -214,15 +214,23 @@ class SG_CachePress_Multisite {
 		$options = filter_input( INPUT_POST, 'sg-options', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 
 		switch_to_blog( $id );
+		$home_url = get_home_url( $id );
 
-		foreach ( array_keys( $this->options ) as $key ) {
+		foreach ( $this->options as $key => $name ) {
 
 			if ( isset( $options[ $key ] ) && 'on' === $options[ $key ] ) {
 				$sg_cachepress_options->enable_option( $key );
+
+				// translators: Name of option and site's URL.
+				$this->log->add_message( sprintf( __( 'enabled %1$s on %2$s', 'sg-cachepress' ), $name, $home_url ) );
+
 				continue;
 			}
 
 			$sg_cachepress_options->disable_option( $key );
+
+			// translators: Name of option and site's URL.
+			$this->log->add_message( sprintf( __( 'disabled %1$s on %2$s', 'sg-cachepress' ), $name, $home_url ) );
 
 			if ( 'enable_cache' === $key ) {
 				sg_cachepress_purge_cache();
@@ -233,16 +241,19 @@ class SG_CachePress_Multisite {
 
 		if ( isset( $actions['force_https'] ) && 'on' === $actions['force_https'] ) {
 			SG_CachePress_SSL::enable_from_wordpress_options();
+
 			update_option( 'sg_cachepress_ssl_enabled', 1 );
+			// translators: Site's URL.
+			$this->log->add_message( sprintf( __( 'enabled Force HTTPS on %s', 'sg-cachepress' ), $home_url ) );
 		} elseif ( 1 === get_option( 'sg_cachepress_ssl_enabled' ) ) {
 			SG_CachePress_SSL::disable_from_wordpress_options();
 			update_option( 'sg_cachepress_ssl_enabled', 0 );
+
+			// translators: Site's URL.
+			$this->log->add_message( sprintf( __( 'disabled Force HTTPS on %s', 'sg-cachepress' ), $home_url ) );
 		}
 
 		restore_current_blog();
-
-		// translators: Site's URL.
-		$this->log->add_message( sprintf( __( 'updated settings on %s', 'sg-cachepress' ), get_home_url( $id ) ) );
 	}
 
 	/**
