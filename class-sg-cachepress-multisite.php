@@ -93,6 +93,15 @@ class SG_CachePress_Multisite {
 		);
 
 		$sg_cachepress_admin->add_plugin_php_menu();
+
+		add_submenu_page(
+			SG_CachePress::PLUGIN_SLUG,
+			__( 'Log', 'sg-cachepress' ),
+			__( 'Log', 'sg-cachepress' ),
+			'manage_network_options',
+			SG_CachePress::PLUGIN_SLUG . '-log',
+			[ $this, 'display_network_log_page' ]
+		);
 	}
 
 	/**
@@ -121,7 +130,16 @@ class SG_CachePress_Multisite {
 			<?php esc_html_e( 'Leverage Browser Cache', 'sg-cachepress' ); ?>
 		</p>
 		<?php
-		echo '<h2>' . esc_html__( 'Log', 'sg-cachepress' ) . '</h2>';
+		echo '</div>';
+	}
+
+	/**
+	 * Displays network log page.
+	 */
+	public function display_network_log_page() {
+
+		echo '<div class="wrap">';
+		echo '<h1>' . esc_html__( 'Log', 'sg-cachepress' ) . '</h1>';
 
 		$log = esc_html( $this->log->get_log() );
 
