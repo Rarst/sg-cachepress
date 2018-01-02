@@ -39,7 +39,8 @@
 				<?php submit_button( __( 'Update the Exclude List', 'sg-cachepress' ), 'primary', 'sg-cachepress-blacklist', false );?>
 			</form>
 		</div>
-	</div>                                      
+	</div>
+	<?php if ( ! is_multisite() ) : ?>
 	<div class="box">
 		<h2><?php _e( 'Memcached Settings', 'sg-cachepress' ) ?></h2>
 		<div class="greybox">
@@ -54,6 +55,7 @@
 			<div class="clr"></div>		
 		</div>
 	</div>
+    <?php endif; ?>
 	
 	<div class="box sgclr">
 		<h2><?php _e( 'Dynamic Cache Status Checker', 'sg-cachepress' ) ?></h2>
