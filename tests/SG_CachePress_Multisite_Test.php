@@ -86,12 +86,27 @@ class SG_CachePress_Multisite_Test extends SG_CachePress_TestCase {
 			->times( $count );
 		Functions\expect( 'add_query_arg' )
 			->once()
-			->with( 'sg-cache-purged', $count, 'https://example.com' );
+			->with( 'sg-cache-purged', $count, 'https://example.com' )
+			->andReturn( 'https://example.com?sg-cache-purged=' . $count );
+		Functions\expect( '__' )
+			->andReturnFirstArg();
+		Functions\expect( 'get_site_option' )
+			->andReturn( [] );
+		Functions\when( 'date_i18n' )->alias( function ( $format ) {
+			return date( $format );
+		} );
+		Functions\expect( 'wp_get_current_user' )
+			->andReturn( (object) [ 'user_login' => 'login' ] );
+		Functions\expect( 'esc_html' )
+			->andReturnFirstArg();
+		Functions\expect( 'update_site_option' );
 
-		$object->handle_network_bulk_actions(
+		$redirect_to = $object->handle_network_bulk_actions(
 			'https://example.com',
 			'sg-purge-cache',
 			$site_ids
 		);
+
+		$this->assertEquals( 'https://example.com?sg-cache-purged=' . $count, $redirect_to );
 	}
 }
