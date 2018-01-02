@@ -239,7 +239,18 @@ class SG_CachePress_Admin {
 			'autoflush-cache'	=> 'autoflush_cache'
 		);
 
-		$paramName = $paramTranslator[$_POST['parameterName']];
+		$paramName    = $_POST['parameterName'];
+
+		if ( in_array( $paramName, [ 'default-enable-cache', 'default-autoflush-cache' ], true ) ) {
+			$paramName    = 'sg-cachepress-' . $paramName;
+			$currentValue = (int) get_site_option( $paramName, 0 );
+			$toggledValue = (int)!$currentValue;
+
+			$result = update_site_option( $paramName, $toggledValue );
+			die( $result ? (string)$toggledValue : (string)$currentValue );
+		}
+
+		$paramName    = $paramTranslator[ $paramName ];
 		$currentValue = (int)$this->options_handler->get_option($paramName);
 		$toggledValue = (int)!$currentValue;               
 
@@ -327,6 +338,7 @@ class SG_CachePress_Admin {
 			'sg-optimizer_page_ssl',
 			'sg-optimizer_page_caching',
 			'toplevel_page_sg-cachepress',
+			'toplevel_page_sg-cachepress-network',
 			'sg-optimizer_page_php-check',
 			'sg-optimizer_page_php-check-network',
 		), true ) )
@@ -360,7 +372,7 @@ class SG_CachePress_Admin {
 			wp_enqueue_script(
 				SG_CachePress::PLUGIN_SLUG . '-performance',
 				plugins_url( 'js/performance.js', __FILE__ ),
-				array( 'jquery' ),
+				[ SG_CachePress::PLUGIN_SLUG . '-admin', 'jquery' ],
 				SG_CachePress::VERSION,
 				true
 			);

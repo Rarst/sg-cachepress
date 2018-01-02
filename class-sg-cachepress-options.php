@@ -132,16 +132,24 @@ class SG_CachePress_Options {
 	 * @since 1.1.0
 	 */
 	public function get_defaults() {
-		return array(
-			'enable_cache'               => get_option( 'SGCP_Use_SG_Cache', 0 ),
-			'autoflush_cache'            => get_option( 'SGCP_Autoflush', 1 ),
-			'enable_memcached'           => get_option( 'SGCP_Memcached', 1 ),
-		    'show_notice'                => get_option( 'SGCP_ShowNotice', 0 ),
-		    'is_nginx'                   => get_option( 'SGCP_IsNginx', 0),
-		    'checked_nginx'              => get_option( 'SGCP_CheckedNginx', 0),
-		    'first_run'                  => get_option( 'SGCP_FristRun', 0),
-		    'last_fail'                  => get_option( 'SGCP_LastFail', 0)
-		);
+
+		$defaults = [
+			'enable_cache'     => get_option( 'SGCP_Use_SG_Cache', 0 ),
+			'autoflush_cache'  => get_option( 'SGCP_Autoflush', 1 ),
+			'enable_memcached' => get_option( 'SGCP_Memcached', 1 ),
+			'show_notice'      => get_option( 'SGCP_ShowNotice', 0 ),
+			'is_nginx'         => get_option( 'SGCP_IsNginx', 0 ),
+			'checked_nginx'    => get_option( 'SGCP_CheckedNginx', 0 ),
+			'first_run'        => get_option( 'SGCP_FristRun', 0 ),
+			'last_fail'        => get_option( 'SGCP_LastFail', 0 )
+		];
+
+		if ( is_multisite() ) {
+			$defaults['enable_cache']    = get_site_option( 'sg-cachepress-default-enable-cache', 0 );
+			$defaults['autoflush_cache'] = get_site_option( 'sg-cachepress-default-autoflush-cache', 0 );
+		}
+
+		return $defaults;
 	}
 
 	/**

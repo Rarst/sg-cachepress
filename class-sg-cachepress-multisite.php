@@ -28,6 +28,7 @@ class SG_CachePress_Multisite {
 
 		if ( is_network_admin() ) {
 
+		    // TODO change log to DI to simplify tests. R.
 			$this->log = new SG_CachePress_Log();
 
 			$this->columns = [
@@ -117,6 +118,9 @@ class SG_CachePress_Multisite {
 		$gzip_enabled    = $sg_cachepress_performance_tool->is_gzip_enabled();
 		$expires_enabled = $sg_cachepress_performance_tool->is_expires_enabled();
 
+		$default_enable_cache    = get_site_option( 'sg-cachepress-default-enable-cache', 0 );
+		$default_autoflush_cache = get_site_option( 'sg-cachepress-default-autoflush-cache', 0 );
+
 		echo '<div class="wrap">';
 		echo '<h1>' . esc_html__( 'SG Optimizer', 'sg-cachepress' ) . '</h1>';
 
@@ -130,6 +134,19 @@ class SG_CachePress_Multisite {
 		<p>
 			<a id="sg-cachepress-browser-cache-toggle" class="<?php echo $expires_enabled ? 'toggleon' : 'toggleoff'; ?>" href="#"></a>
 			<?php esc_html_e( 'Leverage Browser Cache', 'sg-cachepress' ); ?>
+		</p>
+		<br/>
+		<?php
+		echo '<h2>' . esc_html__( 'New Site Options', 'sg-cachepress' ) . '</h2>';
+		?>
+		<p>
+			<a id="sg-cachepress-default-enable-cache-toggle" class="<?php echo $default_enable_cache ? 'toggleon' : 'toggleoff'; ?>" href="#"></a>
+			<?php esc_html_e( 'Dynamic Cache', 'sg-cachepress' ); ?>
+		</p>
+		<br />
+		<p>
+			<a id="sg-cachepress-default-autoflush-cache-toggle" class="<?php echo $default_autoflush_cache ? 'toggleon' : 'toggleoff'; ?>" href="#"></a>
+			<?php esc_html_e( 'AutoFlush Cache', 'sg-cachepress' ); ?>
 		</p>
 		<?php
 		echo '</div>';
