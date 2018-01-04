@@ -372,7 +372,7 @@ class SG_CachePress_Admin {
 			wp_enqueue_script(
 				SG_CachePress::PLUGIN_SLUG . '-performance',
 				plugins_url( 'js/performance.js', __FILE__ ),
-				[ SG_CachePress::PLUGIN_SLUG . '-admin', 'jquery' ],
+				[ 'jquery' ],
 				SG_CachePress::VERSION,
 				true
 			);
