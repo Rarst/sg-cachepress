@@ -79,6 +79,12 @@ Force HTTPS on/off -- enable or disable the the https redirect for your whole si
 
 == Changelog ==
 
+= Version 3.3.3 =
+* Fixed minor interface issues
+
+= Version 3.3.2 =
+* Fixed bug with disabling the Force HTTPS option
+
 = Version 3.3.1 =
 * Fixed cache purge issue when CloudFlare is enabled
 * Added logging of failed attempts in XMLRPC API.
