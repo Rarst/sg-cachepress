@@ -38,7 +38,7 @@ p#sg-cachepress-partial-error strong, p#sg-cachepress-htaccess-error strong, p#s
 .wp-core-ui .button-primary:active,
 .wp-core-ui .button-primary:focus,
 .wp-core-ui .button-primary[disabled],
-.wp-core-ui .button-primary:disabled { background: #49587c !important; border-color: !important; box-shadow: none !important; color: #fff !important; }
+.wp-core-ui .button-primary:disabled { background: #49587c !important; box-shadow: none !important; color: #fff !important; }
 
 /* LAYOUT */
 .sgwrap { max-width: 800px; margin: 20px 20px 20px 15px; }
@@ -50,7 +50,7 @@ p#sg-cachepress-partial-error strong, p#sg-cachepress-htaccess-error strong, p#s
 /* BOX 2 */
 .box:nth-of-type(1) .greybox > div:nth-of-type(1) { float: left; width: 70%; margin: 0 2% 0 0; }
 .box:nth-of-type(1) .greybox > div:nth-of-type(2) { float: left; width: 28%; }
-.box:nth-of-type(1) .greybox > div input { width: 100%; height: 40px; padding: 0 10px; margin: 0; }
+.box:nth-of-type(1) .greybox > div input { padding: 0 10px; margin: 0; }
 .box:nth-of-type(1) .three { margin: 10px 0 0; }
 .box:nth-of-type(1) .three > .greybox { float: left; width: 32%; min-height: 90px; margin: 0 0 0 2%; text-align: center; }
 .box:nth-of-type(1) .three > .greybox:first-of-type { margin: 0; }
@@ -98,3 +98,92 @@ h3#phpVersionCheckerTextBelow {
 	font-size: 1.2em;
 }
 
+/* PERFORMANCE TEST SCREEN */
+.performance-tool h4 {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.performance-tool input[type=submit] {
+	color: white;
+	background-color: #3D4A69;
+	font-weight: bold;
+	line-height: 2em;
+	padding: 0 20px;
+	margin: 10px 0 0;
+	cursor: pointer;
+	border: none;
+	border-radius: 3px;
+}
+
+.performance-tool input[value="Repeat Test"] {
+	float: left;
+}
+
+.performance-tool label {
+	margin-right: 20px;
+}
+
+.performance-tool #advanced-options {
+	float: none;
+}
+
+.performance-tool .whitebox {
+	background-color: white;
+	float: left;
+	border: 1px solid #dbdbdb;
+	padding: 0 10px;
+	width: 49% !important;
+}
+
+.performance-tool .scan-current {
+	margin-right: 2%;
+}
+
+.performance-tool .whitebox p {
+	color: black;
+	font-style: normal;
+}
+
+.performance-tool #loadingTimesContainer {
+	width: 60%;
+	height: 200px;
+	margin-bottom: 20px;
+}
+
+.performance-tool #optimization-checks .check-enabled,
+.performance-tool #optimization-checks .check-disabled {
+	color:            white;
+	background-color: #3D4A69;
+	font-weight:      bold;
+	display:          block;
+	float:            left;
+	width:            100px;
+	text-align:       center;
+	padding:          0.5em 0;
+	margin:           0 20px 20px 0;
+	border:           none;
+	border-radius:    3px;
+}
+
+.performance-tool #optimization-checks .check-disabled {
+	background-color: grey;
+}
+
+#optimization-checks li {
+	clear: both;
+}
+
+#optimization-checks strong {
+	text-transform: uppercase;
+}
+
+.performance-tool #optimization-checks .toggleon,
+.performance-tool #optimization-checks .toggleoff,
+.toplevel_page_sg-cachepress .toggleon,
+.toplevel_page_sg-cachepress .toggleoff
+{
+	display: block;
+	float:   left;
+	margin:  0 34px 10px 14px;
+}

@@ -141,25 +141,23 @@ class SG_CachePress_SSL
     }
 
     /**
-     * 
-     * @return type
+     * @return boolean
      */
-    //
-    
-    public static function is_fully_enabled() 
-    {  
-    	if (self::$is_fully_enabled !== null) {
-    	    return self::$is_fully_enabled;
-    	}
-    
-    	$res = false;
-        if (!self::is_certificate_enabled()) {
-            $res = false;
-        }
-        $res = self::is_enabled_from_htaccess() && self::is_enabled_from_wordpress_options();
-        self::$is_fully_enabled = $res;
-        return $res;
-    }
+	public static function is_fully_enabled() {
+		if ( self::$is_fully_enabled !== null ) {
+			return self::$is_fully_enabled;
+		}
+
+		if ( ! self::is_certificate_enabled() ) {
+			return false;
+		}
+
+		if ( is_multisite() && self::is_enabled_from_wordpress_options() ) {
+			return true;
+		}
+
+		return ( self::is_enabled_from_htaccess() && self::is_enabled_from_wordpress_options() );
+	}
 
     /**
      * 
@@ -188,6 +186,10 @@ class SG_CachePress_SSL
      */
     public static function disable_from_htaccess()
     {
+	    if ( is_multisite() ) {
+		    return false;
+	    }
+
         $filename = self::get_htaccess_filename(false);
         if ($filename === false) {
         	return false;
@@ -217,6 +219,10 @@ class SG_CachePress_SSL
      */
     public static function enable_from_htaccess()
     {
+	    if ( is_multisite() ) {
+		    return false;
+	    }
+
         $filename = self::get_htaccess_filename();
         
         if ($filename === false) {
@@ -327,11 +333,15 @@ class SG_CachePress_SSL
 
     /**
      * @since 3.0.0
-     * @param type $create
+     * @param boolean $create
      * @return string | false
      */
     public static function get_htaccess_filename($create = true)
     {
+	    if ( is_multisite() ) {
+		    return false;
+	    }
+
         $basedir = dirname(dirname(dirname(__DIR__)));
         $filename = $basedir . '/.htaccess';
 

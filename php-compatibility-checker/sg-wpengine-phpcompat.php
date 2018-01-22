@@ -246,7 +246,7 @@ class SG_WPEngine_PHPCompat {
         }                
         
         $currentVersion = self::get_current_php_version();
-        $basedir = dirname(dirname(dirname(dirname(__DIR__))));
+	    $basedir = ABSPATH; // This is wrong, but less wrong than previous implementation which broke on symlinks, etc. R.
         $filename = $basedir. '/.htaccess';
 
         if (!is_writable($filename)) {
@@ -321,7 +321,6 @@ class SG_WPEngine_PHPCompat {
             'PHP 5.6' => '5.6',
             'PHP 5.5' => '5.5',
             'PHP 5.4' => '5.4',
-            'PHP 5.3' => '5.3',                                                                                
         ));
     }
     

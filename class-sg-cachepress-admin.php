@@ -33,6 +33,9 @@ class SG_CachePress_Admin {
 	 */
 	protected $options_handler;
 
+	/** @var SG_CachePress_Performance_Tool $performance_tool */
+	protected $performance_tool;
+
 	/**
 	 * Assign dependencies.
 	 *
@@ -42,6 +45,9 @@ class SG_CachePress_Admin {
 	 */
 	public function __construct( $options_handler ) {
 		$this->options_handler = $options_handler;
+
+		global $sg_cachepress_performance_tool;
+		$this->performance_tool = $sg_cachepress_performance_tool;
 	}
 
 	/**
@@ -50,17 +56,34 @@ class SG_CachePress_Admin {
 	 * @since 1.1.0
 	 */
 	public function run() {
+
+		$disallow_cache_config = $this->options_handler->is_enabled( 'disallow_cache_config' );
+		$disallow_https_config = $this->options_handler->is_enabled( 'disallow_https_config' );
+
+		if ( $disallow_cache_config && $disallow_https_config ) {
+			return;
+		}
+
 		// Add the admin page and menu item.
 		add_action( 'admin_menu', array( $this, 'add_plugin_admin_menu' ));
 		
 		// Add the submenu pages and menu items
-		add_action( 'admin_menu', array( $this, 'add_plugin_caching_menu' ));
-		add_action( 'admin_menu', array( $this, 'add_plugin_ssl_menu' ));
-		if (self::$enable_php_version_checker) {
-                    add_action( 'admin_menu', array( $this, 'add_plugin_php_menu' ));
-                }
-                
-		
+		if ( ! $disallow_cache_config ) {
+			add_action( 'admin_menu', array( $this, 'add_plugin_caching_menu' ) );
+		}
+
+		if ( ! $disallow_https_config ) {
+			add_action( 'admin_menu', array( $this, 'add_plugin_ssl_menu' ) );
+		}
+
+		if ( self::$enable_php_version_checker && ! is_multisite() ) {
+			add_action( 'admin_menu', array( $this, 'add_plugin_php_menu' ) );
+		}
+
+		if ( ! is_multisite() ) {
+			add_action( 'admin_menu', [ $this, 'add_plugin_performance_menu' ] );
+		}
+
 		// Admin Init
 		add_action( 'admin_init', array( $this, 'load_admin_global_js' ));
 		
@@ -68,7 +91,12 @@ class SG_CachePress_Admin {
 		add_action( 'admin_notices', array( $this, 'plugin_admin_notices'));
 
 		// Add the admin bar purge button
-		add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_purge' ), PHP_INT_MAX );
+		if ( ! $disallow_cache_config ) {
+			add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_purge' ), PHP_INT_MAX );
+
+			// Add the admin bar purge button handler
+			add_action( 'admin_post_sg-cachepress-purge',  array( 'SG_CachePress_Supercacher', 'purge_cache_admin_bar' ) );
+		}
 
 		// Load admin assets.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_styles' ) );
@@ -84,12 +112,14 @@ class SG_CachePress_Admin {
 
 		// Add the admin bar purge button handler
 		add_action( 'admin_post_sg-cachepress-purge',  array( 'SG_CachePress_Supercacher', 'purge_cache_admin_bar' ) );
-                
-		if (!is_admin() && get_option('sg_cachepress_ssl_enabled') == '1') {
-		    SG_CachePress_SSL::fix_mixed_content();
-		} 
-                
-                
+
+		$is_login = ( isset( $GLOBALS['pagenow'] ) && 'wp-login.php' === $GLOBALS['pagenow'] );
+
+		if ( ! $is_login && ! is_admin() && get_option( 'sg_cachepress_ssl_enabled' ) === '1' ) {
+			SG_CachePress_SSL::fix_mixed_content();
+		}
+
+
 	}        
 	
 	/**
@@ -214,7 +244,18 @@ class SG_CachePress_Admin {
 			'autoflush-cache'	=> 'autoflush_cache'
 		);
 
-		$paramName = $paramTranslator[$_POST['parameterName']];
+		$paramName    = $_POST['parameterName'];
+
+		if ( in_array( $paramName, [ 'default-enable-cache', 'default-autoflush-cache' ], true ) ) {
+			$paramName    = 'sg-cachepress-' . $paramName;
+			$currentValue = (int) get_site_option( $paramName, 0 );
+			$toggledValue = (int)!$currentValue;
+
+			$result = update_site_option( $paramName, $toggledValue );
+			die( $result ? (string)$toggledValue : (string)$currentValue );
+		}
+
+		$paramName    = $paramTranslator[ $paramName ];
 		$currentValue = (int)$this->options_handler->get_option($paramName);
 		$toggledValue = (int)!$currentValue;               
 
@@ -271,9 +312,17 @@ class SG_CachePress_Admin {
 			return;
 
 		$screen = get_current_screen();
-		if ( in_array($screen->id, array('sg-optimizer_page_ssl','sg-optimizer_page_caching','toplevel_page_sg-cachepress','sg-optimizer_page_php-check') ) )
+		if ( in_array( $screen->id, array(
+			'sg-optimizer_page_ssl',
+			'sg-optimizer_page_caching',
+			'toplevel_page_sg-cachepress',
+			'sg-optimizer_page_php-check',
+			'sg-optimizer_page_php-check-network',
+			'sg-optimizer_page_performance-test',
+			'toplevel_page_sg-cachepress-network'
+		), true ) )
 		{
-			wp_enqueue_style( 'SGOptimizer', plugins_url( 'css/admin.css', __FILE__ ), array(), SG_CachePress::VERSION );	
+			wp_enqueue_style( 'SGOptimizer', plugins_url( 'css/admin.css', __FILE__ ), array(), SG_CachePress::VERSION );
 		}
 	}
 
@@ -290,8 +339,14 @@ class SG_CachePress_Admin {
 			return;
 		$screen = get_current_screen();
 
-		if ( in_array($screen->id, array('sg-optimizer_page_ssl','sg-optimizer_page_caching','toplevel_page_sg-cachepress','sg-optimizer_page_php-check') ) )
-		
+		if ( in_array( $screen->id, array(
+			'sg-optimizer_page_ssl',
+			'sg-optimizer_page_caching',
+			'toplevel_page_sg-cachepress',
+			'toplevel_page_sg-cachepress-network',
+			'sg-optimizer_page_php-check',
+			'sg-optimizer_page_php-check-network',
+		), true ) )
 		{
 			wp_enqueue_script( SG_CachePress::PLUGIN_SLUG . '-admin', plugins_url( 'js/admin.js', __FILE__ ), array( 'jquery' ), SG_CachePress::VERSION, true );
 			$strings = array(
@@ -314,8 +369,29 @@ class SG_CachePress_Admin {
 			);
 			wp_localize_script( SG_CachePress::PLUGIN_SLUG . '-admin', 'sgCachePressL10n', $strings );
 		}
-	}        
-                        
+
+		if ( in_array( $screen->id, [
+			'sg-optimizer_page_performance-test',
+			'toplevel_page_sg-cachepress-network'
+		], true ) ) {
+			wp_enqueue_script(
+				SG_CachePress::PLUGIN_SLUG . '-performance',
+				plugins_url( 'js/performance.js', __FILE__ ),
+				[ 'jquery' ],
+				SG_CachePress::VERSION,
+				true
+			);
+
+			wp_enqueue_script(
+				SG_CachePress::PLUGIN_SLUG . '-chart',
+				plugins_url( 'js/chart.min.js', __FILE__ ),
+				[],
+				2.6,
+				true
+			);
+		}
+	}
+
 	/**
 	 * Register the top level page into the WordPress admin menu.
 	 *
@@ -349,10 +425,10 @@ class SG_CachePress_Admin {
 			plugins_url('sg-cachepress/css/logo-white.svg')
 		);
 	}
-	
+
 	public function add_plugin_caching_menu() {
 		$this->page_hook = add_submenu_page(
-			SG_CachePress::PLUGIN_SLUG, 
+			SG_CachePress::PLUGIN_SLUG,
 			__( 'SuperCacher Config', 'sg-cachepress' ), // Page title
 			__( 'SuperCacher Config', 'sg-cachepress' ),    // Menu item title
 			'manage_options',
@@ -373,7 +449,11 @@ class SG_CachePress_Admin {
 			plugins_url('sg-cachepress/css/logo-white.svg')
 		);
 	}
-	
+
+	public function add_plugin_performance_menu() {
+
+		$this->page_hook = $this->performance_tool->admin_menu();
+	}
 
 	/**
 	 * Render the settings page for this plugin.
