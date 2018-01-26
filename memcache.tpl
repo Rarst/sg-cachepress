@@ -274,6 +274,9 @@ class WP_Object_Cache {
 		else
 			$prefix = $this->blog_prefix;
 
+		if ( defined( 'ICL_LANGUAGE_CODE' ) )
+			$prefix .= ICL_LANGUAGE_CODE . ':';
+
 		return preg_replace('/\s+/', '', substr(md5(dirname(__FILE__)),7) . "$prefix$group:$key");
 	}
 
