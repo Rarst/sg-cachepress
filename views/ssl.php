@@ -22,9 +22,10 @@ $siteurlHTTPS = SG_CachePress_SSL::switchProtocol('http', 'https', $siteurl)
 
 				$href  = $enabled ? 'href=""' : '';
 				$id    = $enabled ? 'sg-cachepress-ssl-toggle' : 'sg-cachepress-ssl-toggledisabled';
+				$nonce = wp_create_nonce('sg-cachepress-ssl-toggle');
 				$class = SG_CachePress_SSL::is_fully_enabled() ? 'toggleon' : 'toggleoff';
 				?>
-                    <a <?php echo $href; ?> id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr($class); ?>"></a>
+                    <a <?php echo $href; ?> id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr($class); ?>" nonce="<?php echo esc_attr($nonce); ?>"></a>
 
                     <p id="sg-cachepress-ssl-text"><?php _e( 'Force HTTPS', 'sg-cachepress' ) ?></p>                    
       

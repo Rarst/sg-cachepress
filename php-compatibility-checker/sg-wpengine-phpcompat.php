@@ -47,7 +47,7 @@ class SG_WPEngine_PHPCompat {
 		add_action( 'wp_ajax_sg_wpephpcompat_check_status', array( self::instance(), 'check_status' ) );
 		add_action( 'sg_wpephpcompat_start_test_cron', array( self::instance(), 'start_test' ) );
 		add_action( 'wp_ajax_sg_wpephpcompat_clean_up', array( self::instance(), 'clean_up' ) );
-                add_action( 'wp_ajax_sg_wpephpcompat_change_version', array( self::instance(), 'change_current_php_version' ) );
+        add_action( 'wp_ajax_sg_wpephpcompat_change_version', array( self::instance(), 'change_current_php_version' ) );
 
 		// Create custom post type.
 		add_action( 'init', array( self::instance(), 'create_job_queue' ) );              
@@ -62,7 +62,11 @@ class SG_WPEngine_PHPCompat {
 	 * @return null
 	 */
 	function start_test() {
-		if ( current_user_can( 'manage_options' ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
+	    $isCron = ( defined( 'DOING_CRON' ) && DOING_CRON );
+		if ( ( current_user_can( 'manage_options' )
+                && isset($_POST['nonce'])
+                && wp_verify_nonce( $_POST['nonce'], 'sg_wpephpcompat_start_test' )
+             ) ||  $isCron ) {
 			global $wpdb;
 
 			$wpephpc = new \SG_WPEPHPCompat( dirname(__DIR__) );
@@ -89,8 +93,12 @@ class SG_WPEngine_PHPCompat {
 	 * @action wp_ajax_wpephpcompat_check_status
 	 * @return null
 	 */
-	function check_status() {            
-            if ( current_user_can( 'manage_options' ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
+	function check_status() {
+            $isCron = ( defined( 'DOING_CRON' ) && DOING_CRON );
+            if ( ( current_user_can( 'manage_options' )
+                    && isset($_POST['nonce'])
+                    && wp_verify_nonce( $_POST['nonce'], 'sg_wpephpcompat_check_status' )
+                ) ||  $isCron ) {
                     $scan_status = get_option( 'sg_wpephpcompat.status' );
                     $count_jobs = wp_count_posts( 'sg_optimizer_jobs' );
                     $total_jobs = get_option( 'sg_wpephpcompat.numdirs' );
@@ -142,7 +150,12 @@ class SG_WPEngine_PHPCompat {
 	 * @action wp_ajax_wpephpcompat_clean_up
 	 */
 	function clean_up() {
-		if ( current_user_can( 'manage_options' ) || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
+        $isCron = ( defined( 'DOING_CRON' ) && DOING_CRON );
+        if ( ( current_user_can( 'manage_options' )
+                && isset($_GET['nonce'])
+                && wp_verify_nonce( $_GET['nonce'], 'sg_wpephpcompat_clean_up' )
+            ) ||  $isCron )
+        {
 			$wpephpc = new \SG_WPEPHPCompat( dirname(__DIR__) );
 			$wpephpc->clean_after_scan();
 			delete_option( 'sg_wpephpcompat.scan_results' );
@@ -236,7 +249,16 @@ class SG_WPEngine_PHPCompat {
      * 1 - success
      * 2 - no changes     
     */        
-    public static function change_current_php_version() {        
+    public static function change_current_php_version() {
+
+        if (!current_user_can( 'manage_options' )) {
+            die(0);
+        }
+
+        if (!isset($_POST['nonce']) || !wp_verify_nonce( $_POST['nonce'], 'sg_wpephpcompat_change_version' ) ) {
+            die(0);
+        }
+
         $availableVersions = self::get_available_php_versions();
         
         if ( !in_array($_POST['version'], $availableVersions) ) {

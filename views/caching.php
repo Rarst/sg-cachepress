@@ -25,7 +25,8 @@
 				<h3><?php _e( 'Purge Cache', 'sg-cachepress' ) ?></h3>
 				<form class="purgebtn" method="post" action="<?php menu_page_url( 'sg-cachepress-purge' ); ?>">
 					<?php submit_button( __( 'Purge the Cache', 'sg-cachepress' ), '', 'sg-cachepress-purge', false );?>
-				</form>
+				    <input type="hidden" id="nonce-purge" value="<?php echo wp_create_nonce('sg-cachepress-purge'); ?>"/>
+                </form>
 				<p><?php _e( 'Purge all the data cached by the Dynamic cache.', 'sg-cachepress' ) ?></p>
 			</div>
 			
@@ -37,7 +38,8 @@
 			<form method="post" action="<?php menu_page_url( 'sg-cachepress-purge' ); ?>">
 				<textarea id="sg-cachepress-blacklist-textarea"><?php  echo esc_textarea($this->options_handler->get_blacklist()); ?></textarea>
 				<?php submit_button( __( 'Update the Exclude List', 'sg-cachepress' ), 'primary', 'sg-cachepress-blacklist', false );?>
-			</form>
+                <input type="hidden" id="nonce-blacklist-update" value="<?php echo wp_create_nonce('sg-cachepress-blacklist-update'); ?>"/>
+            </form>
 		</div>
 	</div>
 	<?php if ( ! is_multisite() ) : ?>
@@ -64,7 +66,8 @@
 			<form class="purgebtn" method="post" action="<?php menu_page_url( 'sg-cachepress-test' ); ?>" id="cachetest">
 				<?php echo get_home_url()?>/&nbsp;<input id="testurl" type="" name="" value="" />
 				<?php submit_button( __( 'Test URL', 'sg-cachepress' ), 'primary', 'sg-cachepress-test', false );?>
-			</form>
+                <input type="hidden" id="nonce-cache-test" name="nonce-cache-test" value="<?php echo wp_create_nonce('sg-cachepress-cache-test'); ?>" />
+            </form>
 			
 			<div class="status_test" style="display:none;"><?php _e( 'Status:', 'sg-cachepress' ) ?> <span id="status_test_value"></span></div>
 				
@@ -73,4 +76,6 @@
 			<div class="clr"></div>		
 		</div>
 	</div>
+
+    <input type="hidden" id="nonce-parameter-update" name="nonce-parameter-update" value="<?php echo wp_create_nonce('sg-cachepress-parameter-update'); ?>" />
 </div>

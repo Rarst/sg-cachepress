@@ -56,7 +56,7 @@ jQuery( document ).ready(function($) {
 
 	function cleanupAction() {
 		clearTimeout( timer );
-		jQuery.get( ajaxurl,  { 'action': 'sg_wpephpcompat_clean_up' }, function() {
+		jQuery.get( ajaxurl,  { 'action': 'sg_wpephpcompat_clean_up', 'nonce' : jQuery('#nonce_clean_up').html() }, function() {
 			resetDisplay();
 			checkStatus();
 		});
@@ -80,7 +80,8 @@ jQuery( document ).ready(function($) {
                   'action': 'sg_wpephpcompat_start_test',
                   'test_version': test_version,
                   'only_active': only_active,
-                  'startScan': 1
+                  'startScan': 1,
+			      'nonce': jQuery('#runButton').attr('nonce')
           };
 
           // Start the test!
@@ -95,14 +96,15 @@ jQuery( document ).ready(function($) {
 
 
 function cleanupReport() {
-  jQuery.get( ajaxurl,  { 'action': 'sg_wpephpcompat_clean_up' }, function() {
+  jQuery.get( ajaxurl,  { 'action': 'sg_wpephpcompat_clean_up', 'nonce' : jQuery('#nonce_clean_up').html() }, function() {
   });
 }
 
 function upgradeTo(version) {
   var data = {
           'action': 'sg_wpephpcompat_change_version',
-          'version': version
+          'version': version,
+	      'nonce': jQuery('#nonce_change_version').html()
   };
 
   // Start the upgrade!
@@ -124,7 +126,8 @@ function checkStatus() {
         //$( '#phpVersionCheckerText' ).html(window.sg_wpephpcompat.check_your_php_version); 
         
 	var data = {
-		'action': 'sg_wpephpcompat_check_status'
+		'action': 'sg_wpephpcompat_check_status',
+		'nonce' : $('#nonce_check_status').html()
 	};
         
         var noReport = true;

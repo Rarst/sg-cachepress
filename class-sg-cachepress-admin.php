@@ -103,12 +103,12 @@ class SG_CachePress_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 
 		// Ajax callback
-		add_action( 'wp_ajax_sg-cachepress-purge', array( 'SG_CachePress_Supercacher', 'purge_cache' ) );
+		add_action( 'wp_ajax_sg-cachepress-purge', array( $this, 'purge_cache' ) );
 		add_action( 'wp_ajax_sg-cachepress-blacklist-update', array( $this, 'update_blacklist' ) );
 		add_action( 'wp_ajax_sg-cachepress-parameter-update', array( $this, 'update_parameter' ) );
 		add_action( 'wp_ajax_sg-cachepress-cache-test', array( $this, 'cache_test_callback' ) );
 		add_action( 'wp_ajax_sg-cachepress-cache-test-message-hide', array( $this, 'cache_test_message_hide' ) );
-                add_action( 'wp_ajax_sg-cachepress-ssl-toggle', array( 'SG_CachePress_SSL', 'toggle' ) );
+		add_action( 'wp_ajax_sg-cachepress-ssl-toggle', array( $this, 'ajax_toggle' ) );
 
 		// Add the admin bar purge button handler
 		add_action( 'admin_post_sg-cachepress-purge',  array( 'SG_CachePress_Supercacher', 'purge_cache_admin_bar' ) );
@@ -120,7 +120,45 @@ class SG_CachePress_Admin {
 		}
 
 
-	}        
+	}
+
+    /**
+     * Ajax handler for ssl toggle
+     */
+    function ajax_toggle() {
+        if (!current_user_can( 'manage_options' )) {
+            return;
+        }
+
+        if (!isset($_POST['nonce'])) {
+            return;
+        }
+
+        if (!wp_verify_nonce( $_POST['nonce'], 'sg-cachepress-ssl-toggle' )) {
+            return;
+        }
+
+        SG_CachePress_SSL::toggle();
+    }
+
+    /**
+     * Ajax handler for purge cache
+     */
+    function purge_cache() {
+        if (!current_user_can( 'manage_options' )) {
+            return;
+        }
+
+        if (!isset($_POST['nonce'])) {
+            return;
+        }
+
+        if (!wp_verify_nonce( $_POST['nonce'], 'sg-cachepress-purge' )) {
+            return;
+        }
+
+	    SG_CachePress_Supercacher::purge_cache();
+    }
 	
 	/**
 	 * Displays the notice on the top of admin panel if it has caching issues
@@ -134,7 +172,7 @@ class SG_CachePress_Admin {
 	    {
     	    $html = '<div id="ajax-notification" class="updated sg-cachepress-notification">';
     	    $html .= '<p>';
-    	    $html .= __( '<strong>SG Optimizer:</strong> Your site '.get_home_url().' is <strong>not cached</strong>! Make sure the Dynamic Cache is enabled in the SuperCacher tool in cPanel. <a href="javascript:;" id="dismiss-sg-cahepress-notification">Click here to hide this notice</a>.', 'ajax-notification' );
+    	    $html .= __( '<strong>SG Optimizer:</strong> Your site '.get_home_url().' is <strong>not cached</strong>! Make sure the Dynamic Cache is enabled in the SuperCacher tool in cPanel. <a href="javascript:;" id="dismiss-sg-cahepress-notification" nonce="' . wp_create_nonce( 'sg-cachepress-cache-test-message-hide' ) . '">Click here to hide this notice</a>.', 'ajax-notification' );
     	    $html .= '</p>';
     	    $html .= '<span id="ajax-notification-nonce" class="hidden">' . wp_create_nonce( 'ajax-notification-nonce' ) . '</span>';
     	    $html .= '</div>';
@@ -160,6 +198,18 @@ class SG_CachePress_Admin {
 	 */
 	function cache_test_callback()
 	{
+        if (!current_user_can( 'manage_options' )) {
+            return;
+        }
+
+        if (!isset($_POST['nonce'])) {
+            return;
+        }
+
+        if (!wp_verify_nonce( $_POST['nonce'], 'sg-cachepress-cache-test' )) {
+            return;
+        }
+
 	    $urlToCheck = get_home_url()."/".$_POST['url'];
 	    $result = SG_CachePress_Supercacher::return_cache_result($urlToCheck);
 	    
@@ -169,7 +219,7 @@ class SG_CachePress_Admin {
 	        $options->disable_option('show_notice');
 	    }
 	    
-	    echo $result;
+	    echo (int) $result;
         wp_die();
 	}
 	
@@ -180,6 +230,18 @@ class SG_CachePress_Admin {
 	 */
 	function cache_test_message_hide()
 	{
+        if (!current_user_can( 'manage_options' )) {
+            return;
+        }
+
+        if (!isset($_POST['nonce'])) {
+            return;
+        }
+
+        if (!wp_verify_nonce( $_POST['nonce'], 'sg-cachepress-cache-test-message-hide' )) {
+            return;
+        }
+
 	    $options = new SG_CachePress_Options();
 	    $options->disable_option('show_notice');
 	    
@@ -238,6 +300,18 @@ class SG_CachePress_Admin {
 	 * @since 1.1.0
 	 */
 	public function update_parameter() {
+        if (!current_user_can( 'manage_options' )) {
+            return;
+        }
+
+        if (!isset($_POST['nonce'])) {
+            return;
+        }
+
+        if (!wp_verify_nonce( $_POST['nonce'], 'sg-cachepress-parameter-update' )) {
+            return;
+        }
+
 		$paramTranslator = array(
 			'dynamic-cache' 	=> 'enable_cache',
 			'memcached'			=> 'enable_memcached',
@@ -299,6 +373,18 @@ class SG_CachePress_Admin {
 	 * @since 1.1.0
 	 */
 	public function update_blacklist() {
+        if (!current_user_can( 'manage_options' )) {
+            return;
+        }
+
+        if (!isset($_POST['nonce'])) {
+            return;
+        }
+
+        if (!wp_verify_nonce( $_POST['nonce'], 'sg-cachepress-blacklist-update' )) {
+            return;
+        }
+
 		die((int)$this->options_handler->update_option('blacklist',$_POST['blacklist']));
 	}
 

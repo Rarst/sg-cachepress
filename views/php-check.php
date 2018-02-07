@@ -92,7 +92,8 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
                  name="run" 
                  id="runButton" 
                  type="button" 
-                 class="button-primary" />   
+                 class="button-primary"
+                 nonce="<?php echo wp_create_nonce( 'sg_wpephpcompat_start_test' ); ?>"/>
 
           <input style="display: none; height: 40px; line-height: 40px; text-align: center; margin-left: 5px;"
                  name="upgradeButton"
@@ -162,5 +163,10 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
       </div>
     </div>
   <?php } ?>
-  <!-- END manualPHPVersion -->        
+  <!-- END manualPHPVersion -->
+
+  <!-- Keys -->
+  <span style="display:none;" id="nonce_check_status"><?php echo wp_create_nonce('sg_wpephpcompat_check_status'); ?></span>
+  <span style="display:none;" id="nonce_clean_up"><?php echo wp_create_nonce('sg_wpephpcompat_clean_up'); ?></span>
+  <span style="display:none;" id="nonce_change_version"><?php echo wp_create_nonce('sg_wpephpcompat_change_version'); ?></span>
 </div>

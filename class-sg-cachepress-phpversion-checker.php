@@ -61,10 +61,22 @@ class SG_CachePress_PHPVersionChecker
      */
     function message_hide()
     {
+        if (!current_user_can( 'manage_options' )) {
+            die();
+        }
+
+        if (!isset($_POST['nonce'])) {
+            die();
+        }
+
+        if (!wp_verify_nonce($_POST['nonce'], 'ajax-notification-nonce')) {
+            die();
+        }
+
         $id = $_POST['notice_id'];
         $this->options_handler->disable_option('show_notice_' . $id);
 
-        echo $id;
+        echo strip_tags($id);
         wp_die();
     }
 

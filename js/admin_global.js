@@ -15,7 +15,7 @@ jQuery(document).ready(function(){
 function sg_cachepress_notice_hide()
 {
     jQuery('.sg-cachepress-notification').slideUp();
-    jQuery.post(ajaxurl,{action:'sg-cachepress-cache-test-message-hide'});
+    jQuery.post(ajaxurl,{action:'sg-cachepress-cache-test-message-hide', nonce: jQuery('#dismiss-sg-cahepress-notification').attr('nonce')});
 }
 
 /**
@@ -28,7 +28,8 @@ function sg_cachepress_notice_hide_by_id(id)
     jQuery('#ajax-' + id).slideUp();
     $ajaxArgs = {
         action:  'sg-cachepress-message-hide',
-        notice_id: id
+        notice_id: id,
+        nonce: jQuery('#ajax-' + id).find('#ajax-notification-nonce').html()
     };
 
     jQuery.post(ajaxurl, $ajaxArgs);
