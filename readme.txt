@@ -79,6 +79,14 @@ Force HTTPS on/off -- enable or disable the the https redirect for your whole si
 
 == Changelog ==
 
+= Version 4.0.0 =
+* Added proper Multisite support
+* New Performance test - shows you server-side loading times of your site. Allows you to scan speciffic pages as both logged and non-logged user.
+* Quick optimizations - gZIP and Browser cache config settings
+* WPML support when Memcached is enabled
+* Multiple performance improvements
+* Security fixes against, additional access checks introduced.
+
 = Version 3.3.3 =
 * Fixed minor interface issues
 
