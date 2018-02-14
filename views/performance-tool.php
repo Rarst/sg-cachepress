@@ -15,7 +15,7 @@
 
 		<h2><?php esc_html_e( 'Site Performance Test', 'sg-cachepress' ); ?></h2>
 
-		<p><?php esc_html_e( 'Here, you can perform a speed test of your website. Our plugin will analyse the way it loads and provide you with valuable information about the resources you’re using and the time it takes for them to load. In addition to that, you can see valuable performance optimization tips that will help you improve the speed of your site.', 'sg-cachepress' ); ?></p>
+		<p><?php esc_html_e( 'This tool will make a quick performance test of your most popular pages and provide you with information regarding their processing time. In the Optimization Checks section, you can see the status of important improvements and enable some with a single click.', 'sg-cachepress' ); ?></p>
 
 		<p><?php esc_html_e( 'The Default Scan will run through the typical WordPress pages in a way that your visitors will most likely visit your site. The Advanced Scan will allow you to select the particular pages you want to test as well as whether you want to test to be performed as logged user or not.', 'sg-cachepress' ); ?></p>
 
@@ -95,9 +95,9 @@
 						<p>
 							<?php
 							if ( $summary['dynamic-cache'] ) {
-								esc_html_e( 'Dynamic Cache: enabled', 'sg-cachepress' );
+								esc_html_e( 'Dynamic Cache: Enabled', 'sg-cachepress' );
 							} else {
-								esc_html_e( 'Dynamic Cache: disabled', 'sg-cachepress' );
+								esc_html_e( 'Dynamic Cache: Disabled', 'sg-cachepress' );
 							}
 							?>
 						</p>
@@ -110,18 +110,18 @@
 						<p>
 							<?php
 							if ( $summary['gzip'] ) {
-								esc_html_e( 'gZip: enabled', 'sg-cachepress' );
+								esc_html_e( 'gZip: Enabled', 'sg-cachepress' );
 							} else {
-								esc_html_e( 'gZip: disabled', 'sg-cachepress' );
+								esc_html_e( 'gZip: Disabled', 'sg-cachepress' );
 							}
 							?>
 						</p>
 						<p>
 							<?php
 							if ( $summary['expires'] ) {
-								esc_html_e( 'Browser Cache: enabled', 'sg-cachepress' );
+								esc_html_e( 'Browser Cache: Enabled', 'sg-cachepress' );
 							} else {
-								esc_html_e( 'Browser Cache: disabled', 'sg-cachepress' );
+								esc_html_e( 'Browser Cache: Disabled', 'sg-cachepress' );
 							}
 							?>
 						</p>
@@ -156,9 +156,9 @@
 							<p>
 								<?php
 								if ( $last_scan['dynamic-cache'] ) {
-									esc_html_e( 'Dynamic Cache: enabled', 'sg-cachepress' );
+									esc_html_e( 'Dynamic Cache: Enabled', 'sg-cachepress' );
 								} else {
-									esc_html_e( 'Dynamic Cache: disabled', 'sg-cachepress' );
+									esc_html_e( 'Dynamic Cache: Disabled', 'sg-cachepress' );
 								}
 								?>
 							</p>
@@ -171,18 +171,18 @@
 							<p>
 								<?php
 								if ( $last_scan['gzip'] ) {
-									esc_html_e( 'gZip: enabled', 'sg-cachepress' );
+									esc_html_e( 'gZip: Enabled', 'sg-cachepress' );
 								} else {
-									esc_html_e( 'gZip: disabled', 'sg-cachepress' );
+									esc_html_e( 'gZip: Disabled', 'sg-cachepress' );
 								}
 								?>
 							</p>
 							<p>
 								<?php
 								if ( $last_scan['expires'] ) {
-									esc_html_e( 'Browser Cache: enabled', 'sg-cachepress' );
+									esc_html_e( 'Browser Cache: Enabled', 'sg-cachepress' );
 								} else {
-									esc_html_e( 'Browser Cache: disabled', 'sg-cachepress' );
+									esc_html_e( 'Browser Cache: Disabled', 'sg-cachepress' );
 								}
 								?>
 							</p>
@@ -244,7 +244,7 @@
 								<?php
 								printf(
 									// translators: URL to the configuration page.
-									__( 'Enable SSL from the <a href="%s">HTTPS Config page</a> in order to start benefiting from the HTTP2 protocol improvements!' ),
+									__( 'Enable SSL from the <a href="%s">HTTPS Config page</a> in order to benefit from the HTTP2 protocol improvements!' ),
 									add_query_arg( 'page', 'ssl', admin_url( 'admin.php' ) )
 								);
 								?>
@@ -254,7 +254,6 @@
 							<a id="sg-cachepress-gzip-toggle" class="<?php echo $gzip_enabled ? 'toggleon' : 'toggleoff'; ?>" href="#"></a>
 							<?php if ( $gzip_enabled ) : ?>
 								<strong><?php esc_html_e( 'gZIP Compression', 'sg-cachepress' ); ?></strong>
-								<?php esc_html_e( 'Congratulations, gZIP is enabled and working on your site saving you precious seconds in loading times.', 'sg-cachepress' ); ?>
 							<?php else : ?>
 								<strong><?php esc_html_e( 'gZIP Compression', 'sg-cachepress' ); ?></strong>
 							<?php endif; ?>
@@ -263,7 +262,6 @@
 							<a id="sg-cachepress-browser-cache-toggle" class="<?php echo $expires_enabled ? 'toggleon' : 'toggleoff'; ?>" href="#"></a>
 							<?php if ( $expires_enabled ) : ?>
 								<strong><?php esc_html_e( 'Leverage browser cache', 'sg-cachepress' ); ?></strong>
-								<?php esc_html_e( 'Congratulations, you’re caching static resources locally!', 'sg-cachepress' ); ?>
 							<?php else : ?>
 								<strong><?php esc_html_e( 'Leverage browser cache', 'sg-cachepress' ); ?></strong>
 							<?php endif; ?>
