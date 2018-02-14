@@ -80,9 +80,9 @@ class SG_CachePress_Admin {
 			add_action( 'admin_menu', array( $this, 'add_plugin_php_menu' ) );
 		}
 
-		if ( ! is_multisite() ) {
-			add_action( 'admin_menu', [ $this, 'add_plugin_performance_menu' ] );
-		}
+		//if ( ! is_multisite() ) {
+		//	add_action( 'admin_menu', [ $this, 'add_plugin_performance_menu' ] );
+		//}
 
 		// Admin Init
 		add_action( 'admin_init', array( $this, 'load_admin_global_js' ));
