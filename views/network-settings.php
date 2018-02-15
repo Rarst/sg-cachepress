@@ -38,4 +38,6 @@ $default_autoflush_cache = get_site_option( 'sg-cachepress-default-autoflush-cac
 		<a id="sg-cachepress-default-autoflush-cache-toggle" class="<?php echo $default_autoflush_cache ? 'toggleon' : 'toggleoff'; ?>" href="#"></a>
 		<?php esc_html_e( 'AutoFlush Cache', 'sg-cachepress' ); ?>
 	</p>
+
+	<input type="hidden" id="nonce-parameter-update" name="nonce-parameter-update" value="<?php echo wp_create_nonce( 'sg-cachepress-parameter-update' ); ?>" />
 </div>
