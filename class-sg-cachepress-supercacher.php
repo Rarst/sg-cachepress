@@ -107,14 +107,8 @@ class SG_CachePress_Supercacher {
 			return;
 		}
 
-		$realhost = $hostname;
-
-		if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-			$realhost = parse_url( $_SERVER['HTTP_REFERER'], PHP_URL_HOST );
-		}
-
 		$request = "PURGE {$purge_request} HTTP/1.0\r\n"
-		           . "Host: {$realhost}\r\n"
+		           . "Host: {$hostname}\r\n"
 		           . "Connection: Close\r\n\r\n";
 
 		fwrite( $cache_server_socket, $request );
