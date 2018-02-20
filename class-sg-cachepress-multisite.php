@@ -74,6 +74,7 @@ class SG_CachePress_Multisite {
 		}
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			$this->log = new SG_CachePress_Log();
 			add_action( 'wp_ajax_sg-purge-cache', [ $this, 'wp_ajax' ] );
 		}
 	}
@@ -417,6 +418,9 @@ class SG_CachePress_Multisite {
 		switch_to_blog( $site_id );
 		sg_cachepress_purge_cache();
 		restore_current_blog();
+
+		// translators: Site URL.
+		$this->log->add_message( sprintf( __( 'purged cache on %s', 'sg-cachepress' ), get_home_url( $site_id ) ) );
 
 		wp_safe_redirect( add_query_arg( 'sg-cache-purged', 1, wp_get_referer() ) );
 		die();
