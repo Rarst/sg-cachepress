@@ -99,8 +99,8 @@ class SG_CachePress_Multisite {
 
 		add_submenu_page(
 			SG_CachePress::PLUGIN_SLUG,
-			__( 'Log', 'sg-cachepress' ),
-			__( 'Log', 'sg-cachepress' ),
+			__( 'Network Log', 'sg-cachepress' ),
+			__( 'Network Log', 'sg-cachepress' ),
 			'manage_network_options',
 			SG_CachePress::PLUGIN_SLUG . '-log',
 			[ $this, 'display_network_log_page' ]
