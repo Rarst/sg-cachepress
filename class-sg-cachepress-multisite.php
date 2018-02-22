@@ -37,8 +37,8 @@ class SG_CachePress_Multisite {
 			];
 
 			$this->options = [
-				'allow_cache_config' => esc_html__( 'Allow Cache Configuration', 'sg-cachepress' ),
-				'allow_https_config' => esc_html__( 'Allow HTTPS Configuration', 'sg-cachepress' ),
+				'disallow_cache_config' => esc_html__( 'Disallow Cache Configuration', 'sg-cachepress' ),
+				'disallow_https_config' => esc_html__( 'Disallow HTTPS Configuration', 'sg-cachepress' ),
 				'enable_cache'          => esc_html__( 'Enable Cache', 'sg-cachepress' ),
 				'autoflush_cache'       => esc_html__( 'AutoFlush Cache', 'sg-cachepress' ),
 			];

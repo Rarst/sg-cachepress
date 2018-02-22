@@ -7,7 +7,7 @@ global $sg_cachepress_performance_tool;
 <div class="sgwrap" style="max-width:900px;">         
 	<div class="box sgclr">	
 	<h2><?php _e( 'SG Optimizer Multisite Log ', 'sg-cachepress' ) ?></h2>		
-	<p><?php _e( 'Here, you can see a log for the last ten changes made to your SG Optimizer configurateion either by you, or the users you have granted permissions to modify the configuration.', 'sg-cachepress' ) ?></p>
+	<p><?php _e( 'Here, you can see a log for the last ten changes made to your SG Optimizer configuration either by you, or the users you have granted permissions to modify the configuration.', 'sg-cachepress' ) ?></p>
 	
 	<div class="greybox">
 		<h3><?php esc_html_e( 'Actions', 'sg-cachepress' ); ?></h3>

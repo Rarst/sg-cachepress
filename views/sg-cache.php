@@ -7,7 +7,7 @@
 		<div class="three sgclr">
 		<?php
 		global $sg_cachepress_options;
-		if ( $this->options_handler->is_enabled( 'allow_cache_config' ) ) :
+		if ( ! $this->options_handler->is_enabled( 'disallow_cache_config' ) ) :
 		?>
  			<div class="greybox">
  				<h3><?php _e( 'SuperCacher Config', 'sg-cachepress' ) ?></h3>
@@ -17,7 +17,7 @@
 		<?php endif; ?>
 
 		    <?php
-		    if ( $this->options_handler->is_enabled( 'allow_https_config' ) ) :
+		    if ( ! $this->options_handler->is_enabled( 'disallow_https_config' ) ) :
 			?>
  			<div class="greybox">
  					<h3><?php _e( 'HTTPS Config', 'sg-cachepress' ) ?></h3>

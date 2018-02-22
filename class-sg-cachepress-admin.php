@@ -57,10 +57,10 @@ class SG_CachePress_Admin {
 	 */
 	public function run() {
 
-		$allow_cache_config = $this->options_handler->is_enabled( 'allow_cache_config' );
-		$allow_https_config = $this->options_handler->is_enabled( 'allow_https_config' );
+		$disallow_cache_config = $this->options_handler->is_enabled( 'disallow_cache_config' );
+		$disallow_https_config = $this->options_handler->is_enabled( 'disallow_https_config' );
 
-		if ( ! $allow_cache_config && ! $allow_https_config ) {
+		if ( $allow_cache_config = false &&  $allow_https_config = false ) {
 			return;
 		}
 
@@ -68,11 +68,11 @@ class SG_CachePress_Admin {
 		add_action( 'admin_menu', array( $this, 'add_plugin_admin_menu' ));
 		
 		// Add the submenu pages and menu items
-		if (  $allow_cache_config ) {
+		if (  ! $disallow_cache_config ) {
 			add_action( 'admin_menu', array( $this, 'add_plugin_caching_menu' ) );
 		}
 
-		if (  $allow_https_config ) {
+		if (  ! $disallow_https_config ) {
 			add_action( 'admin_menu', array( $this, 'add_plugin_ssl_menu' ) );
 		}
 
@@ -91,7 +91,7 @@ class SG_CachePress_Admin {
 		add_action( 'admin_notices', array( $this, 'plugin_admin_notices'));
 
 		// Add the admin bar purge button
-		if ( $allow_cache_config ) {
+		if ( ! $disallow_cache_config ) {
 			add_action( 'admin_bar_menu', array( $this, 'add_admin_bar_purge' ), PHP_INT_MAX );
 
 			// Add the admin bar purge button handler
