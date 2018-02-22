@@ -60,7 +60,7 @@ class SG_CachePress_Admin {
 		$disallow_cache_config = $this->options_handler->is_enabled( 'disallow_cache_config' );
 		$disallow_https_config = $this->options_handler->is_enabled( 'disallow_https_config' );
 
-		if ( $disallow_cache_config = false &&  $disallow_https_config = false ) {
+		if ( $disallow_cache_config && $disallow_https_config ) {
 			return;
 		}
 
@@ -68,11 +68,11 @@ class SG_CachePress_Admin {
 		add_action( 'admin_menu', array( $this, 'add_plugin_admin_menu' ));
 		
 		// Add the submenu pages and menu items
-		if (  ! $disallow_cache_config ) {
+		if ( ! $disallow_cache_config ) {
 			add_action( 'admin_menu', array( $this, 'add_plugin_caching_menu' ) );
 		}
 
-		if (  ! $disallow_https_config ) {
+		if ( ! $disallow_https_config ) {
 			add_action( 'admin_menu', array( $this, 'add_plugin_ssl_menu' ) );
 		}
 
@@ -515,8 +515,8 @@ class SG_CachePress_Admin {
 	public function add_plugin_caching_menu() {
 		$this->page_hook = add_submenu_page(
 			SG_CachePress::PLUGIN_SLUG,
-			__( 'SG Cache Config', 'sg-cachepress' ), // Page title
-			__( 'SG Cache Config', 'sg-cachepress' ),    // Menu item title
+			__( 'SuperCacher Config', 'sg-cachepress' ), // Page title
+			__( 'SuperCacher Config', 'sg-cachepress' ),    // Menu item title
 			'manage_options',
 			'caching',   // Page slug
 			array( $this, 'display_plugin_caching_page' ),
