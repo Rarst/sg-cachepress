@@ -15,7 +15,7 @@ $default_autoflush_cache = get_site_option( 'sg-cachepress-default-autoflush-cac
     	<div class="box sgclr">	
     	
     	<h2><?php _e( 'SG Optimizer Multisite Cache Config', 'sg-cachepress' ) ?></h2>		
-    	<p><?php _e( 'On this page, you can configure four cache options. The first two - Gzip Compression and Leverage Browser Cache affect your entire network and their state in this config show the current actual state of all sites in your network. The other two cache options -- Dynamic Cache and AutoFlush can be used to configure the default setting for each newly created website.  Note, that you can always disable or enable Dynamic Cache and AutoFlush per site and those are simply defaults for newly added ones.', 'sg-cachepress' ) ?></p>
+    	<p><?php _e( 'On this page, you can configure four cache options. The first two - Gzip Compression and Leverage Browser Cache affect your entire network and their state in this config show the current actual state of all sites in your network. The other two cache options - Dynamic Cache and AutoFlush can be used to configure the default setting for each newly created website.  Note, that you can always disable or enable Dynamic Cache and AutoFlush per site and those are simply defaults for newly added ones.', 'sg-cachepress' ) ?></p>
 
 
 
