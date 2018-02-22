@@ -60,7 +60,7 @@ class SG_CachePress_Admin {
 		$disallow_cache_config = $this->options_handler->is_enabled( 'disallow_cache_config' );
 		$disallow_https_config = $this->options_handler->is_enabled( 'disallow_https_config' );
 
-		if ( $allow_cache_config = false &&  $allow_https_config = false ) {
+		if ( $disallow_cache_config = false &&  $disallow_https_config = false ) {
 			return;
 		}
 
