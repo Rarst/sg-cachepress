@@ -110,9 +110,9 @@
 						<p>
 							<?php
 							if ( $summary['gzip'] ) {
-								esc_html_e( 'gZip: Enabled', 'sg-cachepress' );
+								esc_html_e( 'Gzip: Enabled', 'sg-cachepress' );
 							} else {
-								esc_html_e( 'gZip: Disabled', 'sg-cachepress' );
+								esc_html_e( 'Gzip: Disabled', 'sg-cachepress' );
 							}
 							?>
 						</p>
@@ -171,9 +171,9 @@
 							<p>
 								<?php
 								if ( $last_scan['gzip'] ) {
-									esc_html_e( 'gZip: Enabled', 'sg-cachepress' );
+									esc_html_e( 'Gzip: Enabled', 'sg-cachepress' );
 								} else {
-									esc_html_e( 'gZip: Disabled', 'sg-cachepress' );
+									esc_html_e( 'Gzip: Disabled', 'sg-cachepress' );
 								}
 								?>
 							</p>
@@ -253,9 +253,9 @@
 						<li>
 							<a id="sg-cachepress-gzip-toggle" class="<?php echo $gzip_enabled ? 'toggleon' : 'toggleoff'; ?>" href="#"></a>
 							<?php if ( $gzip_enabled ) : ?>
-								<strong><?php esc_html_e( 'gZIP Compression', 'sg-cachepress' ); ?></strong>
+								<strong><?php esc_html_e( 'Gzip Compression', 'sg-cachepress' ); ?></strong>
 							<?php else : ?>
-								<strong><?php esc_html_e( 'gZIP Compression', 'sg-cachepress' ); ?></strong>
+								<strong><?php esc_html_e( 'Gzip Compression', 'sg-cachepress' ); ?></strong>
 							<?php endif; ?>
 						</li>
 						<li>

@@ -37,8 +37,8 @@ class SG_CachePress_Multisite {
 			];
 
 			$this->options = [
-				'disallow_cache_config' => esc_html__( 'Disallow Cache Configuration', 'sg-cachepress' ),
-				'disallow_https_config' => esc_html__( 'Disallow HTTPS Configuration', 'sg-cachepress' ),
+				'allow_cache_config' => esc_html__( 'Allow Cache Configuration', 'sg-cachepress' ),
+				'allow_https_config' => esc_html__( 'Allow HTTPS Configuration', 'sg-cachepress' ),
 				'enable_cache'          => esc_html__( 'Enable Cache', 'sg-cachepress' ),
 				'autoflush_cache'       => esc_html__( 'AutoFlush Cache', 'sg-cachepress' ),
 			];
@@ -100,8 +100,8 @@ class SG_CachePress_Multisite {
 
 		add_submenu_page(
 			SG_CachePress::PLUGIN_SLUG,
-			__( 'Network Log', 'sg-cachepress' ),
-			__( 'Network Log', 'sg-cachepress' ),
+			__( 'Multisite Log', 'sg-cachepress' ),
+			__( 'Multisite Log', 'sg-cachepress' ),
 			'manage_network_options',
 			SG_CachePress::PLUGIN_SLUG . '-log',
 			[ $this, 'display_network_log_page' ]

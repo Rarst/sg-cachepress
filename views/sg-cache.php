@@ -1,13 +1,13 @@
 <div class="sgwrap">         
      	<div class="box sgclr">
      	
- 		<h2><?php _e( 'SiteGround Optimizer by SiteGround', 'sg-cachepress' ) ?></h2>		
- 		<p><?php _e( 'SG Optimizer is a plugin that allows you to use the major performance optimisations for WordPress, which <a href="https://www.siteground.com/wordpress-hosting.htm" target="_blank">SiteGround hosting</a> is providing on its servers. The <strong>SuperCacher Config</strong> allows you to setup three layers of caching for your site. The <strong>HTTPS Config</strong> allows you to force an SSL certificate on your site with a single click. The <strong>PHP Config</strong> allows you to switch to the most optimal PHP version for your site.', 'sg-cachepress' ) ?></p>
+ 		<h2><?php _e( 'SG Optimizer by SiteGround', 'sg-cachepress' ) ?></h2>		
+ 		<p><?php _e( 'SG Optimizer is a plugin that allows you to use the major performance optimisations for WordPress, which <a href="https://www.siteground.com/wordpress-hosting.htm" target="_blank">SiteGround hosting</a> is providing on its servers.', 'sg-cachepress' ) ?></p>
 
 		<div class="three sgclr">
 		<?php
 		global $sg_cachepress_options;
-		if ( ! $this->options_handler->is_enabled( 'disallow_cache_config' ) ) :
+		if ( $this->options_handler->is_enabled( 'allow_cache_config' ) ) :
 		?>
  			<div class="greybox">
  				<h3><?php _e( 'SuperCacher Config', 'sg-cachepress' ) ?></h3>
@@ -17,7 +17,7 @@
 		<?php endif; ?>
 
 		    <?php
-		    if ( ! $this->options_handler->is_enabled( 'disallow_https_config' ) ) :
+		    if ( $this->options_handler->is_enabled( 'allow_https_config' ) ) :
 			?>
  			<div class="greybox">
  					<h3><?php _e( 'HTTPS Config', 'sg-cachepress' ) ?></h3>
