@@ -186,8 +186,8 @@ class SG_CachePress_SSL
      */
     public static function disable_from_htaccess()
     {
-	    if ( is_multisite() ) {
-		    return false;
+	    if ( is_multisite() ) { // MS doesn’t use htaccess, but this is also being used as turn off success check. R.
+		    return true;
 	    }
 
         $filename = self::get_htaccess_filename(false);
