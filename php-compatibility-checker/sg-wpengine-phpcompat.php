@@ -190,7 +190,7 @@ class SG_WPEngine_PHPCompat {
 	 * @return  null
 	 */
 	function admin_enqueue( $hook ) {
-		if ( $hook !== 'sg-optimizer_page_php-check' ) {
+		 if (( $hook !== 'sg-optimizer_page_php-check') and ( $hook !== 'sg-optimiser_page_php-check') ) {
 			return;
 		}
 
@@ -230,8 +230,8 @@ class SG_WPEngine_PHPCompat {
                         'upgrade_to' => __( 'Upgrade to', 'sg-cachepress' ),
                         'you_running_running_on'    => __( 'Site is compatible and running on', 'sg-cachepress' ),
                         'recommended_or_higher'    => __( 'which is our recommended PHP version or higher.', 'sg-cachepress' ),
-                        'if_you_fixed_retry'    => __( 'If you have fixed the reported errors, you may <a style="cursor: pointer;"  onclick="runAction();">try to check the PHP 7.0 compatibility</a> of your Wordpress site again. ', 'sg-cachepress' ),
-                        'recommend_to_switch' => __( 'If you can\'t update to PHP 7.0 right away, we recommend that you <a style="cursor: pointer;" onclick="upgradeTo(\'5.6\');">switch to PHP 5.6</a> which is the safest and fastest version of the 5 branch.')
+                        'if_you_fixed_retry'    => __( 'If you have fixed the reported errors, you may <a style="cursor: pointer;"  onclick="runAction();">try to check the PHP 7.1 compatibility</a> of your Wordpress site again. ', 'sg-cachepress' ),
+                        'recommend_to_switch' => __( 'If you can\'t update to PHP 7.1 right away, we recommend that you <a style="cursor: pointer;" onclick="upgradeTo(\'5.6\');">switch to PHP 5.6</a> which is the safest and fastest version of the 5 branch.')
 		);
                                
 
@@ -455,7 +455,7 @@ class SG_WPEngine_PHPCompat {
     */        
     public static function get_recommended_php_versions() {
         return array(
-            '7.0', '5.6'
+            '7.1', '5.6'
         );
     }
     /**

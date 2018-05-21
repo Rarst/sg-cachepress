@@ -1,5 +1,4 @@
 <?php
-
 /** @var SG_CachePress_Performance_Tool $sg_cachepress_performance_tool */
 global $sg_cachepress_performance_tool;
 
