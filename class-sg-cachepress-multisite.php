@@ -26,6 +26,8 @@ class SG_CachePress_Multisite {
 			return;
 		}
 
+        $this->force_https();
+
 		if ( is_network_admin() ) {
 
 		    // TODO change log to DI to simplify tests. R.
@@ -77,6 +79,25 @@ class SG_CachePress_Multisite {
 			$this->log = new SG_CachePress_Log();
 			add_action( 'wp_ajax_sg-purge-cache', [ $this, 'wp_ajax' ] );
 		}
+	}
+
+	/**
+	 * Force HTTPs in multisite context, which does not use htaccess redirects.
+	 */
+	public function force_https() {
+
+		$force  = ( '1' === get_option( 'sg_cachepress_ssl_enabled' ) );
+		$scheme = $_SERVER['REQUEST_SCHEME'];
+		$method = $_SERVER['REQUEST_METHOD'];
+
+		if ( ! $force || 'http' !== $scheme || 'GET' !== $method ) {
+			return;
+		}
+
+		$redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+		wp_safe_redirect( $redirect );
+		die;
 	}
 
 	/**
