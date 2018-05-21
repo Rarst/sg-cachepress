@@ -18,7 +18,7 @@ $is_up_to_date = version_compare($current_version, $recommended_php_version, '>=
     <h2><?php _e('PHP Config', 'sg-cachepress') ?></h2>
     <p><?php _e('This tool will allow you to check if your website is compatible with the recommended by SiteGround PHP version and switch to it with a click. It is highly advisable to keep your WordPress running on the recommended PHP for best security and performance. Note that if you have a Multisite, changing the PHP version will affect all sites in your network.', 'sg-cachepress') ?></p>
     
-     <p><?php _e('<strong>Notice:</strong> checking your site for PHP 7.0 compatibility is a time consuming process that depends on the number of active plugins you have on your site. Please, don’t close your browser until the check is completed.', 'sg-cachepress') ?></p>
+     <p><?php _e('<strong>Notice:</strong> checking your site for PHP 7.1 compatibility is a time consuming process that depends on the number of active plugins you have on your site. Please, don’t close your browser until the check is completed.', 'sg-cachepress') ?></p>
    
 
     <div class="greybox" >

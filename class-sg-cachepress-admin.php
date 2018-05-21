@@ -405,7 +405,12 @@ class SG_CachePress_Admin {
 			'sg-optimizer_page_php-check',
 			'sg-optimizer_page_php-check-network',
 			'sg-optimizer_page_performance-test',
-			'toplevel_page_sg-cachepress-network'
+			'toplevel_page_sg-cachepress-network',
+			'sg-optimiser_page_ssl',
+			'sg-optimiser_page_caching',
+			'sg-optimiser_page_php-check',
+			'sg-optimiser_page_php-check-network',
+			'sg-optimiser_page_performance-test'
 		), true ) )
 		{
 			wp_enqueue_style( 'SGOptimizer', plugins_url( 'css/admin.css', __FILE__ ), array(), SG_CachePress::VERSION );
@@ -432,6 +437,10 @@ class SG_CachePress_Admin {
 			'toplevel_page_sg-cachepress-network',
 			'sg-optimizer_page_php-check',
 			'sg-optimizer_page_php-check-network',
+			'sg-optimiser_page_ssl',
+			'sg-optimiser_page_caching',
+			'sg-optimiser_page_php-check',
+			'sg-optimiser_page_php-check-network'
 		), true ) )
 		{
 			wp_enqueue_script( SG_CachePress::PLUGIN_SLUG . '-admin', plugins_url( 'js/admin.js', __FILE__ ), array( 'jquery' ), SG_CachePress::VERSION, true );
@@ -458,6 +467,7 @@ class SG_CachePress_Admin {
 
 		if ( in_array( $screen->id, [
 			'sg-optimizer_page_performance-test',
+			'sg-optimiser_page_performance-test',
 			'toplevel_page_sg-cachepress-network'
 		], true ) ) {
 			wp_enqueue_script(

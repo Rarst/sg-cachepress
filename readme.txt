@@ -2,7 +2,7 @@
 Contributors: Hristo Sg, danielkanchev, ivanyordanov, siteground
 Tags: nginx, caching, speed, memcache, memcached, performance, siteground, nginx, supercacher
 Requires at least: 3.0.1
-Tested up to: 4.7
+Tested up to: 4.9
 Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -79,13 +79,32 @@ Force HTTPS on/off -- enable or disable the the https redirect for your whole si
 
 == Changelog ==
 
+= Version 4.0.5 =
+* Removed stopping of WP Rocket cache
+
+= Version 4.0.4 =
+* Minor bug fixes
+
+= Version 4.0.3 =
+* Switching recommended PHP Version to 7.1
+
+= Version 4.0.2 =
+* WPML and Memcache / Memcached bug fix
+
+= Version 4.0.1 =
+* Minor bug fixes
+* UK locale issue fixed
+
 = Version 4.0.0 =
 * Added proper Multisite support
-* New Performance test - shows you server-side loading times of your site. Allows you to scan speciffic pages as both logged and non-logged user.
-* Quick optimizations - gZIP and Browser cache config settings
+* Quick optimizations - Gzip and Browser cache config settings for the Network Admin
+* Network admin can purge the cache per site 
+* Network admin can disallow Cache and HTTPS configuration pages per site
 * WPML support when Memcached is enabled
-* Multiple performance improvements
-* Security fixes against, additional access checks introduced.
+* Cache is being purged per site and not for the entire network
+* Multiple performance & interface improvements
+* Security fixes against, additional access checks introduced
+* Fixed minor cosmetic errors in the interface
 
 = Version 3.3.3 =
 * Fixed minor interface issues

@@ -3,7 +3,6 @@ wp_enqueue_style( 'SGOptimizer', plugins_url( '../css/admin.css', __FILE__ ), ar
 /** @var SG_CachePress_Performance_Tool $sg_cachepress_performance_tool */
 global $sg_cachepress_performance_tool;
 ?>
-
 <div class="sgwrap" style="max-width:900px;">         
 	<div class="box sgclr">	
 	<h2><?php _e( 'SG Optimizer Multisite Log ', 'sg-cachepress' ) ?></h2>		
