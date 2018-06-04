@@ -87,10 +87,9 @@ class SG_CachePress_Multisite {
 	public function force_https() {
 
 		$force  = ( '1' === get_option( 'sg_cachepress_ssl_enabled' ) );
-		$scheme = $_SERVER['REQUEST_SCHEME'];
 		$method = $_SERVER['REQUEST_METHOD'];
 
-		if ( ! $force || 'http' !== $scheme || 'GET' !== $method ) {
+		if ( ! $force || 'GET' !== $method || is_ssl() ) {
 			return;
 		}
 
